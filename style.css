@@ -1038,104 +1038,96 @@ body {
     background: linear-gradient(180deg, var(--white) 0%, #f0f4ff 100%);
 }
 
-.pricing-card {
-    max-width: 520px;
+/* 2-Column Order Layout */
+.order-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    max-width: 1000px;
     margin: 0 auto;
+    align-items: start;
+}
+
+.order-left {
+    padding-top: 10px;
+}
+
+.price-box {
     background: var(--white);
-    border-radius: var(--radius-xl);
-    box-shadow: var(--shadow-xl);
-    overflow: hidden;
-    border: 2px solid rgba(102, 126, 234, 0.15);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+    padding: 30px;
+    margin-bottom: 32px;
+    border: 1px solid var(--gray-lighter);
 }
 
-.pricing-header {
-    background: var(--gradient-primary);
-    color: var(--white);
-    padding: 40px;
-    text-align: center;
-    position: relative;
-}
-
-.pricing-badge {
-    display: inline-block;
-    padding: 4px 14px;
-    background: rgba(255, 255, 255, 0.2);
-    border-radius: 20px;
-    font-size: 12px;
-    font-weight: 700;
-    margin-bottom: 12px;
-    letter-spacing: 1px;
-}
-
-.pricing-header h3 {
-    font-size: 24px;
-    font-weight: 700;
-    margin-bottom: 16px;
-}
-
-.pricing-header .price {
+.price-row {
     display: flex;
-    align-items: baseline;
-    justify-content: center;
-    gap: 4px;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    font-size: 16px;
+    color: var(--gray);
 }
 
-.pricing-header .currency {
-    font-size: 24px;
-    font-weight: 600;
+.price-row + .price-row {
+    border-top: 1px solid var(--gray-lighter);
 }
 
-.pricing-header .amount {
-    font-size: 56px;
-    font-weight: 900;
+.price-old-text {
+    color: var(--gray-light);
+    font-size: 16px;
 }
 
-.pricing-header .price-original {
-    margin-top: 8px;
-    opacity: 0.8;
-    font-size: 15px;
+.price-row-promo {
+    padding: 16px 0 10px;
 }
 
-.savings-badge {
+.price-promo-text {
+    font-size: 32px;
+    font-weight: 800;
+    color: var(--primary);
+}
+
+.savings-tag {
     display: inline-block;
     margin-top: 12px;
     padding: 6px 16px;
-    background: rgba(255, 255, 255, 0.15);
+    background: linear-gradient(135deg, #fff3e0, #ffe0b2);
+    color: #e65100;
     border-radius: 20px;
     font-size: 14px;
     font-weight: 600;
 }
 
-.pricing-features {
-    padding: 40px;
+.benefit-list {
+    margin-bottom: 28px;
 }
 
-.pricing-features ul {
+.benefit-list h4 {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--dark);
+    margin-bottom: 16px;
+}
+
+.benefit-list ul {
     list-style: none;
 }
 
-.pricing-features li {
-    padding: 12px 0;
+.benefit-list li {
+    padding: 8px 0;
     font-size: 15px;
     color: var(--dark);
-    border-bottom: 1px solid var(--gray-lighter);
     line-height: 1.5;
 }
 
-.pricing-features li:last-child {
-    border-bottom: none;
+.order-right {
+    position: sticky;
+    top: 100px;
 }
 
-.pricing-cta {
-    padding: 0 40px 40px;
-}
-
-.cta-note {
-    text-align: center;
-    margin-top: 16px;
-    font-size: 14px;
-    color: var(--gray);
-}
+/* Remove old pricing-features/cta — now using order-layout */
 
 .guarantee-badge {
     display: flex;
@@ -1550,25 +1542,19 @@ body {
         padding: 6px 12px;
     }
 
-    .pricing-card {
-        border-radius: var(--radius-lg);
+    .order-layout {
+        grid-template-columns: 1fr;
+        gap: 24px;
     }
 
-    .pricing-features,
-    .pricing-cta {
-        padding-left: 24px;
-        padding-right: 24px;
+    .order-right {
+        position: static;
     }
 }
 
 /* ==================== */
 /* ORDER FORM           */
 /* ==================== */
-.order-form-wrapper {
-    max-width: 640px;
-    margin: 50px auto 0;
-}
-
 .order-form-card {
     background: var(--white);
     border-radius: var(--radius-xl);

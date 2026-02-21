@@ -537,61 +537,59 @@
                 <h2>Dapatkan <span class="gradient-text">E-book Sekarang!</span></h2>
                 <p>Investasi terbaik untuk masa depan bisnis global Anda</p>
             </div>
-            <div class="pricing-card">
-                <div class="pricing-header">
-                    <span class="pricing-badge">🔥 BEST VALUE</span>
-                    <h3>Paket E-book Lengkap v2.0</h3>
-                    <div class="price">
-                        <span class="currency">Rp</span>
-                        <span class="amount">49.000</span>
+
+            <div class="order-layout">
+                <!-- Left Column: Pricing Info -->
+                <div class="order-left">
+                    <div class="price-box">
+                        <div class="price-row">
+                            <span>Harga Normal:</span>
+                            <span class="price-old-text"><s>Rp 150.000</s></span>
+                        </div>
+                        <div class="price-row price-row-promo">
+                            <span><strong>Harga Promo:</strong></span>
+                            <span class="price-promo-text">Rp 49.000</span>
+                        </div>
+                        <div class="savings-tag">🔥 Hemat Rp 101.000 (67%)</div>
                     </div>
-                    <p class="price-original">Harga Normal: <s>Rp 150.000</s></p>
-                    <div class="savings-badge">💥 Hemat Rp 101.000 (67% OFF)</div>
-                </div>
-                <div class="pricing-features">
-                    <ul>
-                        <li>✅ <strong>22 Bab</strong> E-book format PDF (Edisi 2026)</li>
-                        <li>✅ <strong>6 Bab Baru</strong> — Incoterms, Pembayaran Internasional, dll</li>
-                        <li>✅ Template Invoice & Packing List siap pakai</li>
-                        <li>✅ Infografis Navigasi Strategis Ekspor-Impor</li>
-                        <li>✅ Akses Grup Telegram Eksklusif</li>
-                        <li>✅ Update Materi Gratis Selamanya</li>
-                        <li>✅ E-Sertifikat Digital (Setelah Review)</li>
-                        <li>✅ Versi Bahasa Inggris (Bonus!)</li>
-                    </ul>
-                </div>
-                <div class="pricing-cta">
-                    <a href="#order-form" class="btn btn-primary btn-block btn-lg btn-glow" id="orderBtn">
-                        📝 Isi Form Pemesanan
-                    </a>
-                    <p class="cta-note">💳 Transfer via BCA, Mandiri, BRI, QRIS, atau E-Wallet</p>
+
+                    <div class="benefit-list">
+                        <h4>Yang Anda Dapatkan:</h4>
+                        <ul>
+                            <li>✅ <strong>22 Bab</strong> E-book PDF (Edisi 2026)</li>
+                            <li>✅ <strong>6 Bab Baru</strong> — Incoterms, Pembayaran Internasional, dll</li>
+                            <li>✅ Template Invoice & Packing List siap pakai</li>
+                            <li>✅ Infografis Navigasi Strategis Ekspor-Impor</li>
+                            <li>✅ Akses Grup Telegram Eksklusif</li>
+                            <li>✅ Update Materi Gratis Selamanya</li>
+                            <li>✅ E-Sertifikat Digital (Setelah Review)</li>
+                            <li>✅ Versi Bahasa Inggris (Bonus!)</li>
+                        </ul>
+                    </div>
+
                     <div class="guarantee-badge">
                         <span>🔒</span>
                         <p><strong>Garansi 7 Hari Uang Kembali</strong> — Jika tidak puas, 100% refund tanpa ribet</p>
                     </div>
                 </div>
-            </div>
 
-            <!-- Order Form -->
-            <div class="order-form-wrapper" id="order-form">
-                <div class="order-form-card">
-                    <div class="order-form-header">
-                        <h3>📝 Form Pemesanan</h3>
-                        <p>Isi data Anda untuk memesan e-book</p>
-                    </div>
-                    <form id="orderForm" class="order-form">
-                        <div class="form-row">
+                <!-- Right Column: Order Form -->
+                <div class="order-right">
+                    <div class="order-form-card" id="order-form">
+                        <div class="order-form-header">
+                            <h3>📝 Form Pemesanan</h3>
+                            <p>Isi data Anda untuk memesan e-book</p>
+                        </div>
+                        <form id="orderForm" class="order-form">
                             <div class="form-group">
                                 <label for="fullName">Nama Lengkap <span class="required">*</span></label>
-                                <input type="text" id="fullName" name="fullName" placeholder="Masukkan nama lengkap" required>
+                                <input type="text" id="fullName" name="fullName" placeholder="Masukkan nama lengkap Anda" required>
                             </div>
                             <div class="form-group">
                                 <label for="email">Email <span class="required">*</span></label>
-                                <input type="email" id="email" name="email" placeholder="email@contoh.com" required>
+                                <input type="email" id="email" name="email" placeholder="email@example.com" required>
                                 <span class="form-hint">E-book akan dikirim ke email ini</span>
                             </div>
-                        </div>
-                        <div class="form-row">
                             <div class="form-group">
                                 <label for="whatsapp">Nomor WhatsApp <span class="required">*</span></label>
                                 <input type="tel" id="whatsapp" name="whatsapp" placeholder="08xxxxxxxxxx" required>
@@ -599,51 +597,51 @@
                             </div>
                             <div class="form-group">
                                 <label for="city">Kota <span class="required">*</span></label>
-                                <input type="text" id="city" name="city" placeholder="Kota Anda" required>
+                                <input type="text" id="city" name="city" placeholder="Kota domisili Anda" required>
                             </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="purpose">Tujuan Pembelian</label>
-                            <select id="purpose" name="purpose">
-                                <option value="">Pilih tujuan...</option>
-                                <option value="bisnis">Memulai Bisnis Ekspor/Impor</option>
-                                <option value="umkm">Scale Up UMKM ke Pasar Global</option>
-                                <option value="belajar">Belajar / Riset</option>
-                                <option value="profesional">Pengembangan Karir Profesional</option>
-                                <option value="lainnya">Lainnya</option>
-                            </select>
-                        </div>
+                            <div class="form-group">
+                                <label for="purpose">Tujuan Pembelian</label>
+                                <select id="purpose" name="purpose">
+                                    <option value="">Pilih tujuan...</option>
+                                    <option value="bisnis">Memulai Bisnis Ekspor/Impor</option>
+                                    <option value="umkm">Scale Up UMKM ke Pasar Global</option>
+                                    <option value="belajar">Belajar / Riset</option>
+                                    <option value="profesional">Pengembangan Karir Profesional</option>
+                                    <option value="lainnya">Lainnya</option>
+                                </select>
+                            </div>
 
-                        <!-- Payment Info -->
-                        <div class="payment-info-box">
-                            <h4>💳 Informasi Pembayaran</h4>
-                            <div class="payment-details">
-                                <div class="payment-row">
-                                    <span class="payment-label">Bank:</span>
-                                    <span class="payment-value">BCA</span>
-                                </div>
-                                <div class="payment-row">
-                                    <span class="payment-label">No. Rekening:</span>
-                                    <span class="payment-value copyable" onclick="copyToClipboard('8280424243')">
-                                        8280424243 <small>📋 Salin</small>
-                                    </span>
-                                </div>
-                                <div class="payment-row">
-                                    <span class="payment-label">Atas Nama:</span>
-                                    <span class="payment-value">Eka Mayang Sari Harahap</span>
-                                </div>
-                                <div class="payment-row total">
-                                    <span class="payment-label">Total Transfer:</span>
-                                    <span class="payment-value price">Rp 49.000</span>
+                            <!-- Payment Info -->
+                            <div class="payment-info-box">
+                                <h4>💳 Informasi Pembayaran</h4>
+                                <div class="payment-details">
+                                    <div class="payment-row">
+                                        <span class="payment-label">Bank:</span>
+                                        <span class="payment-value">BCA</span>
+                                    </div>
+                                    <div class="payment-row">
+                                        <span class="payment-label">No. Rekening:</span>
+                                        <span class="payment-value copyable" onclick="copyToClipboard('8280424243')">
+                                            8280424243 <small>📋 Salin</small>
+                                        </span>
+                                    </div>
+                                    <div class="payment-row">
+                                        <span class="payment-label">Atas Nama:</span>
+                                        <span class="payment-value">Eka Mayang Sari Harahap</span>
+                                    </div>
+                                    <div class="payment-row total">
+                                        <span class="payment-label">Total Transfer:</span>
+                                        <span class="payment-value price">Rp 49.000</span>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
 
-                        <button type="submit" class="btn btn-primary btn-block btn-lg btn-glow">
-                            Pesan Sekarang 💬
-                        </button>
-                        <p class="form-footer-note">Setelah submit, Anda akan diarahkan ke WhatsApp untuk konfirmasi pembayaran</p>
-                    </form>
+                            <button type="submit" class="btn btn-primary btn-block btn-lg btn-glow">
+                                Pesan Sekarang 💬
+                            </button>
+                            <p class="form-footer-note">Setelah submit, Anda akan diarahkan ke WhatsApp untuk konfirmasi</p>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
