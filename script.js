@@ -23,6 +23,7 @@ document.addEventListener('DOMContentLoaded', function () {
     initBackToTop();
     initMobileMenu();
     initFAQ();
+    initOrderForm();
 });
 
 /**
@@ -269,4 +270,143 @@ function copyToClipboard(text) {
         document.body.removeChild(textArea);
         alert('Berhasil disalin!');
     }
+}
+
+/**
+ * Initialize Order Form
+ */
+function initOrderForm() {
+    const form = document.getElementById('orderForm');
+    if (!form) return;
+
+    form.addEventListener('submit', function (e) {
+        e.preventDefault();
+
+        const fullName = document.getElementById('fullName').value.trim();
+        const email = document.getElementById('email').value.trim();
+        const whatsapp = document.getElementById('whatsapp').value.trim();
+        const city = document.getElementById('city').value.trim();
+        const purpose = document.getElementById('purpose').value;
+
+        // Validation
+        if (!fullName || !email || !whatsapp || !city) {
+            alert('Mohon lengkapi semua field yang wajib diisi.');
+            return;
+        }
+
+        if (!isValidEmail(email)) {
+            alert('Format email tidak valid.');
+            return;
+        }
+
+        // Generate Order ID
+        const orderId = generateOrderId();
+
+        // Create order object
+        const order = {
+            orderId: orderId,
+            name: fullName,
+            email: email,
+            phone: whatsapp,
+            city: city,
+            purpose: purpose,
+            amount: CONFIG.ebookPrice,
+            status: 'pending',
+            createdAt: new Date().toISOString(),
+            updatedAt: null
+        };
+
+        // Save to localStorage
+        saveOrder(order);
+
+        // Build WhatsApp message
+        const waMessage = encodeURIComponent(
+            `Halo M2B, saya ingin memesan E-book Ekspor Impor v2.0\n\n` +
+            `📋 *Detail Pesanan*\n` +
+            `Order ID: ${orderId}\n` +
+            `Nama: ${fullName}\n` +
+            `Email: ${email}\n` +
+            `WhatsApp: ${whatsapp}\n` +
+            `Kota: ${city}\n` +
+            `Tujuan: ${formatPurposeLabel(purpose)}\n\n` +
+            `Total: Rp 49.000\n\n` +
+            `Saya akan segera melakukan pembayaran. Terima kasih! 🙏`
+        );
+
+        // Show success feedback
+        showOrderSuccess(orderId);
+
+        // Open WhatsApp
+        setTimeout(() => {
+            window.open(`https://wa.me/${CONFIG.whatsappNumber}?text=${waMessage}`, '_blank');
+        }, 1500);
+
+        // Reset form
+        form.reset();
+    });
+}
+
+/**
+ * Save order to localStorage
+ */
+function saveOrder(order) {
+    try {
+        const orders = JSON.parse(localStorage.getItem('m2b_orders') || '[]');
+        orders.push(order);
+        localStorage.setItem('m2b_orders', JSON.stringify(orders));
+    } catch (e) {
+        console.error('Failed to save order:', e);
+    }
+}
+
+/**
+ * Show success message after order
+ */
+function showOrderSuccess(orderId) {
+    const formCard = document.querySelector('.order-form-card');
+    if (!formCard) return;
+
+    const originalContent = formCard.innerHTML;
+
+    formCard.innerHTML = `
+        <div style="text-align:center; padding:60px 36px;">
+            <div style="font-size:64px; margin-bottom:20px;">🎉</div>
+            <h3 style="font-size:22px; font-weight:700; color:#1f2937; margin-bottom:8px;">Pesanan Berhasil!</h3>
+            <p style="color:#6b7280; margin-bottom:16px;">Order ID: <strong style="color:#667eea;">${orderId}</strong></p>
+            <p style="color:#6b7280; font-size:14px; margin-bottom:24px;">
+                Anda akan diarahkan ke WhatsApp untuk konfirmasi pembayaran.<br>
+                Silakan transfer ke BCA: <strong>8280424243</strong> a/n Eka Mayang Sari Harahap
+            </p>
+            <div style="background:#f0fdf4; border:1px solid #bbf7d0; border-radius:8px; padding:14px; font-size:13px; color:#065f46;">
+                📧 E-book akan dikirim ke email Anda setelah pembayaran terverifikasi (maks. 2 jam)
+            </div>
+        </div>
+    `;
+
+    // Restore form after 8 seconds
+    setTimeout(() => {
+        formCard.innerHTML = originalContent;
+        initOrderForm(); // Re-attach event listener
+    }, 8000);
+}
+
+/**
+ * Validate email format
+ */
+function isValidEmail(email) {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+}
+
+/**
+ * Format purpose label
+ */
+function formatPurposeLabel(purpose) {
+    const map = {
+        bisnis: 'Memulai Bisnis Ekspor/Impor',
+        umkm: 'Scale Up UMKM',
+        belajar: 'Belajar / Riset',
+        profesional: 'Pengembangan Karir',
+        lainnya: 'Lainnya'
+    };
+    return map[purpose] || 'Tidak dipilih';
 }
