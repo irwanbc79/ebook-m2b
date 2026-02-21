@@ -9,7 +9,7 @@ const ADMIN_CONFIG = {
     credentials: {
         username: 'admin',
         // In production, use proper auth — this is a demo
-        password: 'admin123'
+        password: 'ebookMora0920*'
     },
     storageKeys: {
         orders: 'm2b_orders',
