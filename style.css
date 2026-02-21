@@ -490,7 +490,7 @@ body {
 
 .book-mockup img {
     width: 100%;
-    max-width: 400px;
+    max-width: 520px;
     border-radius: var(--radius-lg);
     box-shadow: var(--shadow-xl);
 }
@@ -618,7 +618,7 @@ body {
 /* ==================== */
 .infographic-section {
     padding: 80px 0;
-    background: linear-gradient(180deg, var(--white) 0%, #f0f4ff 100%);
+    background: var(--white);
 }
 
 .infographic-wrapper {
@@ -629,6 +629,12 @@ body {
     box-shadow: var(--shadow-xl);
     background: var(--white);
     transition: transform 0.3s;
+}
+
+.infographic-no-bg {
+    background: transparent;
+    box-shadow: none;
+    max-width: 100%;
 }
 
 .infographic-wrapper:hover {
