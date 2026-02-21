@@ -36,7 +36,115 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
         rel="stylesheet">
 
-    <link rel="stylesheet" href="style.css?v=20260222">
+    <link rel="stylesheet" href="style.css?v=20260222b">
+
+    <!-- Critical inline styles to bypass CDN cache -->
+    <style>
+        /* Order Section 2-Column Layout */
+        .order-layout {
+            display: grid !important;
+            grid-template-columns: 1fr 1fr !important;
+            gap: 40px;
+            max-width: 1060px;
+            margin: 0 auto;
+            align-items: start;
+        }
+        .order-left { padding-top: 10px; }
+        .price-box {
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            padding: 30px;
+            margin-bottom: 28px;
+            border: 1px solid #e5e7eb;
+        }
+        .price-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            font-size: 16px;
+            color: #6b7280;
+        }
+        .price-row + .price-row { border-top: 1px solid #e5e7eb; }
+        .price-old-text { color: #9ca3af; }
+        .price-row-promo { padding: 16px 0 10px; }
+        .price-promo-text { font-size: 32px; font-weight: 800; color: #667eea; }
+        .savings-tag {
+            display: inline-block;
+            margin-top: 12px;
+            padding: 6px 16px;
+            background: linear-gradient(135deg, #fff3e0, #ffe0b2);
+            color: #e65100;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+        .benefit-list { margin-bottom: 24px; }
+        .benefit-list h4 { font-size: 18px; font-weight: 700; margin-bottom: 14px; }
+        .benefit-list ul { list-style: none; padding: 0; margin: 0; }
+        .benefit-list li { padding: 7px 0; font-size: 15px; line-height: 1.5; }
+        .order-right { position: sticky; top: 100px; }
+        .order-form-card {
+            background: #fff;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+            border: 2px solid rgba(102, 126, 234, 0.12);
+        }
+        .order-form-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 28px 36px;
+            color: #fff;
+            text-align: center;
+        }
+        .order-form-header h3 { font-size: 22px; font-weight: 700; margin-bottom: 4px; color: #fff; }
+        .order-form-header p { font-size: 14px; opacity: 0.85; color: #fff; }
+        .order-form { padding: 36px; }
+
+        /* Infographic centering */
+        .infographic-wrapper, .infographic-no-bg {
+            max-width: 700px !important;
+            margin: 0 auto !important;
+            text-align: center;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            border: 1px solid #e5e7eb;
+            background: #fff;
+        }
+        .infographic-img { width: 100%; display: block; margin: 0 auto; }
+
+        /* Final CTA centering */
+        .final-cta-content {
+            max-width: 680px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        /* Guarantee badge */
+        .guarantee-badge {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-top: 20px;
+            padding: 16px;
+            background: #f0fdf4;
+            border: 1px solid #bbf7d0;
+            border-radius: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .order-layout {
+                grid-template-columns: 1fr !important;
+                gap: 24px;
+            }
+            .order-right { position: static; }
+        }
+    </style>
 
     <!-- Structured Data -->
     <script type="application/ld+json">
