@@ -622,28 +622,32 @@ body {
 }
 
 .infographic-wrapper {
-    max-width: 900px;
+    max-width: 700px;
     margin: 0 auto;
     border-radius: var(--radius-xl);
     overflow: hidden;
-    box-shadow: var(--shadow-xl);
+    box-shadow: var(--shadow-lg);
     background: var(--white);
     transition: transform 0.3s;
+    text-align: center;
 }
 
 .infographic-no-bg {
-    background: transparent;
-    box-shadow: none;
-    max-width: 100%;
+    background: var(--white);
+    box-shadow: var(--shadow-lg);
+    max-width: 700px;
+    border: 1px solid var(--gray-lighter);
 }
 
 .infographic-wrapper:hover {
-    transform: scale(1.01);
+    transform: scale(1.02);
+    box-shadow: var(--shadow-xl);
 }
 
 .infographic-img {
     width: 100%;
     display: block;
+    margin: 0 auto;
 }
 
 .infographic-caption {
@@ -1040,10 +1044,10 @@ body {
 
 /* 2-Column Order Layout */
 .order-layout {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
     gap: 40px;
-    max-width: 1000px;
+    max-width: 1060px;
     margin: 0 auto;
     align-items: start;
 }
@@ -1057,7 +1061,7 @@ body {
     border-radius: var(--radius-lg);
     box-shadow: var(--shadow-md);
     padding: 30px;
-    margin-bottom: 32px;
+    margin-bottom: 28px;
     border: 1px solid var(--gray-lighter);
 }
 
@@ -1101,14 +1105,14 @@ body {
 }
 
 .benefit-list {
-    margin-bottom: 28px;
+    margin-bottom: 24px;
 }
 
 .benefit-list h4 {
     font-size: 18px;
     font-weight: 700;
     color: var(--dark);
-    margin-bottom: 16px;
+    margin-bottom: 14px;
 }
 
 .benefit-list ul {
@@ -1116,7 +1120,7 @@ body {
 }
 
 .benefit-list li {
-    padding: 8px 0;
+    padding: 7px 0;
     font-size: 15px;
     color: var(--dark);
     line-height: 1.5;
@@ -1227,11 +1231,20 @@ body {
     text-align: center;
 }
 
+.final-cta-content {
+    max-width: 680px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
 .final-cta-content h2 {
     font-size: 36px;
     font-weight: 800;
     color: var(--white);
     margin-bottom: 16px;
+    text-align: center;
 }
 
 .final-cta-content h2 .gradient-text {
@@ -1246,8 +1259,7 @@ body {
     color: rgba(255, 255, 255, 0.85);
     margin-bottom: 32px;
     max-width: 600px;
-    margin-left: auto;
-    margin-right: auto;
+    text-align: center;
     line-height: 1.7;
 }
 
@@ -1255,6 +1267,7 @@ body {
     background: var(--white);
     color: var(--primary);
     font-weight: 700;
+    margin: 0 auto;
 }
 
 .final-cta-content .btn:hover {
@@ -1543,12 +1556,16 @@ body {
     }
 
     .order-layout {
-        grid-template-columns: 1fr;
+        grid-template-columns: 1fr !important;
         gap: 24px;
     }
 
     .order-right {
         position: static;
+    }
+
+    .final-cta-content h2 {
+        font-size: 26px;
     }
 }
 
