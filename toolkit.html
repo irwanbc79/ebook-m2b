@@ -1,0 +1,2406 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Toolkit Global Trader — M2B E-book v2.0</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Toolkit interaktif untuk trader ekspor-impor Indonesia. Checklist kesiapan, kalkulator landed cost, referensi link resmi, glossary istilah, dan quick-reference Incoterms 2020."
+    />
+
+    <!-- Alpine.js -->
+    <script
+      src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"
+      defer
+    ></script>
+
+    <style>
+      :root {
+        --primary: #0b1d40;
+        --primary-light: #1c315f;
+        --accent: #d72638;
+        --bg: #f5f7fb;
+        --text: #111827;
+        --muted: #6b7280;
+        --card: #ffffff;
+        --border: #e5e7eb;
+        --success: #16a34a;
+        --warning: #f59e0b;
+        --info: #3b82f6;
+      }
+
+      * {
+        box-sizing: border-box;
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        font-family:
+          -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        background: var(--bg);
+        color: var(--text);
+        line-height: 1.6;
+      }
+
+      [x-cloak] {
+        display: none !important;
+      }
+
+      .layout {
+        display: flex;
+        min-height: 100vh;
+      }
+
+      /* SIDEBAR */
+      .sidebar {
+        width: 280px;
+        background: var(--primary);
+        color: #e5e7eb;
+        padding: 1.5rem 1.25rem;
+        position: sticky;
+        top: 0;
+        max-height: 100vh;
+        overflow-y: auto;
+      }
+
+      .brand-title {
+        font-size: 1.1rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        color: #f9fafb;
+      }
+
+      .brand-sub {
+        font-size: 0.8rem;
+        letter-spacing: 0.2em;
+        color: #9ca3af;
+      }
+
+      .lang-switcher {
+        display: flex;
+        gap: 0.5rem;
+        margin: 1.5rem 0;
+        padding-bottom: 1rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .lang-btn {
+        flex: 1;
+        padding: 0.4rem;
+        border-radius: 0.5rem;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        background: transparent;
+        color: #fff;
+        font-size: 0.75rem;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+
+      .lang-btn.active {
+        background: var(--accent);
+        border-color: var(--accent);
+      }
+
+      .toc-section-title {
+        font-size: 0.8rem;
+        text-transform: uppercase;
+        color: #9ca3af;
+        margin-top: 1rem;
+        margin-bottom: 0.25rem;
+      }
+
+      .toc-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        font-size: 0.86rem;
+      }
+
+      .toc-list li {
+        margin: 0.05rem 0;
+      }
+
+      .toc-link {
+        color: #e5e7eb;
+        text-decoration: none;
+        display: block;
+        padding: 0.2rem 0.25rem;
+        border-radius: 0.35rem;
+        transition:
+          background 0.15s,
+          color 0.15s;
+      }
+
+      .toc-link:hover {
+        background: rgba(229, 231, 235, 0.12);
+        color: #ffffff;
+      }
+
+      .toc-link.active {
+        background: rgba(229, 231, 235, 0.15);
+        color: #ffffff;
+        font-weight: 600;
+      }
+
+      .back-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        color: #9ca3af;
+        text-decoration: none;
+        font-size: 0.82rem;
+        margin-bottom: 1rem;
+        transition: color 0.2s;
+      }
+
+      .back-link:hover {
+        color: #fff;
+      }
+
+      /* MAIN CONTENT */
+      .content {
+        flex: 1;
+        padding: 1.75rem 1.75rem 3.2rem;
+        max-width: 900px;
+        margin: 0 auto;
+      }
+
+      .pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.35rem;
+        padding: 0.15rem 0.6rem;
+        border-radius: 999px;
+        border: 1px solid var(--border);
+        background: #ffffff;
+        margin-bottom: 0.5rem;
+        font-size: 0.78rem;
+        color: var(--muted);
+      }
+
+      .pill-dot {
+        width: 7px;
+        height: 7px;
+        border-radius: 999px;
+        background: var(--accent);
+      }
+
+      h1.hero-title {
+        font-size: clamp(1.7rem, 2.4vw, 2rem);
+        color: var(--primary);
+        margin-bottom: 0.25rem;
+      }
+
+      .hero-subtitle {
+        font-size: 0.92rem;
+        color: var(--muted);
+        max-width: 620px;
+      }
+
+      .version-badge {
+        display: inline-block;
+        background: linear-gradient(135deg, #d72638, #ff6b35);
+        color: #fff;
+        font-size: 0.72rem;
+        font-weight: 700;
+        padding: 0.15rem 0.6rem;
+        border-radius: 999px;
+        margin-left: 0.5rem;
+        vertical-align: middle;
+      }
+
+      hr.divider {
+        border: 0;
+        border-top: 1px solid var(--border);
+        margin: 1.25rem 0;
+      }
+
+      .tool-section {
+        margin-bottom: 2rem;
+        padding: 1.25rem 1.5rem;
+        background: var(--card);
+        border-radius: 0.9rem;
+        border: 1px solid var(--border);
+        box-shadow: 0 4px 10px rgba(15, 23, 42, 0.03);
+      }
+
+      .tool-section h2 {
+        font-size: 1.12rem;
+        margin-top: 0;
+        color: var(--primary);
+        display: flex;
+        align-items: center;
+        gap: 0.4rem;
+      }
+
+      .tool-section h2 .icon {
+        font-size: 1.1rem;
+      }
+
+      .tool-section h3 {
+        font-size: 0.98rem;
+        color: var(--primary-light);
+        margin-top: 1rem;
+      }
+
+      p {
+        font-size: 0.9rem;
+        margin: 0.3rem 0 0.6rem;
+      }
+
+      ul {
+        padding-left: 1.3rem;
+        margin: 0.2rem 0 0.6rem;
+        font-size: 0.9rem;
+      }
+
+      .small {
+        font-size: 0.8rem;
+        color: var(--muted);
+      }
+
+      .part-divider {
+        text-align: center;
+        margin: 2.5rem 0 1rem;
+        position: relative;
+      }
+
+      .part-divider::before {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 0;
+        right: 0;
+        border-top: 1px solid var(--border);
+      }
+
+      .part-divider span {
+        background: var(--bg);
+        padding: 0 1rem;
+        position: relative;
+        font-size: 0.85rem;
+        font-weight: 700;
+        color: var(--primary);
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+      }
+
+      /* ── Progress Bar ── */
+      .progress-wrap {
+        background: #e5e7eb;
+        border-radius: 999px;
+        overflow: hidden;
+        height: 10px;
+        margin: 0.75rem 0 0.4rem;
+      }
+
+      .progress-bar {
+        height: 100%;
+        border-radius: 999px;
+        background: linear-gradient(90deg, var(--success), #22c55e);
+        transition: width 0.4s ease;
+      }
+
+      .progress-text {
+        font-size: 0.78rem;
+        color: var(--muted);
+        text-align: right;
+      }
+
+      /* ── Interactive Checklist ── */
+      .checklist-interactive {
+        list-style: none;
+        padding: 0;
+        margin: 0.5rem 0;
+      }
+
+      .checklist-interactive li {
+        display: flex;
+        align-items: flex-start;
+        gap: 0.6rem;
+        padding: 0.55rem 0.7rem;
+        border-radius: 0.5rem;
+        cursor: pointer;
+        transition: background 0.15s;
+        margin: 0.15rem 0;
+      }
+
+      .checklist-interactive li:hover {
+        background: #f0f4ff;
+      }
+
+      .checklist-interactive li.checked {
+        background: #f0fdf4;
+      }
+
+      .checklist-interactive li.checked .cb-label {
+        text-decoration: line-through;
+        color: var(--muted);
+      }
+
+      .cb-box {
+        width: 20px;
+        height: 20px;
+        border: 2px solid var(--border);
+        border-radius: 5px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        margin-top: 1px;
+        transition: all 0.2s;
+        font-size: 0.7rem;
+        color: transparent;
+      }
+
+      .checklist-interactive li.checked .cb-box {
+        background: var(--success);
+        border-color: var(--success);
+        color: #fff;
+      }
+
+      .cb-label {
+        font-size: 0.88rem;
+        line-height: 1.4;
+        transition: all 0.2s;
+      }
+
+      .cb-sublabel {
+        font-size: 0.78rem;
+        color: var(--muted);
+        margin-top: 0.1rem;
+      }
+
+      /* ── Calculator ── */
+      .calc-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0.75rem;
+        margin: 0.75rem 0;
+      }
+
+      .calc-field label {
+        display: block;
+        font-size: 0.78rem;
+        font-weight: 600;
+        color: var(--primary-light);
+        margin-bottom: 0.2rem;
+      }
+
+      .calc-field input,
+      .calc-field select {
+        width: 100%;
+        padding: 0.55rem 0.7rem;
+        border: 1px solid var(--border);
+        border-radius: 0.5rem;
+        font-size: 0.88rem;
+        background: #f9fafb;
+        color: var(--text);
+        transition: border-color 0.2s;
+      }
+
+      .calc-field input:focus,
+      .calc-field select:focus {
+        outline: none;
+        border-color: var(--info);
+        box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+      }
+
+      .calc-result {
+        background: linear-gradient(135deg, #0b1d40, #192d60);
+        color: #f9fafb;
+        border-radius: 0.75rem;
+        padding: 1rem 1.25rem;
+        margin-top: 1rem;
+      }
+
+      .calc-result-row {
+        display: flex;
+        justify-content: space-between;
+        padding: 0.3rem 0;
+        font-size: 0.85rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .calc-result-row:last-child {
+        border-bottom: none;
+        font-weight: 700;
+        font-size: 1rem;
+        color: #fbbf24;
+        padding-top: 0.5rem;
+      }
+
+      .calc-result-label {
+        color: #9ca3af;
+      }
+
+      /* ── Reference Cards ── */
+      .ref-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0.75rem;
+        margin: 0.75rem 0;
+      }
+
+      .ref-card {
+        background: #f9fafb;
+        border: 1px solid var(--border);
+        border-radius: 0.75rem;
+        padding: 0.9rem;
+        transition:
+          border-color 0.2s,
+          box-shadow 0.2s;
+      }
+
+      .ref-card:hover {
+        border-color: var(--info);
+        box-shadow: 0 4px 12px rgba(59, 130, 246, 0.1);
+      }
+
+      .ref-card a {
+        text-decoration: none;
+        color: var(--primary);
+        font-weight: 600;
+        font-size: 0.88rem;
+        display: flex;
+        align-items: center;
+        gap: 0.4rem;
+      }
+
+      .ref-card a:hover {
+        color: var(--info);
+      }
+
+      .ref-card .ref-desc {
+        font-size: 0.78rem;
+        color: var(--muted);
+        margin-top: 0.25rem;
+      }
+
+      .ref-tag {
+        display: inline-block;
+        font-size: 0.65rem;
+        font-weight: 700;
+        padding: 0.1rem 0.4rem;
+        border-radius: 4px;
+        margin-top: 0.35rem;
+      }
+
+      .ref-tag.gov {
+        background: #dbeafe;
+        color: #1d4ed8;
+      }
+      .ref-tag.intl {
+        background: #fef3c7;
+        color: #92400e;
+      }
+      .ref-tag.tool {
+        background: #d1fae5;
+        color: #065f46;
+      }
+
+      /* ── Incoterms Table ── */
+      .inco-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.82rem;
+        margin: 0.75rem 0;
+      }
+
+      .inco-table th {
+        background: var(--primary);
+        color: #f9fafb;
+        padding: 0.5rem 0.6rem;
+        text-align: left;
+        font-weight: 600;
+        font-size: 0.78rem;
+      }
+
+      .inco-table th:first-child {
+        border-radius: 0.5rem 0 0 0;
+      }
+      .inco-table th:last-child {
+        border-radius: 0 0.5rem 0 0;
+      }
+
+      .inco-table td {
+        padding: 0.45rem 0.6rem;
+        border-bottom: 1px solid var(--border);
+        vertical-align: top;
+      }
+
+      .inco-table tr:hover td {
+        background: #f0f4ff;
+      }
+
+      .inco-code {
+        font-weight: 700;
+        color: var(--primary);
+        font-size: 0.85rem;
+      }
+
+      .inco-group {
+        display: inline-block;
+        font-size: 0.62rem;
+        font-weight: 700;
+        padding: 0.08rem 0.35rem;
+        border-radius: 3px;
+        color: #fff;
+      }
+
+      .inco-group.e {
+        background: #6366f1;
+      }
+      .inco-group.f {
+        background: #0ea5e9;
+      }
+      .inco-group.c {
+        background: #f59e0b;
+      }
+      .inco-group.d {
+        background: #ef4444;
+      }
+
+      /* ── Glossary ── */
+      .glossary-list {
+        list-style: none;
+        padding: 0;
+        margin: 0.5rem 0;
+      }
+
+      .glossary-item {
+        padding: 0.6rem 0;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .glossary-item:last-child {
+        border-bottom: none;
+      }
+
+      .glossary-term {
+        font-weight: 700;
+        color: var(--primary);
+        font-size: 0.88rem;
+      }
+
+      .glossary-abbr {
+        font-size: 0.72rem;
+        color: var(--info);
+        font-weight: 600;
+        margin-left: 0.3rem;
+      }
+
+      .glossary-def {
+        font-size: 0.82rem;
+        color: var(--muted);
+        margin-top: 0.15rem;
+      }
+
+      /* ── Document Checklist ── */
+      .doc-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 0.5rem;
+        margin: 0.75rem 0;
+      }
+
+      .doc-item {
+        display: flex;
+        align-items: flex-start;
+        gap: 0.7rem;
+        padding: 0.7rem 0.9rem;
+        background: #f9fafb;
+        border: 1px solid var(--border);
+        border-radius: 0.5rem;
+      }
+
+      .doc-icon {
+        font-size: 1.2rem;
+        flex-shrink: 0;
+        margin-top: 0.1rem;
+      }
+
+      .doc-name {
+        font-weight: 600;
+        font-size: 0.88rem;
+        color: var(--primary);
+      }
+
+      .doc-desc {
+        font-size: 0.78rem;
+        color: var(--muted);
+        margin-top: 0.1rem;
+      }
+
+      .doc-required {
+        display: inline-block;
+        font-size: 0.62rem;
+        font-weight: 700;
+        padding: 0.08rem 0.35rem;
+        border-radius: 3px;
+        margin-top: 0.25rem;
+      }
+
+      .doc-required.wajib {
+        background: #fee2e2;
+        color: #991b1b;
+      }
+      .doc-required.optional {
+        background: #dbeafe;
+        color: #1d4ed8;
+      }
+
+      /* ── Highlight Box ── */
+      .highlight-box {
+        background: #eef2ff;
+        border-radius: 0.75rem;
+        padding: 0.8rem 0.9rem;
+        border: 1px solid #d4d4ff;
+        margin: 0.8rem 0;
+        font-size: 0.86rem;
+      }
+
+      .highlight-title {
+        font-size: 0.7rem;
+        text-transform: uppercase;
+        font-weight: 600;
+        color: #4b5563;
+        margin-bottom: 0.25rem;
+        letter-spacing: 0.06em;
+      }
+
+      .highlight-box.tip {
+        background: #f0fdf4;
+        border-color: #bbf7d0;
+      }
+
+      .highlight-box.warning {
+        background: #fffbeb;
+        border-color: #fde68a;
+      }
+
+      /* ── CTA Card ── */
+      .cta-card {
+        border-radius: 1rem;
+        padding: 1.5rem;
+        background: linear-gradient(135deg, #0b1d40, #192d60);
+        color: #e5e7eb;
+        margin-top: 1.5rem;
+        border: 1px solid #1f2937;
+      }
+
+      .cta-card h2 {
+        color: #f9fafb;
+        margin-top: 0.2rem;
+        display: flex;
+        align-items: center;
+        gap: 0.4rem;
+        font-size: 1.12rem;
+      }
+
+      .cta-card a {
+        color: #f97316;
+        text-decoration: none;
+        font-weight: 600;
+      }
+
+      .badge {
+        display: inline-flex;
+        align-items: center;
+        font-size: 0.75rem;
+        padding: 0.1rem 0.5rem;
+        border-radius: 999px;
+        background: rgba(15, 118, 110, 0.07);
+        color: #0f766e;
+        margin-bottom: 0.4rem;
+      }
+
+      .badge span {
+        font-size: 0.85rem;
+        margin-right: 0.3rem;
+      }
+
+      /* ── Floating Button ── */
+      .floating-btn {
+        position: fixed;
+        bottom: 1.75rem;
+        right: 1.75rem;
+        z-index: 999999;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.55rem;
+        padding: 0.9rem 1.5rem;
+        border-radius: 999px;
+        background: linear-gradient(135deg, #0b1d40, #1843a8);
+        color: #f9fafb !important;
+        font-size: 0.95rem;
+        font-weight: 600;
+        text-decoration: none !important;
+        box-shadow: 0 12px 28px rgba(15, 23, 42, 0.45);
+        border: 1px solid rgba(191, 219, 254, 0.6);
+        transition:
+          transform 0.15s ease,
+          box-shadow 0.15s ease,
+          background 0.15s ease;
+      }
+
+      .floating-btn:hover {
+        background: linear-gradient(135deg, #111827, #1d4ed8);
+        transform: translateY(-2px);
+        box-shadow: 0 18px 32px rgba(15, 23, 42, 0.6);
+      }
+
+      /* ── Print ── */
+      .print-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        padding: 0.5rem 1rem;
+        border: 1px solid var(--border);
+        border-radius: 0.5rem;
+        background: #fff;
+        color: var(--primary);
+        font-size: 0.82rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+
+      .print-btn:hover {
+        background: var(--primary);
+        color: #fff;
+      }
+
+      .reset-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        padding: 0.5rem 1rem;
+        border: 1px solid var(--border);
+        border-radius: 0.5rem;
+        background: #fff;
+        color: var(--accent);
+        font-size: 0.82rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s;
+        margin-left: 0.5rem;
+      }
+
+      .reset-btn:hover {
+        background: var(--accent);
+        color: #fff;
+      }
+
+      /* ── Tabs ── */
+      .tab-bar {
+        display: flex;
+        gap: 0.3rem;
+        margin-bottom: 1rem;
+        border-bottom: 2px solid var(--border);
+        padding-bottom: 0;
+      }
+
+      .tab-btn {
+        padding: 0.45rem 0.9rem;
+        border: none;
+        background: transparent;
+        color: var(--muted);
+        font-size: 0.82rem;
+        font-weight: 600;
+        cursor: pointer;
+        border-bottom: 2px solid transparent;
+        margin-bottom: -2px;
+        transition: all 0.2s;
+      }
+
+      .tab-btn.active {
+        color: var(--primary);
+        border-bottom-color: var(--accent);
+      }
+
+      .tab-btn:hover {
+        color: var(--primary);
+      }
+
+      @media print {
+        .sidebar,
+        .floating-btn,
+        .print-btn,
+        .reset-btn,
+        .no-print {
+          display: none !important;
+        }
+        .layout {
+          display: block;
+        }
+        .content {
+          max-width: 100%;
+          padding: 0;
+        }
+        .tool-section {
+          break-inside: avoid;
+          box-shadow: none;
+          border: 1px solid #ccc;
+        }
+      }
+
+      @media (max-width: 880px) {
+        .layout {
+          flex-direction: column;
+        }
+        .sidebar {
+          width: 100%;
+          max-height: none;
+          position: static;
+        }
+        .content {
+          padding: 1rem 1rem 3.6rem;
+        }
+        .floating-btn {
+          bottom: 1.2rem;
+          right: 1rem;
+          font-size: 0.85rem;
+          padding: 0.7rem 1.1rem;
+        }
+        .calc-grid {
+          grid-template-columns: 1fr;
+        }
+        .ref-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+
+  <body x-data="toolkit()" x-cloak>
+    <div class="layout">
+      <!-- ═══ SIDEBAR ═══ -->
+      <nav class="sidebar">
+        <a href="https://m2b.co.id/out_ebook_v2.html" class="back-link">
+          ←
+          <span
+            x-text="lang === 'id' ? 'Kembali ke E-book' : 'Back to E-book'"
+          ></span>
+        </a>
+
+        <div class="brand-title">🧰 Toolkit</div>
+        <div class="brand-sub">GLOBAL TRADER</div>
+
+        <div class="lang-switcher">
+          <button
+            class="lang-btn"
+            :class="lang === 'id' && 'active'"
+            @click="lang = 'id'"
+          >
+            🇮🇩 ID
+          </button>
+          <button
+            class="lang-btn"
+            :class="lang === 'en' && 'active'"
+            @click="lang = 'en'"
+          >
+            🇬🇧 EN
+          </button>
+        </div>
+
+        <div
+          class="toc-section-title"
+          x-text="lang === 'id' ? 'Navigasi' : 'Navigation'"
+        ></div>
+        <ul class="toc-list">
+          <li>
+            <a
+              class="toc-link"
+              href="#checklist"
+              x-text="lang === 'id' ? '✅ Checklist Kesiapan' : '✅ Readiness Checklist'"
+            ></a>
+          </li>
+          <li>
+            <a
+              class="toc-link"
+              href="#dokumen"
+              x-text="lang === 'id' ? '📄 Dokumen Ekspor-Impor' : '📄 Export-Import Documents'"
+            ></a>
+          </li>
+          <li>
+            <a
+              class="toc-link"
+              href="#kalkulator"
+              x-text="lang === 'id' ? '🧮 Kalkulator Landed Cost' : '🧮 Landed Cost Calculator'"
+            ></a>
+          </li>
+          <li>
+            <a
+              class="toc-link"
+              href="#incoterms"
+              x-text="lang === 'id' ? '🚢 Incoterms 2020' : '🚢 Incoterms 2020'"
+            ></a>
+          </li>
+          <li>
+            <a
+              class="toc-link"
+              href="#glossary"
+              x-text="lang === 'id' ? '📖 Glossary Istilah' : '📖 Glossary'"
+            ></a>
+          </li>
+          <li>
+            <a
+              class="toc-link"
+              href="#referensi"
+              x-text="lang === 'id' ? '📚 Referensi & Link' : '📚 References & Links'"
+            ></a>
+          </li>
+        </ul>
+
+        <div
+          style="
+            margin-top: 1.5rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+          "
+        >
+          <div
+            class="small"
+            style="color: #9ca3af"
+            x-text="lang === 'id' ? 'Progress Checklist' : 'Checklist Progress'"
+          ></div>
+          <div class="progress-wrap" style="margin-top: 0.5rem">
+            <div
+              class="progress-bar"
+              :style="'width:' + checklistProgress + '%'"
+            ></div>
+          </div>
+          <div
+            style="
+              color: #9ca3af;
+              font-size: 0.75rem;
+              text-align: right;
+              margin-top: 0.2rem;
+            "
+            x-text="checkedCount + '/' + totalChecklist"
+          ></div>
+        </div>
+      </nav>
+
+      <!-- ═══ MAIN ═══ -->
+      <main class="content">
+        <div class="pill">
+          <span class="pill-dot"></span>
+          <span
+            x-text="lang === 'id' ? 'Toolkit Interaktif — E-book v2.0' : 'Interactive Toolkit — E-book v2.0'"
+          ></span>
+        </div>
+
+        <h1 class="hero-title">
+          <span
+            x-text="lang === 'id' ? 'Toolkit Global Trader' : 'Global Trader Toolkit'"
+          ></span>
+          <span class="version-badge">v2.0</span>
+        </h1>
+        <p
+          class="hero-subtitle"
+          x-text="lang === 'id'
+          ? 'Semua tools yang Anda butuhkan untuk memulai dan mengembangkan bisnis ekspor-impor. Checklist interaktif, kalkulator, referensi, dan panduan lengkap.'
+          : 'All the tools you need to start and grow your export-import business. Interactive checklists, calculators, references, and comprehensive guides.'"
+        ></p>
+
+        <div style="margin: 1rem 0">
+          <button class="print-btn" onclick="window.print()">
+            🖨️
+            <span x-text="lang === 'id' ? 'Cetak / PDF' : 'Print / PDF'"></span>
+          </button>
+          <button class="reset-btn" @click="resetChecklist()">
+            🔄
+            <span
+              x-text="lang === 'id' ? 'Reset Checklist' : 'Reset Checklist'"
+            ></span>
+          </button>
+        </div>
+
+        <hr class="divider" />
+
+        <!-- ══════════ 1. CHECKLIST KESIAPAN ══════════ -->
+        <div class="part-divider">
+          <span
+            x-text="lang === 'id' ? '✅ Checklist Kesiapan' : '✅ Readiness Checklist'"
+          ></span>
+        </div>
+
+        <section id="checklist" class="tool-section">
+          <h2>
+            <span class="icon">✅</span>
+            <span
+              x-text="lang === 'id' ? 'Checklist Kesiapan Ekspor-Impor' : 'Export-Import Readiness Checklist'"
+            ></span>
+          </h2>
+          <p
+            x-text="lang === 'id'
+            ? 'Centang setiap item setelah Anda selesai. Progress disimpan otomatis di browser Anda.'
+            : 'Check each item as you complete it. Progress is saved automatically in your browser.'"
+          ></p>
+
+          <div class="progress-wrap">
+            <div
+              class="progress-bar"
+              :style="'width:' + checklistProgress + '%'"
+            ></div>
+          </div>
+          <div
+            class="progress-text"
+            x-text="checkedCount + '/' + totalChecklist + (lang === 'id' ? ' selesai' : ' completed') + ' (' + Math.round(checklistProgress) + '%)'"
+          ></div>
+
+          <!-- Tab categories -->
+          <div class="tab-bar no-print">
+            <template x-for="cat in checklistCategories" :key="cat.key">
+              <button
+                class="tab-btn"
+                :class="activeTab === cat.key && 'active'"
+                @click="activeTab = cat.key"
+                x-text="lang === 'id' ? cat.id : cat.en"
+              ></button>
+            </template>
+          </div>
+
+          <template x-for="cat in checklistCategories" :key="cat.key">
+            <div x-show="activeTab === cat.key || activeTab === 'all'">
+              <h3
+                x-text="lang === 'id' ? cat.id : cat.en"
+                style="margin-bottom: 0.3rem"
+              ></h3>
+              <ul class="checklist-interactive">
+                <template
+                  x-for="item in getChecklistItems(cat.key)"
+                  :key="item.key"
+                >
+                  <li
+                    :class="checks[item.key] && 'checked'"
+                    @click="toggleCheck(item.key)"
+                  >
+                    <div class="cb-box">✔</div>
+                    <div>
+                      <div
+                        class="cb-label"
+                        x-text="lang === 'id' ? item.id : item.en"
+                      ></div>
+                      <div
+                        class="cb-sublabel"
+                        x-show="item.hint"
+                        x-text="lang === 'id' ? item.hint : item.hintEn"
+                      ></div>
+                    </div>
+                  </li>
+                </template>
+              </ul>
+            </div>
+          </template>
+        </section>
+
+        <!-- ══════════ 2. DOKUMEN EKSPOR-IMPOR ══════════ -->
+        <div class="part-divider">
+          <span
+            x-text="lang === 'id' ? '📄 Dokumen Penting' : '📄 Key Documents'"
+          ></span>
+        </div>
+
+        <section id="dokumen" class="tool-section">
+          <h2>
+            <span class="icon">📄</span>
+            <span
+              x-text="lang === 'id' ? 'Dokumen Ekspor-Impor' : 'Export-Import Documents'"
+            ></span>
+          </h2>
+          <p
+            x-text="lang === 'id'
+            ? 'Daftar dokumen yang wajib dan opsional untuk proses ekspor-impor.'
+            : 'List of mandatory and optional documents for export-import processes.'"
+          ></p>
+
+          <div class="doc-grid">
+            <template x-for="doc in documents" :key="doc.key">
+              <div class="doc-item">
+                <div class="doc-icon" x-text="doc.icon"></div>
+                <div>
+                  <div
+                    class="doc-name"
+                    x-text="lang === 'id' ? doc.name : doc.nameEn"
+                  ></div>
+                  <div
+                    class="doc-desc"
+                    x-text="lang === 'id' ? doc.desc : doc.descEn"
+                  ></div>
+                  <span
+                    class="doc-required"
+                    :class="doc.required ? 'wajib' : 'optional'"
+                    x-text="doc.required ? (lang === 'id' ? 'WAJIB' : 'REQUIRED') : (lang === 'id' ? 'OPSIONAL' : 'OPTIONAL')"
+                  >
+                  </span>
+                </div>
+              </div>
+            </template>
+          </div>
+
+          <div class="highlight-box tip">
+            <div
+              class="highlight-title"
+              x-text="lang === 'id' ? '💡 Tips' : '💡 Tips'"
+            ></div>
+            <span
+              x-text="lang === 'id'
+              ? 'Simpan semua dokumen dalam format digital (scan PDF) dan buat folder terpisah per shipment. Gunakan penamaan: [TanggalShipment]_[NamaBarang]_[Tujuan]'
+              : 'Save all documents digitally (PDF scan) and create separate folders per shipment. Use naming: [ShipmentDate]_[ProductName]_[Destination]'"
+            >
+            </span>
+          </div>
+        </section>
+
+        <!-- ══════════ 3. KALKULATOR LANDED COST ══════════ -->
+        <div class="part-divider">
+          <span
+            x-text="lang === 'id' ? '🧮 Kalkulator' : '🧮 Calculator'"
+          ></span>
+        </div>
+
+        <section id="kalkulator" class="tool-section">
+          <h2>
+            <span class="icon">🧮</span>
+            <span
+              x-text="lang === 'id' ? 'Kalkulator Estimasi Landed Cost' : 'Landed Cost Estimator'"
+            ></span>
+          </h2>
+          <p
+            x-text="lang === 'id'
+            ? 'Hitung estimasi total biaya barang sampai di gudang Anda (landed cost). Angka bersifat estimasi.'
+            : 'Calculate estimated total cost of goods delivered to your warehouse (landed cost). Figures are estimates.'"
+          ></p>
+
+          <div class="calc-grid">
+            <div class="calc-field">
+              <label
+                x-text="lang === 'id' ? 'Harga Barang (FOB) — USD' : 'Product Price (FOB) — USD'"
+              ></label>
+              <input
+                type="number"
+                x-model.number="calc.fob"
+                placeholder="e.g. 10000"
+                min="0"
+              />
+            </div>
+            <div class="calc-field">
+              <label
+                x-text="lang === 'id' ? 'Biaya Freight — USD' : 'Freight Cost — USD'"
+              ></label>
+              <input
+                type="number"
+                x-model.number="calc.freight"
+                placeholder="e.g. 1500"
+                min="0"
+              />
+            </div>
+            <div class="calc-field">
+              <label
+                x-text="lang === 'id' ? 'Biaya Asuransi — USD' : 'Insurance Cost — USD'"
+              ></label>
+              <input
+                type="number"
+                x-model.number="calc.insurance"
+                placeholder="e.g. 100"
+                min="0"
+              />
+            </div>
+            <div class="calc-field">
+              <label
+                x-text="lang === 'id' ? 'Kurs USD → IDR' : 'Exchange Rate USD → IDR'"
+              ></label>
+              <input
+                type="number"
+                x-model.number="calc.kurs"
+                placeholder="e.g. 15800"
+                min="0"
+              />
+            </div>
+            <div class="calc-field">
+              <label
+                x-text="lang === 'id' ? 'Bea Masuk (%)' : 'Import Duty (%)'"
+              ></label>
+              <input
+                type="number"
+                x-model.number="calc.duty"
+                placeholder="e.g. 10"
+                min="0"
+                max="100"
+              />
+            </div>
+            <div class="calc-field">
+              <label
+                x-text="lang === 'id' ? 'PPN Impor (%)' : 'Import VAT (%)'"
+              ></label>
+              <input
+                type="number"
+                x-model.number="calc.vat"
+                placeholder="11"
+                min="0"
+                max="100"
+              />
+            </div>
+            <div class="calc-field">
+              <label
+                x-text="lang === 'id' ? 'PPh Impor (%)' : 'Income Tax Import (%)'"
+              ></label>
+              <input
+                type="number"
+                x-model.number="calc.pph"
+                placeholder="e.g. 2.5"
+                min="0"
+                max="100"
+                step="0.5"
+              />
+            </div>
+            <div class="calc-field">
+              <label
+                x-text="lang === 'id' ? 'Biaya Lokal (IDR)' : 'Local Costs (IDR)'"
+              ></label>
+              <input
+                type="number"
+                x-model.number="calc.local"
+                placeholder="e.g. 5000000"
+                min="0"
+              />
+            </div>
+          </div>
+
+          <div class="calc-result">
+            <div class="calc-result-row">
+              <span class="calc-result-label">CIF (USD)</span>
+              <span x-text="formatUSD(cifUSD)"></span>
+            </div>
+            <div class="calc-result-row">
+              <span class="calc-result-label">CIF (IDR)</span>
+              <span x-text="formatIDR(cifIDR)"></span>
+            </div>
+            <div class="calc-result-row">
+              <span
+                class="calc-result-label"
+                x-text="lang === 'id' ? 'Bea Masuk' : 'Import Duty'"
+              ></span>
+              <span x-text="formatIDR(dutyIDR)"></span>
+            </div>
+            <div class="calc-result-row">
+              <span
+                class="calc-result-label"
+                x-text="lang === 'id' ? 'Nilai Impor (CIF + BM)' : 'Import Value (CIF + Duty)'"
+              ></span>
+              <span x-text="formatIDR(nilaiImpor)"></span>
+            </div>
+            <div class="calc-result-row">
+              <span class="calc-result-label">PPN</span>
+              <span x-text="formatIDR(ppnIDR)"></span>
+            </div>
+            <div class="calc-result-row">
+              <span class="calc-result-label">PPh</span>
+              <span x-text="formatIDR(pphIDR)"></span>
+            </div>
+            <div class="calc-result-row">
+              <span
+                class="calc-result-label"
+                x-text="lang === 'id' ? 'Biaya Lokal' : 'Local Costs'"
+              ></span>
+              <span x-text="formatIDR(calc.local || 0)"></span>
+            </div>
+            <div class="calc-result-row">
+              <span
+                x-text="lang === 'id' ? '💰 Total Landed Cost' : '💰 Total Landed Cost'"
+              ></span>
+              <span x-text="formatIDR(totalLandedCost)"></span>
+            </div>
+          </div>
+
+          <div class="highlight-box warning" style="margin-top: 1rem">
+            <div
+              class="highlight-title"
+              x-text="lang === 'id' ? '⚠️ Catatan' : '⚠️ Note'"
+            ></div>
+            <span
+              x-text="lang === 'id'
+              ? 'Kalkulator ini bersifat estimasi. Tarif bea masuk, PPN, dan PPh yang sebenarnya tergantung pada klasifikasi HS Code produk Anda. Konsultasikan dengan PPJK atau Bea Cukai untuk angka pasti.'
+              : 'This calculator provides estimates only. Actual duty, VAT, and income tax rates depend on your product HS Code classification. Consult with a customs broker for exact figures.'"
+            >
+            </span>
+          </div>
+        </section>
+
+        <!-- ══════════ 4. INCOTERMS 2020 ══════════ -->
+        <div class="part-divider">
+          <span>🚢 Incoterms® 2020</span>
+        </div>
+
+        <section id="incoterms" class="tool-section">
+          <h2>
+            <span class="icon">🚢</span>
+            <span>Incoterms® 2020 Quick Reference</span>
+          </h2>
+          <p
+            x-text="lang === 'id'
+            ? '11 aturan standar ICC yang menentukan tanggung jawab penjual & pembeli dalam perdagangan internasional.'
+            : '11 ICC standard rules defining seller & buyer responsibilities in international trade.'"
+          ></p>
+
+          <table class="inco-table">
+            <thead>
+              <tr>
+                <th>Code</th>
+                <th x-text="lang === 'id' ? 'Nama' : 'Name'"></th>
+                <th
+                  x-text="lang === 'id' ? 'Risiko Berakhir di' : 'Risk Transfers At'"
+                ></th>
+                <th x-text="lang === 'id' ? 'Moda' : 'Mode'"></th>
+              </tr>
+            </thead>
+            <tbody>
+              <template x-for="term in incoterms" :key="term.code">
+                <tr>
+                  <td>
+                    <span class="inco-code" x-text="term.code"></span>
+                    <span
+                      class="inco-group"
+                      :class="term.group"
+                      x-text="term.group.toUpperCase()"
+                    ></span>
+                  </td>
+                  <td x-text="term.name"></td>
+                  <td
+                    style="font-size: 0.8rem"
+                    x-text="lang === 'id' ? term.risk : term.riskEn"
+                  ></td>
+                  <td style="font-size: 0.8rem" x-text="term.mode"></td>
+                </tr>
+              </template>
+            </tbody>
+          </table>
+
+          <div class="highlight-box">
+            <div
+              class="highlight-title"
+              x-text="lang === 'id' ? '📌 Penting' : '📌 Important'"
+            ></div>
+            <span
+              x-text="lang === 'id'
+              ? 'Untuk pemula ekspor, disarankan menggunakan FOB (paling umum). Untuk impor, CIF lebih aman karena seller menanggung freight & asuransi sampai pelabuhan tujuan.'
+              : 'For export beginners, FOB is recommended (most common). For imports, CIF is safer as the seller covers freight & insurance to the destination port.'"
+            >
+            </span>
+          </div>
+        </section>
+
+        <!-- ══════════ 5. GLOSSARY ══════════ -->
+        <div class="part-divider">
+          <span x-text="lang === 'id' ? '📖 Glossary' : '📖 Glossary'"></span>
+        </div>
+
+        <section id="glossary" class="tool-section">
+          <h2>
+            <span class="icon">📖</span>
+            <span
+              x-text="lang === 'id' ? 'Glossary Istilah Ekspor-Impor' : 'Export-Import Glossary'"
+            ></span>
+          </h2>
+          <p
+            x-text="lang === 'id'
+            ? 'Istilah-istilah penting yang sering digunakan dalam perdagangan internasional.'
+            : 'Key terms commonly used in international trade.'"
+          ></p>
+
+          <input
+            type="text"
+            x-model="glossarySearch"
+            :placeholder="lang === 'id' ? '🔍 Cari istilah...' : '🔍 Search terms...'"
+            style="
+              width: 100%;
+              padding: 0.55rem 0.7rem;
+              border: 1px solid var(--border);
+              border-radius: 0.5rem;
+              font-size: 0.88rem;
+              background: #f9fafb;
+              margin-bottom: 0.5rem;
+            "
+          />
+
+          <ul class="glossary-list">
+            <template x-for="g in filteredGlossary" :key="g.term">
+              <li class="glossary-item">
+                <div>
+                  <span class="glossary-term" x-text="g.term"></span>
+                  <span
+                    class="glossary-abbr"
+                    x-text="g.abbr"
+                    x-show="g.abbr"
+                  ></span>
+                </div>
+                <div
+                  class="glossary-def"
+                  x-text="lang === 'id' ? g.def : g.defEn"
+                ></div>
+              </li>
+            </template>
+          </ul>
+        </section>
+
+        <!-- ══════════ 6. REFERENSI & LINK ══════════ -->
+        <div class="part-divider">
+          <span
+            x-text="lang === 'id' ? '📚 Referensi' : '📚 References'"
+          ></span>
+        </div>
+
+        <section id="referensi" class="tool-section">
+          <h2>
+            <span class="icon">📚</span>
+            <span
+              x-text="lang === 'id' ? 'Referensi & Link Resmi' : 'References & Official Links'"
+            ></span>
+          </h2>
+          <p
+            x-text="lang === 'id'
+            ? 'Kumpulan link resmi dari pemerintah dan organisasi internasional untuk mendukung aktivitas ekspor-impor Anda.'
+            : 'Collection of official links from government and international organizations to support your export-import activities.'"
+          ></p>
+
+          <h3
+            x-text="lang === 'id' ? '🇮🇩 Portal Pemerintah Indonesia' : '🇮🇩 Indonesian Government Portals'"
+          ></h3>
+          <div class="ref-grid">
+            <div class="ref-card">
+              <a href="https://www.insw.go.id" target="_blank" rel="noopener"
+                >🌐 INSW (Indonesia National Single Window)</a
+              >
+              <div
+                class="ref-desc"
+                x-text="lang === 'id' ? 'Portal utama untuk pengurusan izin ekspor-impor, cek tarif HS Code, dan regulasi terkini.' : 'Main portal for export-import permit processing, HS Code tariff checks, and current regulations.'"
+              ></div>
+              <span
+                class="ref-tag gov"
+                x-text="lang === 'id' ? 'Pemerintah' : 'Government'"
+              ></span>
+            </div>
+            <div class="ref-card">
+              <a href="https://oss.go.id" target="_blank" rel="noopener"
+                >🏢 OSS (Online Single Submission)</a
+              >
+              <div
+                class="ref-desc"
+                x-text="lang === 'id' ? 'Sistem perizinan berusaha terintegrasi — NIB, izin usaha, dan izin komersial.' : 'Integrated business licensing system — NIB, business permits, and commercial licenses.'"
+              ></div>
+              <span
+                class="ref-tag gov"
+                x-text="lang === 'id' ? 'Pemerintah' : 'Government'"
+              ></span>
+            </div>
+            <div class="ref-card">
+              <a
+                href="https://www.beacukai.go.id"
+                target="_blank"
+                rel="noopener"
+                >🛃 Direktorat Jenderal Bea dan Cukai</a
+              >
+              <div
+                class="ref-desc"
+                x-text="lang === 'id' ? 'Informasi kepabeanan, tarif, regulasi impor-ekspor, dan BTKI (Buku Tarif Kepabeanan Indonesia).' : 'Customs information, tariffs, import-export regulations, and BTKI (Indonesia Customs Tariff Book).'"
+              ></div>
+              <span
+                class="ref-tag gov"
+                x-text="lang === 'id' ? 'Pemerintah' : 'Government'"
+              ></span>
+            </div>
+            <div class="ref-card">
+              <a
+                href="https://djpen.kemendag.go.id"
+                target="_blank"
+                rel="noopener"
+                >📊 Ditjen PEN — Kemendag</a
+              >
+              <div
+                class="ref-desc"
+                x-text="lang === 'id' ? 'Direktorat Jenderal Pengembangan Ekspor Nasional — data ekspor, peluang pasar, dan promosi.' : 'Directorate General of National Export Development — export data, market opportunities, and promotions.'"
+              ></div>
+              <span
+                class="ref-tag gov"
+                x-text="lang === 'id' ? 'Pemerintah' : 'Government'"
+              ></span>
+            </div>
+          </div>
+
+          <h3
+            x-text="lang === 'id' ? '🌍 Database & Tools Internasional' : '🌍 International Databases & Tools'"
+          ></h3>
+          <div class="ref-grid">
+            <div class="ref-card">
+              <a href="https://www.trademap.org" target="_blank" rel="noopener"
+                >📈 ITC Trade Map</a
+              >
+              <div
+                class="ref-desc"
+                x-text="lang === 'id' ? 'Database statistik perdagangan internasional — analisis pasar, tren ekspor-impor per negara & produk.' : 'International trade statistics database — market analysis, export-import trends by country & product.'"
+              ></div>
+              <span
+                class="ref-tag intl"
+                x-text="lang === 'id' ? 'Internasional' : 'International'"
+              ></span>
+            </div>
+            <div class="ref-card">
+              <a href="https://www.macmap.org" target="_blank" rel="noopener"
+                >🗺️ ITC Market Access Map</a
+              >
+              <div
+                class="ref-desc"
+                x-text="lang === 'id' ? 'Cek tarif bea masuk, hambatan perdagangan, dan perjanjian FTA antar negara.' : 'Check import duties, trade barriers, and FTA agreements between countries.'"
+              ></div>
+              <span
+                class="ref-tag intl"
+                x-text="lang === 'id' ? 'Internasional' : 'International'"
+              ></span>
+            </div>
+            <div class="ref-card">
+              <a
+                href="https://www.fao.org/food-safety/ippc/ispm-15/en/"
+                target="_blank"
+                rel="noopener"
+                >🌲 FAO ISPM 15</a
+              >
+              <div
+                class="ref-desc"
+                x-text="lang === 'id' ? 'Standar internasional untuk pengolahan kayu kemasan (palet) — wajib untuk ekspor barang dengan kemasan kayu.' : 'International standard for wood packaging treatment (pallets) — mandatory for exporting goods with wood packaging.'"
+              ></div>
+              <span
+                class="ref-tag intl"
+                x-text="lang === 'id' ? 'Internasional' : 'International'"
+              ></span>
+            </div>
+            <div class="ref-card">
+              <a
+                href="https://iccwbo.org/business-solutions/incoterms-rules/"
+                target="_blank"
+                rel="noopener"
+                >⚖️ ICC Incoterms® 2020</a
+              >
+              <div
+                class="ref-desc"
+                x-text="lang === 'id' ? 'Panduan resmi Incoterms dari ICC — aturan standar untuk kontrak perdagangan internasional.' : 'Official ICC Incoterms guide — standard rules for international trade contracts.'"
+              ></div>
+              <span
+                class="ref-tag intl"
+                x-text="lang === 'id' ? 'Internasional' : 'International'"
+              ></span>
+            </div>
+          </div>
+
+          <h3
+            x-text="lang === 'id' ? '🛠️ Tools Pendukung' : '🛠️ Supporting Tools'"
+          ></h3>
+          <div class="ref-grid">
+            <div class="ref-card">
+              <a href="https://www.freightos.com" target="_blank" rel="noopener"
+                >📦 Freightos</a
+              >
+              <div
+                class="ref-desc"
+                x-text="lang === 'id' ? 'Platform perbandingan tarif freight internasional — estimasi biaya pengiriman laut & udara.' : 'International freight rate comparison platform — sea & air shipping cost estimates.'"
+              ></div>
+              <span class="ref-tag tool">Tools</span>
+            </div>
+            <div class="ref-card">
+              <a href="https://www.xe.com" target="_blank" rel="noopener"
+                >💱 XE Currency</a
+              >
+              <div
+                class="ref-desc"
+                x-text="lang === 'id' ? 'Kurs mata uang real-time — konversi USD, EUR, CNY ke IDR dan sebaliknya.' : 'Real-time currency rates — convert USD, EUR, CNY to IDR and vice versa.'"
+              ></div>
+              <span class="ref-tag tool">Tools</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- ═══ CTA ═══ -->
+        <section
+          class="cta-card tool-section"
+          style="border: 1px solid #1f2937"
+        >
+          <div class="badge">
+            <span>★</span>
+            <span
+              x-text="lang === 'id' ? 'Partner Logistik Anda' : 'Your Logistics Partner'"
+            ></span>
+          </div>
+          <h2
+            x-text="lang === 'id' ? 'Butuh Bantuan Lebih Lanjut?' : 'Need More Help?'"
+          ></h2>
+          <p x-show="lang === 'id'" style="color: #d1d5db">
+            Tim M2B siap membantu Anda dalam proses ekspor-impor. Dari
+            konsultasi HS Code hingga penanganan customs clearance.
+          </p>
+          <p x-show="lang === 'en'" style="color: #d1d5db">
+            The M2B team is ready to help you with your export-import process.
+            From HS Code consultation to customs clearance handling.
+          </p>
+          <ul style="list-style: none; padding: 0; margin-top: 0.75rem">
+            <li style="margin: 0.3rem 0">
+              🌐 Website:
+              <a href="https://www.m2b.co.id" target="_blank">www.m2b.co.id</a>
+            </li>
+            <li style="margin: 0.3rem 0">
+              📱 WhatsApp:
+              <a href="https://wa.me/6281263027818" target="_blank"
+                >+62 812 6302 7818</a
+              >
+            </li>
+            <li style="margin: 0.3rem 0">
+              📧 Email: <a href="mailto:info@m2b.co.id">info@m2b.co.id</a>
+            </li>
+          </ul>
+        </section>
+
+        <p class="small" style="text-align: center; margin-top: 1.5rem">
+          © <span id="year"></span>
+          <span
+            x-text="lang === 'id' ? 'Tim M2B — Logistic | Solution | Partner' : 'M2B Team — Logistic | Solution | Partner'"
+          ></span>
+        </p>
+      </main>
+    </div>
+
+    <!-- Floating Button -->
+    <a
+      href="https://ebook.m2b.co.id"
+      target="_blank"
+      rel="noopener noreferrer"
+      class="floating-btn"
+    >
+      <span class="icon">📘</span>
+      <span
+        x-text="lang === 'id' ? 'Pesan E-book v2.0' : 'Order E-book v2.0'"
+      ></span>
+    </a>
+
+    <script>
+      document.getElementById("year").textContent = new Date().getFullYear();
+
+      function toolkit() {
+        return {
+          lang: "id",
+          activeTab: "all",
+          glossarySearch: "",
+
+          // ── Calculator State ──
+          calc: {
+            fob: 10000,
+            freight: 1500,
+            insurance: 100,
+            kurs: 16400,
+            duty: 10,
+            vat: 11,
+            pph: 2.5,
+            local: 5000000,
+          },
+
+          // ── Computed Calculator ──
+          get cifUSD() {
+            return (
+              (this.calc.fob || 0) +
+              (this.calc.freight || 0) +
+              (this.calc.insurance || 0)
+            );
+          },
+          get cifIDR() {
+            return this.cifUSD * (this.calc.kurs || 0);
+          },
+          get dutyIDR() {
+            return this.cifIDR * ((this.calc.duty || 0) / 100);
+          },
+          get nilaiImpor() {
+            return this.cifIDR + this.dutyIDR;
+          },
+          get ppnIDR() {
+            return this.nilaiImpor * ((this.calc.vat || 0) / 100);
+          },
+          get pphIDR() {
+            return this.nilaiImpor * ((this.calc.pph || 0) / 100);
+          },
+          get totalLandedCost() {
+            return (
+              this.nilaiImpor +
+              this.ppnIDR +
+              this.pphIDR +
+              (this.calc.local || 0)
+            );
+          },
+
+          formatIDR(val) {
+            return "Rp " + Math.round(val).toLocaleString("id-ID");
+          },
+          formatUSD(val) {
+            return (
+              "$ " +
+              val.toLocaleString("en-US", {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+              })
+            );
+          },
+
+          // ── Checklist State ──
+          checks: {},
+
+          get totalChecklist() {
+            return this.allChecklistItems.length;
+          },
+          get checkedCount() {
+            return Object.values(this.checks).filter(Boolean).length;
+          },
+          get checklistProgress() {
+            return this.totalChecklist
+              ? (this.checkedCount / this.totalChecklist) * 100
+              : 0;
+          },
+
+          toggleCheck(key) {
+            this.checks[key] = !this.checks[key];
+            this.saveChecklist();
+          },
+
+          resetChecklist() {
+            this.checks = {};
+            Object.keys(this.checks).forEach((k) => delete this.checks[k]);
+            this.allChecklistItems.forEach((item) => {
+              this.checks[item.key] = false;
+            });
+            localStorage.removeItem("m2b_toolkit_checks");
+          },
+
+          saveChecklist() {
+            localStorage.setItem(
+              "m2b_toolkit_checks",
+              JSON.stringify(this.checks),
+            );
+          },
+
+          loadChecklist() {
+            const saved = localStorage.getItem("m2b_toolkit_checks");
+            if (saved) {
+              try {
+                this.checks = JSON.parse(saved);
+              } catch (e) {}
+            }
+            // Ensure all items have a key
+            this.allChecklistItems.forEach((item) => {
+              if (this.checks[item.key] === undefined)
+                this.checks[item.key] = false;
+            });
+          },
+
+          getChecklistItems(catKey) {
+            return this.allChecklistItems.filter((i) => i.cat === catKey);
+          },
+
+          checklistCategories: [
+            { key: "all", id: "Semua", en: "All" },
+            { key: "legal", id: "📋 Legalitas", en: "📋 Legal" },
+            { key: "product", id: "📦 Produk", en: "📦 Product" },
+            { key: "finance", id: "💰 Keuangan", en: "💰 Finance" },
+            { key: "logistics", id: "🚚 Logistik", en: "🚚 Logistics" },
+            { key: "market", id: "🌍 Pasar", en: "🌍 Market" },
+          ],
+
+          allChecklistItems: [
+            // Legal
+            {
+              key: "nib",
+              cat: "legal",
+              id: "Memiliki NIB (Nomor Induk Berusaha) dari OSS",
+              en: "Have NIB (Business ID Number) from OSS",
+              hint: "Daftarkan di oss.go.id",
+              hintEn: "Register at oss.go.id",
+            },
+            {
+              key: "api",
+              cat: "legal",
+              id: "Memiliki API-U atau API-P (untuk impor)",
+              en: "Have API-U or API-P (for imports)",
+              hint: "API-U: Umum, API-P: Produsen",
+              hintEn: "API-U: General, API-P: Producer",
+            },
+            {
+              key: "npwp",
+              cat: "legal",
+              id: "NPWP perusahaan aktif dan terdaftar",
+              en: "Active and registered company tax ID (NPWP)",
+              hint: null,
+              hintEn: null,
+            },
+            {
+              key: "siup",
+              cat: "legal",
+              id: "Izin usaha sesuai bidang (SIUP/NIB berizin)",
+              en: "Business license matching field (SIUP/Licensed NIB)",
+              hint: null,
+              hintEn: null,
+            },
+            {
+              key: "customs_reg",
+              cat: "legal",
+              id: "Terdaftar sebagai eksportir/importir di Bea Cukai",
+              en: "Registered as exporter/importer at Customs",
+              hint: "Aktivasi akses portal INSW",
+              hintEn: "Activate INSW portal access",
+            },
+
+            // Product
+            {
+              key: "hscode",
+              cat: "product",
+              id: "Mengetahui HS Code produk yang benar",
+              en: "Know the correct product HS Code",
+              hint: "Cek di insw.go.id → BTKI",
+              hintEn: "Check at insw.go.id → BTKI",
+            },
+            {
+              key: "lartas",
+              cat: "product",
+              id: "Mengecek status LARTAS (Larangan & Pembatasan)",
+              en: "Check LARTAS status (Prohibitions & Restrictions)",
+              hint: "Beberapa produk perlu izin khusus",
+              hintEn: "Some products need special permits",
+            },
+            {
+              key: "quality",
+              cat: "product",
+              id: "Produk memenuhi standar kualitas negara tujuan",
+              en: "Product meets destination country quality standards",
+              hint: "SNI, CE, FDA, dll.",
+              hintEn: "SNI, CE, FDA, etc.",
+            },
+            {
+              key: "packaging",
+              cat: "product",
+              id: "Kemasan sesuai standar (termasuk ISPM-15 untuk kayu)",
+              en: "Packaging meets standards (including ISPM-15 for wood)",
+              hint: null,
+              hintEn: null,
+            },
+            {
+              key: "labeling",
+              cat: "product",
+              id: "Labeling produk lengkap (CoO, berat, isi, expire)",
+              en: "Complete product labeling (CoO, weight, contents, expiry)",
+              hint: null,
+              hintEn: null,
+            },
+
+            // Finance
+            {
+              key: "landed_cost",
+              cat: "finance",
+              id: "Sudah menghitung estimasi landed cost",
+              en: "Have calculated landed cost estimate",
+              hint: "Gunakan kalkulator di bawah 👇",
+              hintEn: "Use the calculator below 👇",
+            },
+            {
+              key: "payment_method",
+              cat: "finance",
+              id: "Memahami metode pembayaran internasional",
+              en: "Understand international payment methods",
+              hint: "L/C, T/T, D/P, D/A, Open Account",
+              hintEn: "L/C, T/T, D/P, D/A, Open Account",
+            },
+            {
+              key: "exchange_risk",
+              cat: "finance",
+              id: "Memiliki strategi hedging/lindung nilai kurs",
+              en: "Have currency hedging strategy",
+              hint: "Forward contract, natural hedging",
+              hintEn: "Forward contract, natural hedging",
+            },
+            {
+              key: "pricing",
+              cat: "finance",
+              id: "Menentukan harga jual yang profit setelah semua biaya",
+              en: "Set profitable selling price after all costs",
+              hint: null,
+              hintEn: null,
+            },
+            {
+              key: "bank_account",
+              cat: "finance",
+              id: "Rekening bank yang bisa transaksi valas",
+              en: "Bank account capable of forex transactions",
+              hint: null,
+              hintEn: null,
+            },
+
+            // Logistics
+            {
+              key: "incoterms",
+              cat: "logistics",
+              id: "Memahami dan memilih Incoterms yang tepat",
+              en: "Understand and choose appropriate Incoterms",
+              hint: "FOB untuk ekspor, CIF untuk impor",
+              hintEn: "FOB for export, CIF for import",
+            },
+            {
+              key: "forwarder",
+              cat: "logistics",
+              id: "Sudah memiliki freight forwarder/PPJK terpercaya",
+              en: "Have a trusted freight forwarder/customs broker",
+              hint: null,
+              hintEn: null,
+            },
+            {
+              key: "shipping_mode",
+              cat: "logistics",
+              id: "Menentukan moda pengiriman (laut/udara/darat)",
+              en: "Determined shipping mode (sea/air/land)",
+              hint: null,
+              hintEn: null,
+            },
+            {
+              key: "warehouse",
+              cat: "logistics",
+              id: "Gudang penyimpanan siap (loading/unloading)",
+              en: "Storage warehouse ready (loading/unloading)",
+              hint: null,
+              hintEn: null,
+            },
+            {
+              key: "insurance_plan",
+              cat: "logistics",
+              id: "Asuransi cargo sudah dipertimbangkan",
+              en: "Cargo insurance considered",
+              hint: "Marine cargo insurance (All Risk/WA/FPA)",
+              hintEn: "Marine cargo insurance (All Risk/WA/FPA)",
+            },
+
+            // Market
+            {
+              key: "market_research",
+              cat: "market",
+              id: "Riset pasar negara tujuan sudah dilakukan",
+              en: "Destination country market research done",
+              hint: "TradeMap, Market Access Map",
+              hintEn: "TradeMap, Market Access Map",
+            },
+            {
+              key: "buyer_supplier",
+              cat: "market",
+              id: "Sudah memiliki calon buyer/supplier",
+              en: "Have potential buyer/supplier",
+              hint: "Alibaba, pameran, misi dagang",
+              hintEn: "Alibaba, exhibitions, trade missions",
+            },
+            {
+              key: "fta",
+              cat: "market",
+              id: "Mengecek perjanjian FTA untuk tarif preferensi",
+              en: "Check FTA agreements for preferential tariffs",
+              hint: "ACFTA, IJEPA, RCEP, dll.",
+              hintEn: "ACFTA, IJEPA, RCEP, etc.",
+            },
+            {
+              key: "competition",
+              cat: "market",
+              id: "Analisis kompetitor di pasar tujuan",
+              en: "Competitor analysis in target market",
+              hint: null,
+              hintEn: null,
+            },
+            {
+              key: "risk_mitigation",
+              cat: "market",
+              id: "Strategi mitigasi risiko sudah disiapkan",
+              en: "Risk mitigation strategy prepared",
+              hint: "Politik, kurs, force majeure",
+              hintEn: "Political, currency, force majeure",
+            },
+          ],
+
+          // ── Documents ──
+          documents: [
+            {
+              key: "invoice",
+              icon: "🧾",
+              name: "Commercial Invoice",
+              nameEn: "Commercial Invoice",
+              desc: "Faktur komersial yang berisi detail barang, harga, dan syarat penjualan.",
+              descEn:
+                "Commercial invoice containing product details, prices, and terms of sale.",
+              required: true,
+            },
+            {
+              key: "packing",
+              icon: "📦",
+              name: "Packing List",
+              nameEn: "Packing List",
+              desc: "Daftar isi kemasan — jumlah, berat, dimensi, dan penandaan setiap koli.",
+              descEn:
+                "Package contents list — quantity, weight, dimensions, and marks of each package.",
+              required: true,
+            },
+            {
+              key: "bl",
+              icon: "🚢",
+              name: "Bill of Lading (B/L) / Airway Bill",
+              nameEn: "Bill of Lading (B/L) / Airway Bill",
+              desc: "Dokumen pengangkutan sebagai bukti kontrak dengan carrier dan tanda terima barang.",
+              descEn:
+                "Transport document as proof of contract with carrier and goods receipt.",
+              required: true,
+            },
+            {
+              key: "coo",
+              icon: "🏳️",
+              name: "Certificate of Origin (CoO)",
+              nameEn: "Certificate of Origin (CoO)",
+              desc: "Surat keterangan asal barang — diperlukan untuk klaim tarif FTA preferensi.",
+              descEn:
+                "Certificate of origin — required for FTA preferential tariff claims.",
+              required: true,
+            },
+            {
+              key: "peb",
+              icon: "📝",
+              name: "PEB (Pemberitahuan Ekspor Barang)",
+              nameEn: "PEB (Export Declaration)",
+              desc: "Dokumen wajib ekspor yang diajukan ke Bea Cukai melalui sistem CEISA.",
+              descEn:
+                "Mandatory export document submitted to Customs via CEISA system.",
+              required: true,
+            },
+            {
+              key: "pib",
+              icon: "📝",
+              name: "PIB (Pemberitahuan Impor Barang)",
+              nameEn: "PIB (Import Declaration)",
+              desc: "Dokumen wajib impor yang diajukan ke Bea Cukai untuk proses clearance.",
+              descEn:
+                "Mandatory import document submitted to Customs for clearance process.",
+              required: true,
+            },
+            {
+              key: "insurance_doc",
+              icon: "🛡️",
+              name: "Polis Asuransi Cargo",
+              nameEn: "Cargo Insurance Policy",
+              desc: "Dokumen perlindungan asuransi untuk barang selama pengiriman.",
+              descEn:
+                "Insurance protection document for goods during shipment.",
+              required: false,
+            },
+            {
+              key: "phyto",
+              icon: "🌿",
+              name: "Sertifikat Phytosanitary / Health",
+              nameEn: "Phytosanitary / Health Certificate",
+              desc: "Diperlukan untuk produk pertanian, makanan, atau hasil hutan.",
+              descEn: "Required for agricultural, food, or forest products.",
+              required: false,
+            },
+            {
+              key: "fumigation",
+              icon: "🌲",
+              name: "Sertifikat Fumigasi (ISPM-15)",
+              nameEn: "Fumigation Certificate (ISPM-15)",
+              desc: "Wajib jika menggunakan kemasan kayu (palet, krat) untuk ekspor.",
+              descEn:
+                "Mandatory if using wood packaging (pallets, crates) for export.",
+              required: false,
+            },
+            {
+              key: "sni",
+              icon: "✅",
+              name: "Sertifikat SNI / Uji Mutu",
+              nameEn: "SNI / Quality Test Certificate",
+              desc: "Sertifikat standar nasional untuk produk yang wajib SNI.",
+              descEn:
+                "National standard certificate for products requiring SNI.",
+              required: false,
+            },
+          ],
+
+          // ── Incoterms ──
+          incoterms: [
+            {
+              code: "EXW",
+              group: "e",
+              name: "Ex Works",
+              risk: "Gudang penjual",
+              riskEn: "Seller's warehouse",
+              mode: "Any",
+            },
+            {
+              code: "FCA",
+              group: "f",
+              name: "Free Carrier",
+              risk: "Diserahkan ke carrier",
+              riskEn: "Delivered to carrier",
+              mode: "Any",
+            },
+            {
+              code: "FAS",
+              group: "f",
+              name: "Free Alongside Ship",
+              risk: "Samping kapal",
+              riskEn: "Alongside vessel",
+              mode: "Sea",
+            },
+            {
+              code: "FOB",
+              group: "f",
+              name: "Free On Board",
+              risk: "Di atas kapal",
+              riskEn: "On board vessel",
+              mode: "Sea",
+            },
+            {
+              code: "CFR",
+              group: "c",
+              name: "Cost and Freight",
+              risk: "Di atas kapal (freight dibayar)",
+              riskEn: "On board vessel (freight paid)",
+              mode: "Sea",
+            },
+            {
+              code: "CIF",
+              group: "c",
+              name: "Cost, Insurance & Freight",
+              risk: "Di atas kapal (freight+asuransi)",
+              riskEn: "On board vessel (freight+insurance)",
+              mode: "Sea",
+            },
+            {
+              code: "CPT",
+              group: "c",
+              name: "Carriage Paid To",
+              risk: "Diserahkan ke carrier pertama",
+              riskEn: "Delivered to first carrier",
+              mode: "Any",
+            },
+            {
+              code: "CIP",
+              group: "c",
+              name: "Carriage & Insurance Paid To",
+              risk: "Diserahkan ke carrier pertama",
+              riskEn: "Delivered to first carrier",
+              mode: "Any",
+            },
+            {
+              code: "DAP",
+              group: "d",
+              name: "Delivered At Place",
+              risk: "Tempat tujuan (belum bongkar)",
+              riskEn: "Destination (not unloaded)",
+              mode: "Any",
+            },
+            {
+              code: "DPU",
+              group: "d",
+              name: "Delivered at Place Unloaded",
+              risk: "Tempat tujuan (sudah bongkar)",
+              riskEn: "Destination (unloaded)",
+              mode: "Any",
+            },
+            {
+              code: "DDP",
+              group: "d",
+              name: "Delivered Duty Paid",
+              risk: "Tempat tujuan (semua biaya)",
+              riskEn: "Destination (all costs)",
+              mode: "Any",
+            },
+          ],
+
+          // ── Glossary ──
+          glossaryItems: [
+            {
+              term: "HS Code",
+              abbr: "Harmonized System",
+              def: "Kode klasifikasi barang internasional yang digunakan untuk menentukan tarif bea masuk dan regulasi.",
+              defEn:
+                "International goods classification code used to determine import duty rates and regulations.",
+            },
+            {
+              term: "Landed Cost",
+              abbr: null,
+              def: "Total biaya barang sampai di gudang pembeli, termasuk harga barang, freight, asuransi, bea masuk, pajak, dan biaya lokal.",
+              defEn:
+                "Total cost of goods delivered to buyer's warehouse, including product price, freight, insurance, duties, taxes, and local costs.",
+            },
+            {
+              term: "CIF",
+              abbr: "Cost, Insurance & Freight",
+              def: "Nilai pabean yang digunakan sebagai dasar perhitungan bea masuk dan pajak impor di Indonesia.",
+              defEn:
+                "Customs value used as the basis for calculating import duties and taxes in Indonesia.",
+            },
+            {
+              term: "FOB",
+              abbr: "Free On Board",
+              def: "Harga barang di atas kapal di pelabuhan asal — penjual bertanggung jawab sampai barang naik kapal.",
+              defEn:
+                "Price of goods on board at the port of origin — seller is responsible until goods are loaded on vessel.",
+            },
+            {
+              term: "LARTAS",
+              abbr: "Larangan & Pembatasan",
+              def: "Daftar barang yang dilarang atau dibatasi untuk diekspor/diimpor oleh pemerintah Indonesia.",
+              defEn:
+                "List of goods prohibited or restricted for export/import by the Indonesian government.",
+            },
+            {
+              term: "NIB",
+              abbr: "Nomor Induk Berusaha",
+              def: "Identitas pelaku usaha yang diterbitkan melalui sistem OSS sebagai pengganti TDP, SIUP, dll.",
+              defEn:
+                "Business identity number issued through the OSS system replacing TDP, SIUP, etc.",
+            },
+            {
+              term: "PPJK",
+              abbr: "Pengusaha Pengurusan Jasa Kepabeanan",
+              def: "Perusahaan yang menyediakan jasa pengurusan dokumen kepabeanan (customs broker).",
+              defEn:
+                "Company providing customs document processing services (customs broker).",
+            },
+            {
+              term: "PEB",
+              abbr: "Pemberitahuan Ekspor Barang",
+              def: "Dokumen pemberitahuan ke Bea Cukai untuk setiap pengiriman ekspor — diajukan secara elektronik.",
+              defEn:
+                "Customs notification document for each export shipment — submitted electronically.",
+            },
+            {
+              term: "PIB",
+              abbr: "Pemberitahuan Impor Barang",
+              def: "Dokumen pemberitahuan ke Bea Cukai untuk setiap penerimaan impor — diajukan oleh importir atau PPJK.",
+              defEn:
+                "Customs notification document for each import receipt — submitted by importer or customs broker.",
+            },
+            {
+              term: "L/C",
+              abbr: "Letter of Credit",
+              def: "Instrumen pembayaran bank yang menjamin pembayaran kepada eksportir jika semua dokumen sesuai syarat.",
+              defEn:
+                "Bank payment instrument guaranteeing payment to exporter if all documents comply with terms.",
+            },
+            {
+              term: "T/T",
+              abbr: "Telegraphic Transfer",
+              def: "Transfer bank langsung antar rekening — metode pembayaran paling umum dalam perdagangan internasional.",
+              defEn:
+                "Direct bank transfer between accounts — most common payment method in international trade.",
+            },
+            {
+              term: "B/L",
+              abbr: "Bill of Lading",
+              def: "Dokumen pengangkutan laut yang berfungsi sebagai bukti pengiriman, kontrak angkutan, dan bukti kepemilikan barang.",
+              defEn:
+                "Sea transport document serving as proof of shipment, carriage contract, and proof of goods ownership.",
+            },
+            {
+              term: "CoO",
+              abbr: "Certificate of Origin",
+              def: "Surat keterangan asal barang yang diterbitkan oleh instansi berwenang, diperlukan untuk klaim FTA.",
+              defEn:
+                "Certificate of origin issued by authorized agency, required for FTA claims.",
+            },
+            {
+              term: "FTA",
+              abbr: "Free Trade Agreement",
+              def: "Perjanjian perdagangan bebas antar negara yang memberikan tarif bea masuk preferensi (lebih rendah).",
+              defEn:
+                "Free trade agreement between countries providing preferential (lower) duty rates.",
+            },
+            {
+              term: "INSW",
+              abbr: "Indonesia National Single Window",
+              def: "Portal terpadu pemerintah untuk pengurusan dokumen dan izin perdagangan internasional.",
+              defEn:
+                "Integrated government portal for processing international trade documents and permits.",
+            },
+            {
+              term: "BTKI",
+              abbr: "Buku Tarif Kepabeanan Indonesia",
+              def: "Daftar lengkap tarif bea masuk Indonesia berdasarkan klasifikasi HS Code barang.",
+              defEn:
+                "Complete list of Indonesian customs tariffs based on HS Code goods classification.",
+            },
+            {
+              term: "Fumigasi",
+              abbr: null,
+              def: "Proses perlakuan kemasan kayu dengan gas methyl bromide atau heat treatment sesuai standar ISPM-15.",
+              defEn:
+                "Wood packaging treatment process using methyl bromide gas or heat treatment per ISPM-15 standards.",
+            },
+            {
+              term: "Demurrage",
+              abbr: null,
+              def: "Denda keterlambatan pengembalian kontainer melebihi waktu free time yang diberikan oleh shipping line.",
+              defEn:
+                "Penalty for late container return exceeding the free time provided by the shipping line.",
+            },
+            {
+              term: "Detention",
+              abbr: null,
+              def: "Biaya penggunaan kontainer di luar area pelabuhan melebihi waktu yang ditentukan.",
+              defEn:
+                "Container usage fee outside the port area exceeding the specified time.",
+            },
+            {
+              term: "Hedging",
+              abbr: null,
+              def: "Strategi lindung nilai untuk mengurangi risiko fluktuasi kurs mata uang asing.",
+              defEn:
+                "Value protection strategy to reduce foreign currency exchange rate fluctuation risk.",
+            },
+          ],
+
+          get filteredGlossary() {
+            if (!this.glossarySearch) return this.glossaryItems;
+            const q = this.glossarySearch.toLowerCase();
+            return this.glossaryItems.filter(
+              (g) =>
+                g.term.toLowerCase().includes(q) ||
+                (g.abbr && g.abbr.toLowerCase().includes(q)) ||
+                g.def.toLowerCase().includes(q) ||
+                g.defEn.toLowerCase().includes(q),
+            );
+          },
+
+          init() {
+            this.loadChecklist();
+
+            // Active TOC highlighting
+            const sections = Array.from(
+              document.querySelectorAll(".tool-section[id]"),
+            );
+            const links = document.querySelectorAll(".toc-link");
+            window.addEventListener("scroll", () => {
+              const y = window.scrollY + 120;
+              let currentId = null;
+              for (const sec of sections) {
+                if (sec.offsetTop <= y) currentId = sec.id;
+              }
+              links.forEach((a) => {
+                a.classList.toggle(
+                  "active",
+                  a.getAttribute("href") === "#" + currentId,
+                );
+              });
+            });
+          },
+        };
+      }
+    </script>
+  </body>
+</html>
