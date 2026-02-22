@@ -20,6 +20,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 
 require_once '../config.php';
 
+// Hardcoded admin credentials (override config.php if needed)
+// Change these values and redeploy to update admin password
+$ADMIN_USER = 'admin';
+$ADMIN_PASS = 'admin123';
+
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     http_response_code(405);
     echo json_encode(['success' => false, 'message' => 'Method not allowed']);
@@ -37,12 +42,12 @@ if (empty($username) || empty($password)) {
 }
 
 // Validate credentials
-if ($username === 'admin' && $password === ADMIN_PASSWORD) {
+if ($username === $ADMIN_USER && $password === $ADMIN_PASS) {
     echo json_encode([
         'success' => true,
         'message' => 'Login berhasil',
-        'api_key' => API_SECRET_KEY,
-        'admin_whatsapp' => ADMIN_WHATSAPP,
+        'api_key' => defined('API_SECRET_KEY') ? API_SECRET_KEY : 'm2b_default_key',
+        'admin_whatsapp' => defined('ADMIN_WHATSAPP') ? ADMIN_WHATSAPP : '6282261846811',
         'expires_in' => 86400
     ]);
 } else {
