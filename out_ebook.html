@@ -1,0 +1,1331 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Panduan Global Export & Import untuk Indonesia - Tim M2B</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Panduan praktis ekspor-impor 22 bab dalam 4 bagian — dari mindset hingga sustainability & B2B digital marketing. Edisi terlengkap 2026. Disusun oleh Tim M2B."
+    />
+
+    <!-- Alpine.js untuk Logika Bilingual -->
+    <script
+      src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"
+      defer
+    ></script>
+
+    <style>
+      :root {
+        --primary: #0b1d40;
+        --primary-light: #1c315f;
+        --accent: #d72638;
+        --bg: #f5f7fb;
+        --text: #111827;
+        --muted: #6b7280;
+        --card: #ffffff;
+        --border: #e5e7eb;
+      }
+
+      * {
+        box-sizing: border-box;
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        font-family:
+          -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        background: var(--bg);
+        color: var(--text);
+        line-height: 1.6;
+      }
+
+      [x-cloak] {
+        display: none !important;
+      }
+
+      .layout {
+        display: flex;
+        min-height: 100vh;
+      }
+
+      /* SIDEBAR / TOC */
+      .sidebar {
+        width: 280px;
+        background: var(--primary);
+        color: #e5e7eb;
+        padding: 1.5rem 1.25rem;
+        position: sticky;
+        top: 0;
+        max-height: 100vh;
+        overflow-y: auto;
+      }
+
+      .brand-title {
+        font-size: 1.1rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        color: #f9fafb;
+      }
+
+      .brand-sub {
+        font-size: 0.8rem;
+        letter-spacing: 0.2em;
+        color: #9ca3af;
+      }
+
+      .lang-switcher {
+        display: flex;
+        gap: 0.5rem;
+        margin: 1.5rem 0;
+        padding-bottom: 1rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .lang-btn {
+        flex: 1;
+        padding: 0.4rem;
+        border-radius: 0.5rem;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        background: transparent;
+        color: #fff;
+        font-size: 0.75rem;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+
+      .lang-btn.active {
+        background: var(--accent);
+        border-color: var(--accent);
+      }
+
+      .toc-section-title {
+        font-size: 0.8rem;
+        text-transform: uppercase;
+        color: #9ca3af;
+        margin-top: 1rem;
+        margin-bottom: 0.25rem;
+      }
+
+      .toc-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        font-size: 0.86rem;
+      }
+
+      .toc-list li {
+        margin: 0.05rem 0;
+      }
+
+      .toc-link {
+        color: #e5e7eb;
+        text-decoration: none;
+        display: block;
+        padding: 0.2rem 0.25rem;
+        border-radius: 0.35rem;
+        transition:
+          background 0.15s,
+          color 0.15s;
+      }
+
+      .toc-link:hover {
+        background: rgba(229, 231, 235, 0.12);
+        color: #ffffff;
+      }
+
+      .toc-new {
+        color: #fbbf24;
+        font-size: 0.65rem;
+        font-weight: 700;
+        margin-left: 0.3rem;
+      }
+
+      /* MAIN CONTENT */
+      .content {
+        flex: 1;
+        padding: 1.75rem 1.75rem 3.2rem;
+        max-width: 900px;
+        margin: 0 auto;
+      }
+
+      .pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.35rem;
+        padding: 0.15rem 0.6rem;
+        border-radius: 999px;
+        border: 1px solid var(--border);
+        background: #ffffff;
+        margin-bottom: 0.5rem;
+        font-size: 0.78rem;
+        color: var(--muted);
+      }
+
+      .pill-dot {
+        width: 7px;
+        height: 7px;
+        border-radius: 999px;
+        background: var(--accent);
+      }
+
+      h1.hero-title {
+        font-size: clamp(1.7rem, 2.4vw, 2rem);
+        color: var(--primary);
+        margin-bottom: 0.25rem;
+      }
+
+      .hero-subtitle {
+        font-size: 0.92rem;
+        color: var(--muted);
+        max-width: 620px;
+      }
+
+      .version-badge {
+        display: inline-block;
+        background: linear-gradient(135deg, #d72638, #ff6b35);
+        color: #fff;
+        font-size: 0.72rem;
+        font-weight: 700;
+        padding: 0.15rem 0.6rem;
+        border-radius: 999px;
+        margin-left: 0.5rem;
+        vertical-align: middle;
+      }
+
+      hr.divider {
+        border: 0;
+        border-top: 1px solid var(--border);
+        margin: 1.25rem 0;
+      }
+
+      section {
+        margin-bottom: 2rem;
+        padding: 1.25rem 1.5rem;
+        background: var(--card);
+        border-radius: 0.9rem;
+        border: 1px solid var(--border);
+        box-shadow: 0 4px 10px rgba(15, 23, 42, 0.03);
+      }
+
+      section.new-chapter {
+        border-left: 3px solid #d72638;
+      }
+
+      section h2 {
+        font-size: 1.12rem;
+        margin-top: 0;
+        color: var(--primary);
+        display: flex;
+        align-items: center;
+        gap: 0.4rem;
+      }
+
+      section h2 .icon {
+        font-size: 1.1rem;
+      }
+
+      section h3 {
+        font-size: 0.98rem;
+        color: var(--primary-light);
+        margin-top: 1rem;
+      }
+
+      p {
+        font-size: 0.9rem;
+        margin: 0.3rem 0 0.6rem;
+      }
+
+      ul {
+        padding-left: 1.3rem;
+        margin: 0.2rem 0 0.6rem;
+        font-size: 0.9rem;
+      }
+
+      .small {
+        font-size: 0.8rem;
+        color: var(--muted);
+      }
+
+      .highlight-box {
+        background: #eef2ff;
+        border-radius: 0.75rem;
+        padding: 0.8rem 0.9rem;
+        border: 1px solid #d4d4ff;
+        margin: 0.8rem 0;
+        font-size: 0.86rem;
+      }
+      .highlight-title {
+        font-size: 0.7rem;
+        text-transform: uppercase;
+        font-weight: 600;
+        color: #4b5563;
+        margin-bottom: 0.25rem;
+        letter-spacing: 0.06em;
+      }
+
+      .checklist {
+        list-style: none;
+        padding-left: 0;
+      }
+
+      .checklist li {
+        margin: 0.15rem 0;
+      }
+
+      .checklist li::before {
+        content: "✔";
+        margin-right: 0.5rem;
+        color: #16a34a;
+        font-size: 0.8rem;
+      }
+
+      .cta-card {
+        border-radius: 1rem;
+        padding: 1.5rem;
+        background: linear-gradient(135deg, #0b1d40, #192d60);
+        color: #e5e7eb;
+        margin-top: 1.5rem;
+        border: 1px solid #1f2937;
+      }
+
+      .cta-card h2 {
+        color: #f9fafb;
+        margin-top: 0.2rem;
+      }
+
+      .cta-card a {
+        color: #f97316;
+        text-decoration: none;
+        font-weight: 600;
+      }
+
+      .badge {
+        display: inline-flex;
+        align-items: center;
+        font-size: 0.75rem;
+        padding: 0.1rem 0.5rem;
+        border-radius: 999px;
+        background: rgba(15, 118, 110, 0.07);
+        color: #0f766e;
+        margin-bottom: 0.4rem;
+      }
+
+      .badge span {
+        font-size: 0.85rem;
+        margin-right: 0.3rem;
+      }
+
+      .new-badge {
+        display: inline-block;
+        background: #d72638;
+        color: #fff;
+        font-size: 0.65rem;
+        font-weight: 700;
+        padding: 0.1rem 0.4rem;
+        border-radius: 4px;
+        margin-left: 0.4rem;
+        vertical-align: middle;
+      }
+
+      .part-divider {
+        text-align: center;
+        margin: 2.5rem 0 1rem;
+        position: relative;
+      }
+
+      .part-divider::before {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 0;
+        right: 0;
+        border-top: 1px solid var(--border);
+      }
+
+      .part-divider span {
+        background: var(--bg);
+        padding: 0 1rem;
+        position: relative;
+        font-size: 0.85rem;
+        font-weight: 700;
+        color: var(--primary);
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+      }
+
+      .floating-btn {
+        position: fixed;
+        bottom: 1.75rem;
+        right: 1.75rem;
+        z-index: 999999;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.55rem;
+        padding: 0.9rem 1.5rem;
+        border-radius: 999px;
+        background: linear-gradient(135deg, #0b1d40, #1843a8);
+        color: #f9fafb !important;
+        font-size: 0.95rem;
+        font-weight: 600;
+        text-decoration: none !important;
+        box-shadow: 0 12px 28px rgba(15, 23, 42, 0.45);
+        border: 1px solid rgba(191, 219, 254, 0.6);
+        transform: translateY(0);
+        transition:
+          transform 0.15s ease,
+          box-shadow 0.15s ease,
+          background 0.15s ease;
+      }
+
+      .floating-btn:hover {
+        background: linear-gradient(135deg, #111827, #1d4ed8);
+        transform: translateY(-2px);
+        box-shadow: 0 18px 32px rgba(15, 23, 42, 0.6);
+      }
+
+      @media (max-width: 880px) {
+        .layout {
+          flex-direction: column;
+        }
+        .sidebar {
+          width: 100%;
+          max-height: none;
+          position: static;
+        }
+        .content {
+          padding: 1rem 1rem 3.6rem;
+        }
+        .floating-btn {
+          bottom: 1.2rem;
+          right: 1rem;
+          font-size: 0.85rem;
+          padding: 0.7rem 1.1rem;
+        }
+      }
+    </style>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const links = document.querySelectorAll(".toc-link");
+        const sections = Array.from(document.querySelectorAll("section[id]"));
+
+        const onScroll = () => {
+          const y = window.scrollY + 120;
+          let currentId = null;
+          for (const sec of sections) {
+            if (sec.offsetTop <= y) currentId = sec.id;
+          }
+          links.forEach((link) => {
+            if (link.getAttribute("href") === "#" + currentId) {
+              link.style.background = "rgba(229,231,235,0.16)";
+              link.style.color = "#ffffff";
+            } else {
+              link.style.background = "transparent";
+              link.style.color = "#e5e7eb";
+            }
+          });
+        };
+        window.addEventListener("scroll", onScroll);
+        onScroll();
+      });
+    </script>
+  </head>
+  <body x-data="{ lang: 'id' }">
+    <div class="layout">
+      <!-- SIDEBAR -->
+      <aside class="sidebar">
+        <div class="brand-title">M2B</div>
+        <div class="brand-sub">LOGISTIC | SOLUTION | PARTNER</div>
+
+        <div class="lang-switcher">
+          <button
+            class="lang-btn"
+            :class="lang === 'id' ? 'active' : ''"
+            @click="lang = 'id'"
+          >
+            INDONESIA
+          </button>
+          <button
+            class="lang-btn"
+            :class="lang === 'en' ? 'active' : ''"
+            @click="lang = 'en'"
+          >
+            ENGLISH
+          </button>
+        </div>
+
+        <div class="toc-section-title">
+          <span x-show="lang === 'id'">Bagian 1 · Fundamental</span>
+          <span x-show="lang === 'en'">Part 1 · Fundamentals</span>
+        </div>
+        <ul class="toc-list">
+          <li>
+            <a class="toc-link" href="#bab1"
+              ><span
+                x-text="lang === 'id' ? 'Bab 1 · Mindset Global' : 'Ch 1 · Global Mindset'"
+              ></span
+            ></a>
+          </li>
+          <li>
+            <a class="toc-link" href="#bab2"
+              ><span
+                x-text="lang === 'id' ? 'Bab 2 · Pemain Utama' : 'Ch 2 · Key Players'"
+              ></span
+            ></a>
+          </li>
+          <li>
+            <a class="toc-link" href="#bab3"
+              ><span
+                x-text="lang === 'id' ? 'Bab 3 · HS Code & Tarif' : 'Ch 3 · HS Code & Tariff'"
+              ></span
+            ></a>
+          </li>
+          <li>
+            <a class="toc-link" href="#bab4"
+              ><span
+                x-text="lang === 'id' ? 'Bab 4 · Dokumen Inti' : 'Ch 4 · Core Documents'"
+              ></span
+            ></a>
+          </li>
+          <li>
+            <a class="toc-link" href="#bab5"
+              ><span
+                x-text="lang === 'id' ? 'Bab 5 · Jalur Pemeriksaan' : 'Ch 5 · Inspection Channels'"
+              ></span
+            ></a>
+          </li>
+        </ul>
+
+        <div class="toc-section-title">
+          <span x-show="lang === 'id'">Bagian 2 · Operasional</span>
+          <span x-show="lang === 'en'">Part 2 · Operational</span>
+        </div>
+        <ul class="toc-list">
+          <li>
+            <a class="toc-link" href="#bab6"
+              ><span
+                x-text="lang === 'id' ? 'Bab 6 · Pajak & Landed Cost' : 'Ch 6 · Tax & Landed Cost'"
+              ></span
+            ></a>
+          </li>
+          <li>
+            <a class="toc-link" href="#bab7"
+              ><span
+                x-text="lang === 'id' ? 'Bab 7 · Izin Teknis' : 'Ch 7 · Technical Permits'"
+              ></span
+            ></a>
+          </li>
+          <li>
+            <a class="toc-link" href="#bab8"
+              ><span
+                x-text="lang === 'id' ? 'Bab 8 · Clearance' : 'Ch 8 · Clearance'"
+              ></span
+            ></a>
+          </li>
+          <li>
+            <a class="toc-link" href="#bab9"
+              ><span
+                x-text="lang === 'id' ? 'Bab 9 · Anti Penipuan' : 'Ch 9 · Anti-Fraud'"
+              ></span
+            ></a>
+          </li>
+          <li>
+            <a class="toc-link" href="#bab10"
+              ><span
+                x-text="lang === 'id' ? 'Bab 10 · Skala Usaha' : 'Ch 10 · Business Scale'"
+              ></span
+            ></a>
+          </li>
+        </ul>
+
+        <div class="toc-section-title">
+          <span x-show="lang === 'id'">Bagian 3 · Scale & Future</span>
+          <span x-show="lang === 'en'">Part 3 · Scale & Future</span>
+        </div>
+        <ul class="toc-list">
+          <li>
+            <a class="toc-link" href="#bab11"
+              ><span
+                x-text="lang === 'id' ? 'Bab 11 · Pajak & Laporan' : 'Ch 11 · Tax & Reports'"
+              ></span
+            ></a>
+          </li>
+          <li>
+            <a class="toc-link" href="#bab12"
+              ><span
+                x-text="lang === 'id' ? 'Bab 12 · Market Intelligence' : 'Ch 12 · Market Intelligence'"
+              ></span
+            ></a>
+          </li>
+          <li>
+            <a class="toc-link" href="#bab13"
+              ><span
+                x-text="lang === 'id' ? 'Bab 13 · Digital Export' : 'Ch 13 · Digital Export'"
+              ></span
+            ></a>
+          </li>
+          <li>
+            <a class="toc-link" href="#bab14"
+              ><span
+                x-text="lang === 'id' ? 'Bab 14 · ERP & Smart Logistics' : 'Ch 14 · ERP & Smart Logistics'"
+              ></span
+            ></a>
+          </li>
+          <li>
+            <a class="toc-link" href="#bab15"
+              ><span
+                x-text="lang === 'id' ? 'Bab 15 · Sustainability' : 'Ch 15 · Sustainability'"
+              ></span
+            ></a>
+          </li>
+          <li>
+            <a class="toc-link" href="#bab16"
+              ><span
+                x-text="lang === 'id' ? 'Bab 16 · Diplomasi & Negosiasi' : 'Ch 16 · Diplomacy & Negotiation'"
+              ></span
+            ></a>
+          </li>
+        </ul>
+
+        <div class="toc-section-title" style="color: #fbbf24">
+          <span x-show="lang === 'id'">Bagian 4 · Modul Operasional 🆕</span>
+          <span x-show="lang === 'en'">Part 4 · Deep-Dive Modules 🆕</span>
+        </div>
+        <ul class="toc-list">
+          <li>
+            <a class="toc-link" href="#bab17"
+              ><span
+                x-text="lang === 'id' ? 'Bab 17 · Incoterms 2020' : 'Ch 17 · Incoterms 2020'"
+              ></span
+              ><span class="toc-new">BARU</span></a
+            >
+          </li>
+          <li>
+            <a class="toc-link" href="#bab18"
+              ><span
+                x-text="lang === 'id' ? 'Bab 18 · Pembayaran Intl' : 'Ch 18 · Intl Payment'"
+              ></span
+              ><span class="toc-new">BARU</span></a
+            >
+          </li>
+          <li>
+            <a class="toc-link" href="#bab19"
+              ><span
+                x-text="lang === 'id' ? 'Bab 19 · Klaim & Asuransi' : 'Ch 19 · Claims & Insurance'"
+              ></span
+              ><span class="toc-new">BARU</span></a
+            >
+          </li>
+          <li>
+            <a class="toc-link" href="#bab20"
+              ><span
+                x-text="lang === 'id' ? 'Bab 20 · Pengemasan ISPM 15' : 'Ch 20 · Packing ISPM 15'"
+              ></span
+              ><span class="toc-new">BARU</span></a
+            >
+          </li>
+          <li>
+            <a class="toc-link" href="#bab21"
+              ><span
+                x-text="lang === 'id' ? 'Bab 21 · Strategi B2B Digital' : 'Ch 21 · B2B Digital Strategy'"
+              ></span
+              ><span class="toc-new">BARU</span></a
+            >
+          </li>
+          <li>
+            <a class="toc-link" href="#bab22"
+              ><span
+                x-text="lang === 'id' ? 'Bab 22 · Mitigasi Risiko' : 'Ch 22 · Risk Mitigation'"
+              ></span
+              ><span class="toc-new">BARU</span></a
+            >
+          </li>
+        </ul>
+
+        <div class="toc-section-title">Toolkit</div>
+        <ul class="toc-list">
+          <li>
+            <a class="toc-link" href="#toolkit"
+              ><span
+                x-text="lang === 'id' ? 'Toolkit Global Trader' : 'Global Trader Toolkit'"
+              ></span
+            ></a>
+          </li>
+          <li>
+            <a class="toc-link" href="#referensi"
+              ><span
+                x-text="lang === 'id' ? 'Referensi & Link Resmi' : 'References & Links'"
+              ></span
+            ></a>
+          </li>
+          <li>
+            <a class="toc-link" href="#cta"
+              ><span
+                x-text="lang === 'id' ? 'Hubungi M2B' : 'Contact M2B'"
+              ></span
+            ></a>
+          </li>
+        </ul>
+      </aside>
+
+      <!-- MAIN CONTENT -->
+      <main class="content">
+        <div class="pill">
+          <span class="pill-dot"></span>
+          <span
+            x-text="lang === 'id' ? 'E-book Interaktif · Tim M2B' : 'Interactive E-book · M2B Team'"
+          ></span>
+        </div>
+
+        <h1 class="hero-title">
+          <span x-show="lang === 'id'"
+            >Panduan Global Export & Import untuk Indonesia</span
+          >
+          <span x-show="lang === 'en'"
+            >Global Export & Import Guide for Indonesia</span
+          >
+          <span class="version-badge">v2.0</span>
+        </h1>
+        <p class="hero-subtitle">
+          <span x-show="lang === 'id'">
+            <strong>22 bab dalam 4 bagian</strong> — dari mindset hingga
+            sustainability & B2B digital marketing. Edisi terlengkap 2026.
+            Dirancang untuk pemula, UMKM, mahasiswa, ASN, dan generasi muda yang
+            ingin memahami ekspor–impor secara praktis. Disusun oleh
+            <strong>Tim M2B — Logistic | Solution | Partner</strong>.
+          </span>
+          <span x-show="lang === 'en'">
+            <strong>22 chapters in 4 parts</strong> — from mindset to
+            sustainability & B2B digital marketing. Most comprehensive 2026
+            edition. Designed for beginners, MSMEs, students, civil servants,
+            and the younger generation. Compiled by
+            <strong>M2B Team — Logistic | Solution | Partner</strong>.
+          </span>
+        </p>
+
+        <hr class="divider" />
+
+        <!-- ══════════ BAGIAN 1 ══════════ -->
+        <div class="part-divider">
+          <span
+            x-text="lang === 'id' ? '📘 Bagian 1 — Fundamental' : '📘 Part 1 — Fundamentals'"
+          ></span>
+        </div>
+
+        <!-- BAB 1 -->
+        <section id="bab1">
+          <h2>
+            <span class="icon">🌐</span>
+            <span
+              x-text="lang === 'id' ? 'Bab 1 — Mindset Pedagang Global' : 'Chapter 1 — Global Trader Mindset'"
+            ></span>
+          </h2>
+          <p x-show="lang === 'id'">
+            Ekspor–impor bukan sekadar "mengirim barang ke luar negeri". Ini
+            permainan strategi: membaca kebutuhan negara lain, memanfaatkan
+            aturan yang ada, dan membangun reputasi jangka panjang.
+          </p>
+          <p x-show="lang === 'en'">
+            Export-import is not just about "sending goods abroad." It is a
+            strategic game: reading other countries' needs, leveraging rules,
+            and building long-term reputation.
+          </p>
+          <h3
+            x-text="lang === 'id' ? 'Apa Itu Mindset Pedagang Global?' : 'What is a Global Trader Mindset?'"
+          ></h3>
+          <ul>
+            <li>
+              <strong
+                x-text="lang === 'id' ? 'Demand-first:' : 'Demand-first:'"
+              ></strong>
+              <span
+                x-text="lang === 'id' ? 'cari pasar yang butuh, baru produksi.' : 'find a market in need, then produce.'"
+              ></span>
+            </li>
+            <li>
+              <strong
+                x-text="lang === 'id' ? 'Data-driven:' : 'Data-driven:'"
+              ></strong>
+              <span
+                x-text="lang === 'id' ? 'keputusan berdasarkan data.' : 'decisions based on data.'"
+              ></span>
+            </li>
+            <li>
+              <strong
+                x-text="lang === 'id' ? 'Long game:' : 'Long game:'"
+              ></strong>
+              <span
+                x-text="lang === 'id' ? 'orientasi jangka panjang.' : 'long-term orientation.'"
+              ></span>
+            </li>
+          </ul>
+          <div class="highlight-box">
+            <div
+              class="highlight-title"
+              x-text="lang === 'id' ? 'INSIGHT LAPANGAN' : 'FIELD INSIGHT'"
+            ></div>
+            <p
+              x-text="lang === 'id' ? 'Bukan kalah di kualitas, tapi kalah di strategi.' : 'Not losing in quality, but losing in strategy.'"
+            ></p>
+          </div>
+        </section>
+
+        <!-- BAB 2 -->
+        <section id="bab2">
+          <h2>
+            <span class="icon">🤝</span>
+            <span
+              x-text="lang === 'id' ? 'Bab 2 — Pemain Utama' : 'Chapter 2 — Key Players'"
+            ></span>
+          </h2>
+          <ul x-show="lang === 'id'">
+            <li><strong>Eksportir & Importir:</strong> Penjual dan pembeli.</li>
+            <li>
+              <strong>Forwarder / PPJK:</strong> Pengurus logistik dan dokumen.
+            </li>
+            <li><strong>Bea Cukai:</strong> Pengawas kepabeanan.</li>
+          </ul>
+          <ul x-show="lang === 'en'">
+            <li><strong>Exporter & Importer:</strong> Seller and buyer.</li>
+            <li>
+              <strong>Forwarder / Customs Broker:</strong> Logistics and
+              document handler.
+            </li>
+            <li><strong>Customs:</strong> Customs supervisor.</li>
+          </ul>
+        </section>
+
+        <!-- BAB 3 -->
+        <section id="bab3">
+          <h2>
+            <span class="icon">🔢</span>
+            <span
+              x-text="lang === 'id' ? 'Bab 3 — HS Code & Tarif' : 'Chapter 3 — HS Code & Tariff'"
+            ></span>
+          </h2>
+          <p
+            x-text="lang === 'id' ? 'HS Code adalah DNA barang. Salah kode = salah perhitungan.' : 'HS Code is the DNA of goods. Wrong code = wrong calculation.'"
+          ></p>
+          <div class="highlight-box">
+            <div class="highlight-title">FORMULA</div>
+            <p
+              x-text="lang === 'id' ? 'Definisikan barang → Cari di BTKI → Cross-check izin.' : 'Define goods → Search in BTKI → Cross-check permits.'"
+            ></p>
+          </div>
+        </section>
+
+        <!-- BAB 4 -->
+        <section id="bab4">
+          <h2>
+            <span class="icon">📄</span>
+            <span
+              x-text="lang === 'id' ? 'Bab 4 — Dokumen Inti' : 'Chapter 4 — Core Documents'"
+            ></span>
+          </h2>
+          <ul x-show="lang === 'id'">
+            <li>Invoice & Packing List</li>
+            <li>Bill of Lading / AWB</li>
+            <li>PIB / PEB</li>
+          </ul>
+          <ul x-show="lang === 'en'">
+            <li>Invoice & Packing List</li>
+            <li>Bill of Lading / AWB</li>
+            <li>Import/Export Declarations</li>
+          </ul>
+        </section>
+
+        <!-- BAB 5 -->
+        <section id="bab5">
+          <h2>
+            <span class="icon">🚦</span>
+            <span
+              x-text="lang === 'id' ? 'Bab 5 — Jalur Pemeriksaan' : 'Chapter 5 — Inspection Channels'"
+            ></span>
+          </h2>
+          <p
+            x-text="lang === 'id' ? 'Hijau (Cepat), Kuning (Dokumen), Merah (Fisik).' : 'Green (Fast), Yellow (Documentary), Red (Physical).'"
+          ></p>
+        </section>
+
+        <!-- ══════════ BAGIAN 2 ══════════ -->
+        <div class="part-divider">
+          <span
+            x-text="lang === 'id' ? '⚙️ Bagian 2 — Operasional' : '⚙️ Part 2 — Operational'"
+          ></span>
+        </div>
+
+        <!-- BAB 6 -->
+        <section id="bab6">
+          <h2>
+            <span class="icon">💰</span>
+            <span
+              x-text="lang === 'id' ? 'Bab 6 — Pajak & Landed Cost' : 'Chapter 6 — Tax & Landed Cost'"
+            ></span>
+          </h2>
+          <p
+            x-text="lang === 'id' ? 'Landed cost = CIF + Pajak + Logistik.' : 'Landed cost = CIF + Tax + Logistics.'"
+          ></p>
+        </section>
+
+        <!-- BAB 7 -->
+        <section id="bab7">
+          <h2>
+            <span class="icon">🛡️</span>
+            <span
+              x-text="lang === 'id' ? 'Bab 7 — Izin Teknis & Lartas' : 'Chapter 7 — Technical Permits & Restrictions'"
+            ></span>
+          </h2>
+          <p x-show="lang === 'id'">
+            Banyak barang masuk kategori dibatasi (Lartas) atau wajib SNI.
+          </p>
+          <p x-show="lang === 'en'">
+            Many goods fall under restricted categories or mandatory standards
+            (SNI).
+          </p>
+          <div class="highlight-box">
+            <div
+              class="highlight-title"
+              x-text="lang === 'id' ? 'PRINSIP EMAS' : 'GOLDEN PRINCIPLE'"
+            ></div>
+            <p
+              x-text="lang === 'id' ? 'Cek HS Code dulu baru bicara izin.' : 'Check the HS Code first before discussing permits.'"
+            ></p>
+          </div>
+        </section>
+
+        <!-- BAB 8 -->
+        <section id="bab8">
+          <h2>
+            <span class="icon">⚡</span>
+            <span
+              x-text="lang === 'id' ? 'Bab 8 — Optimalisasi Clearance' : 'Chapter 8 — Clearance Optimization'"
+            ></span>
+          </h2>
+          <p
+            x-text="lang === 'id' ? 'Clearing cepat bukan soal kenalan, tapi soal persiapan dokumen H-7.' : 'Fast clearing is not about connections, it is about document preparation at D-7.'"
+          ></p>
+        </section>
+
+        <!-- BAB 9 -->
+        <section id="bab9">
+          <h2>
+            <span class="icon">🚫</span>
+            <span
+              x-text="lang === 'id' ? 'Bab 9 — Anti Penipuan' : 'Chapter 9 — Anti-Fraud'"
+            ></span>
+          </h2>
+          <p x-show="lang === 'id'">
+            Waspadai harga yang terlalu murah dan penolakan skema pembayaran
+            aman (L/C).
+          </p>
+          <p x-show="lang === 'en'">
+            Beware of prices that are too low and refusal of secure payment
+            schemes (L/C).
+          </p>
+        </section>
+
+        <!-- BAB 10 -->
+        <section id="bab10">
+          <h2>
+            <span class="icon">📈</span>
+            <span
+              x-text="lang === 'id' ? 'Bab 10 — Skala Usaha & Fasilitas' : 'Chapter 10 — Business Scale & Facilities'"
+            ></span>
+          </h2>
+          <p x-show="lang === 'id'">
+            Manfaatkan fasilitas seperti FTA, KITE, dan Kawasan Berikat untuk
+            efisiensi biaya.
+          </p>
+          <p x-show="lang === 'en'">
+            Utilize facilities like FTA, KITE, and Bonded Zones for cost
+            efficiency.
+          </p>
+        </section>
+
+        <!-- ══════════ BAGIAN 3 ══════════ -->
+        <div class="part-divider">
+          <span
+            x-text="lang === 'id' ? '🚀 Bagian 3 — Scale & Future' : '🚀 Part 3 — Scale & Future'"
+          ></span>
+        </div>
+
+        <!-- BAB 11 -->
+        <section id="bab11">
+          <h2>
+            <span class="icon">📊</span>
+            <span
+              x-text="lang === 'id' ? 'Bab 11 — Pajak & Laporan' : 'Chapter 11 — Tax & Reports'"
+            ></span>
+          </h2>
+          <p x-show="lang === 'id'">
+            Data di PIB harus cocok dengan pembukuan internal agar laporan
+            keuangan valid.
+          </p>
+          <p x-show="lang === 'en'">
+            PIB data must match internal bookkeeping for valid financial
+            reports.
+          </p>
+        </section>
+
+        <!-- BAB 12 -->
+        <section id="bab12">
+          <h2>
+            <span class="icon">🔍</span>
+            <span
+              x-text="lang === 'id' ? 'Bab 12 — Market Intelligence' : 'Chapter 12 — Market Intelligence'"
+            ></span>
+          </h2>
+          <p x-show="lang === 'id'">
+            Gunakan tools seperti UN Comtrade dan ITC TradeMap untuk riset pasar
+            global.
+          </p>
+          <p x-show="lang === 'en'">
+            Use tools like UN Comtrade and ITC TradeMap for global market
+            research.
+          </p>
+        </section>
+
+        <!-- BAB 13 -->
+        <section id="bab13">
+          <h2>
+            <span class="icon">💻</span>
+            <span
+              x-text="lang === 'id' ? 'Bab 13 — Digital Export' : 'Chapter 13 — Digital Export'"
+            ></span>
+          </h2>
+          <p x-show="lang === 'id'">
+            Ekspor kini bisa dimulai lewat marketplace global seperti Amazon dan
+            Etsy.
+          </p>
+          <p x-show="lang === 'en'">
+            Exporting can now start through global marketplaces like Amazon and
+            Etsy.
+          </p>
+        </section>
+
+        <!-- BAB 14 -->
+        <section id="bab14">
+          <h2>
+            <span class="icon">⚙️</span>
+            <span
+              x-text="lang === 'id' ? 'Bab 14 — ERP & Smart Logistics' : 'Chapter 14 — ERP & Smart Logistics'"
+            ></span>
+          </h2>
+          <p x-show="lang === 'id'">
+            Teknologi ERP membantu mengelola stok dan transaksi lintas negara
+            secara real-time.
+          </p>
+          <p x-show="lang === 'en'">
+            ERP technology helps manage stock and cross-border transactions in
+            real-time.
+          </p>
+        </section>
+
+        <!-- BAB 15 -->
+        <section id="bab15">
+          <h2>
+            <span class="icon">🌱</span>
+            <span
+              x-text="lang === 'id' ? 'Bab 15 — Sustainability' : 'Chapter 15 — Sustainability'"
+            ></span>
+          </h2>
+          <p x-show="lang === 'id'">
+            Pasar global kini mewajibkan standar hijau dan sertifikasi
+            keberlanjutan.
+          </p>
+          <p x-show="lang === 'en'">
+            The global market now requires green standards and sustainability
+            certification.
+          </p>
+        </section>
+
+        <!-- BAB 16 -->
+        <section id="bab16">
+          <h2>
+            <span class="icon">🗣️</span>
+            <span
+              x-text="lang === 'id' ? 'Bab 16 — Diplomasi & Negosiasi' : 'Chapter 16 — Diplomacy & Negotiation'"
+            ></span>
+          </h2>
+          <p x-show="lang === 'id'">
+            Manfaatkan dukungan KBRI dan Atase Perdagangan untuk memperluas
+            jaringan.
+          </p>
+          <p x-show="lang === 'en'">
+            Leverage the support of Embassies and Trade Attachés to expand
+            networks.
+          </p>
+        </section>
+
+        <!-- ══════════ BAGIAN 4 — BARU ══════════ -->
+        <div class="part-divider">
+          <span
+            x-text="lang === 'id' ? '🔥 Bagian 4 — Modul Operasional Mendalam (v2.0)' : '🔥 Part 4 — Deep-Dive Operational Modules (v2.0)'"
+          ></span>
+        </div>
+
+        <!-- BAB 17 -->
+        <section id="bab17" class="new-chapter">
+          <h2>
+            <span class="icon">🤝</span>
+            <span
+              x-text="lang === 'id' ? 'Bab 17 — Incoterms 2020' : 'Chapter 17 — Incoterms 2020'"
+            ></span>
+            <span class="new-badge">BARU</span>
+          </h2>
+          <p x-show="lang === 'id'">
+            Pahami titik alih risiko dan biaya dalam transaksi internasional.
+            Dari EXW hingga DDP — setiap Incoterm menentukan siapa yang
+            menanggung biaya pengiriman, asuransi, dan bea cukai.
+          </p>
+          <p x-show="lang === 'en'">
+            Understand the point of risk and cost transfer in international
+            transactions. From EXW to DDP — each Incoterm defines who bears
+            shipping, insurance, and customs costs.
+          </p>
+          <div class="highlight-box">
+            <div
+              class="highlight-title"
+              x-text="lang === 'id' ? 'TIPS PRAKTIS' : 'PRACTICAL TIP'"
+            ></div>
+            <p
+              x-text="lang === 'id' ? 'Pilih FOB untuk ekspor pemula, CIF jika Anda ingin kontrol penuh atas pengiriman.' : 'Choose FOB for beginner exporters, CIF if you want full control over shipping.'"
+            ></p>
+          </div>
+        </section>
+
+        <!-- BAB 18 -->
+        <section id="bab18" class="new-chapter">
+          <h2>
+            <span class="icon">💳</span>
+            <span
+              x-text="lang === 'id' ? 'Bab 18 — Pembayaran Internasional' : 'Chapter 18 — International Payment'"
+            ></span>
+            <span class="new-badge">BARU</span>
+          </h2>
+          <p x-show="lang === 'id'">
+            Metode pembayaran yang aman dan efisien: Letter of Credit (L/C),
+            Telegraphic Transfer (T/T), Open Account, dan Collection. Pahami
+            kapan menggunakan masing-masing metode.
+          </p>
+          <p x-show="lang === 'en'">
+            Safe and efficient payment methods: Letter of Credit (L/C),
+            Telegraphic Transfer (T/T), Open Account, and Collection. Understand
+            when to use each method.
+          </p>
+        </section>
+
+        <!-- BAB 19 -->
+        <section id="bab19" class="new-chapter">
+          <h2>
+            <span class="icon">📋</span>
+            <span
+              x-text="lang === 'id' ? 'Bab 19 — Klaim Asuransi & Kerusakan' : 'Chapter 19 — Insurance Claims & Damage'"
+            ></span>
+            <span class="new-badge">BARU</span>
+          </h2>
+          <p x-show="lang === 'id'">
+            Manajemen risiko adalah kunci. Pelajari prosedur klaim asuransi
+            cargo yang efektif, dokumentasi kerusakan, dan cara negosiasi dengan
+            pihak asuransi.
+          </p>
+          <p x-show="lang === 'en'">
+            Risk management is key. Learn effective cargo insurance claim
+            procedures, damage documentation, and how to negotiate with
+            insurance parties.
+          </p>
+        </section>
+
+        <!-- BAB 20 -->
+        <section id="bab20" class="new-chapter">
+          <h2>
+            <span class="icon">📦</span>
+            <span
+              x-text="lang === 'id' ? 'Bab 20 — Standar Pengemasan ISPM 15' : 'Chapter 20 — Packing Standards ISPM 15'"
+            ></span>
+            <span class="new-badge">BARU</span>
+          </h2>
+          <p x-show="lang === 'id'">
+            Standar kayu kemasan internasional — hindari penolakan di pelabuhan
+            tujuan. Pelajari perlakuan panas (Heat Treatment) dan fumigasi
+            sesuai regulasi FAO.
+          </p>
+          <p x-show="lang === 'en'">
+            International wood packaging standards — avoid rejection at
+            destination ports. Learn about Heat Treatment and fumigation per FAO
+            regulations.
+          </p>
+        </section>
+
+        <!-- BAB 21 -->
+        <section id="bab21" class="new-chapter">
+          <h2>
+            <span class="icon">📈</span>
+            <span
+              x-text="lang === 'id' ? 'Bab 21 — Strategi B2B Digital' : 'Chapter 21 — B2B Digital Strategy'"
+            ></span>
+            <span class="new-badge">BARU</span>
+          </h2>
+          <p x-show="lang === 'id'">
+            Pemasaran non-marketplace: LinkedIn outreach, cold email yang
+            convert, dan trade shows virtual. Bangun pipeline buyer
+            internasional tanpa modal besar.
+          </p>
+          <p x-show="lang === 'en'">
+            Non-marketplace marketing: LinkedIn outreach, converting cold
+            emails, and virtual trade shows. Build an international buyer
+            pipeline without big capital.
+          </p>
+        </section>
+
+        <!-- BAB 22 -->
+        <section id="bab22" class="new-chapter">
+          <h2>
+            <span class="icon">⚠️</span>
+            <span
+              x-text="lang === 'id' ? 'Bab 22 — Mitigasi Risiko Non-Fraud' : 'Chapter 22 — Non-Fraud Risk Mitigation'"
+            ></span>
+            <span class="new-badge">BARU</span>
+          </h2>
+          <p x-show="lang === 'id'">
+            Risiko politik, fluktuasi kurs, dan force majeure — strategi
+            antisipasi risiko global yang sering diabaikan oleh trader pemula.
+          </p>
+          <p x-show="lang === 'en'">
+            Political risks, currency fluctuations, and force majeure — global
+            risk anticipation strategies often overlooked by beginner traders.
+          </p>
+          <div class="highlight-box">
+            <div
+              class="highlight-title"
+              x-text="lang === 'id' ? 'PENTING' : 'IMPORTANT'"
+            ></div>
+            <p
+              x-text="lang === 'id' ? 'Hedging mata uang dan diversifikasi pasar adalah fondasi ketahanan bisnis global.' : 'Currency hedging and market diversification are the foundation of global business resilience.'"
+            ></p>
+          </div>
+        </section>
+
+        <!-- ══════════ TOOLKIT ══════════ -->
+        <div class="part-divider">
+          <span>🧰 Toolkit</span>
+        </div>
+
+        <!-- TOOLKIT -->
+        <section id="toolkit">
+          <h2>
+            <span class="icon">🧰</span>
+            <span
+              x-text="lang === 'id' ? 'Toolkit Global Trader' : 'Global Trader Toolkit'"
+            ></span>
+          </h2>
+          <h3
+            x-text="lang === 'id' ? 'Checklist Master' : 'Master Checklist'"
+          ></h3>
+          <ul class="checklist">
+            <li
+              x-text="lang === 'id' ? 'Saya tahu HS Code produk saya.' : 'I know my product\'s HS Code.'"
+            ></li>
+            <li
+              x-text="lang === 'id' ? 'Saya menghitung landed cost.' : 'I calculate landed cost.'"
+            ></li>
+            <li
+              x-text="lang === 'id' ? 'Dokumen saya simpan rapi.' : 'My documents are organized.'"
+            ></li>
+            <li
+              x-text="lang === 'id' ? 'Saya paham Incoterms yang dipakai.' : 'I understand the Incoterms used.'"
+            ></li>
+            <li
+              x-text="lang === 'id' ? 'Saya punya strategi mitigasi risiko.' : 'I have a risk mitigation strategy.'"
+            ></li>
+          </ul>
+        </section>
+
+        <!-- REFERENSI -->
+        <section id="referensi">
+          <h2>
+            <span class="icon">📚</span>
+            <span
+              x-text="lang === 'id' ? 'Referensi & Link Resmi' : 'References & Official Links'"
+            ></span>
+          </h2>
+          <ul x-show="lang === 'id'">
+            <li>Portal INSW & OSS</li>
+            <li>UU Kepabeanan Indonesia</li>
+            <li>Database ITC TradeMap</li>
+            <li>ICC Incoterms® 2020</li>
+            <li>FAO ISPM 15 Standards</li>
+          </ul>
+          <ul x-show="lang === 'en'">
+            <li>INSW & OSS Portals</li>
+            <li>Indonesia Customs Law</li>
+            <li>ITC TradeMap Database</li>
+            <li>ICC Incoterms® 2020</li>
+            <li>FAO ISPM 15 Standards</li>
+          </ul>
+        </section>
+
+        <!-- CTA -->
+        <section id="cta" class="cta-card">
+          <div class="badge">
+            <span>★</span>
+            <span
+              x-text="lang === 'id' ? 'Partner Logistik Anda' : 'Your Logistics Partner'"
+            ></span>
+          </div>
+          <h2
+            x-text="lang === 'id' ? 'Bangun Bisnis Anda Bersama M2B' : 'Build Your Business with M2B'"
+          ></h2>
+          <p x-show="lang === 'id'">
+            M2B siap mendampingi perjalanan ekspor-impor Anda hingga ke panggung
+            dunia. E-book v2.0 dengan 22 bab dalam 4 bagian — edisi terlengkap
+            2026.
+          </p>
+          <p x-show="lang === 'en'">
+            M2B is ready to accompany your export-import journey to the world
+            stage. E-book v2.0 with 22 chapters in 4 parts — most comprehensive
+            2026 edition.
+          </p>
+          <ul>
+            <li>
+              🌐 Website:
+              <a href="https://www.m2b.co.id" target="_blank">www.m2b.co.id</a>
+            </li>
+            <li>
+              📱 WhatsApp:
+              <a href="https://wa.me/6281263027818" target="_blank"
+                >+62 812 6302 7818</a
+              >
+            </li>
+          </ul>
+        </section>
+
+        <p class="small" style="text-align: center; margin-top: 1.5rem">
+          © <span id="year"></span>
+          <span
+            x-text="lang === 'id' ? 'Tim M2B — Logistic | Solution | Partner' : 'M2B Team — Logistic | Solution | Partner'"
+          ></span>
+        </p>
+      </main>
+    </div>
+
+    <a
+      href="https://ebook.m2b.co.id"
+      target="_blank"
+      rel="noopener noreferrer"
+      class="floating-btn"
+    >
+      <span class="icon">📘</span>
+      <span
+        x-text="lang === 'id' ? 'Pesan E-book v2.0' : 'Order E-book v2.0'"
+      ></span>
+    </a>
+
+    <script>
+      document.getElementById("year").textContent = new Date().getFullYear();
+    </script>
+  </body>
+</html>
