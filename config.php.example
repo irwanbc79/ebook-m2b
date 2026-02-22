@@ -13,6 +13,9 @@ define('DB_NAME', 'm2b_ebook');
 define('DB_USER', 'root');
 define('DB_PASS', '');
 
+// ── Admin Login ──
+define('ADMIN_PASSWORD', 'admin123');
+
 // ── Admin API Key ──
 define('API_SECRET_KEY', 'CHANGE_THIS_TO_A_SECURE_RANDOM_KEY');
 
