@@ -239,6 +239,7 @@ function renderOrdersTable(orders, pagination) {
                       order.payment_status === "pending"
                         ? `
                         <button class="action-btn btn-confirm" title="✅ Verifikasi & Kirim E-book" onclick="verifyAndDeliver('${order.order_id}')">🚀</button>
+                        <button class="action-btn btn-view" title="📧 Kirim Reminder" onclick="sendReminder('${order.order_id}')">⏰</button>
                         <button class="action-btn btn-delete" title="Tolak" onclick="rejectOrder('${order.order_id}')">❌</button>
                     `
                         : ""
@@ -444,6 +445,7 @@ function viewOrder(orderId) {
   let footerHtml = "";
   if (order.payment_status === "pending") {
     footerHtml += `<button class="btn btn-sm btn-success" onclick="verifyAndDeliver('${order.order_id}'); closeModal();">🚀 Verifikasi & Kirim</button>`;
+    footerHtml += `<button class="btn btn-sm btn-warning" onclick="sendReminder('${order.order_id}')">⏰ Reminder</button>`;
     footerHtml += `<button class="btn btn-sm btn-danger" onclick="rejectOrder('${order.order_id}'); closeModal();">❌ Tolak</button>`;
   }
   if (order.payment_status === "verified") {
@@ -458,6 +460,27 @@ function viewOrder(orderId) {
 
 function closeModal() {
   document.getElementById("orderModal").style.display = "none";
+}
+
+// ==================== SEND REMINDER ====================
+async function sendReminder(orderId) {
+  if (!confirm(`Kirim email reminder pembayaran ke pemesan ${orderId}?`))
+    return;
+
+  try {
+    const data = await apiFetch(API.orders, {
+      method: "POST",
+      body: JSON.stringify({ action: "send_reminder", order_id: orderId }),
+    });
+    if (data.success) {
+      showToast(`📧 Reminder terkirim ke ${orderId}`, "success");
+      loadOrders();
+    } else {
+      showToast(`Gagal: ${data.message}`, "error");
+    }
+  } catch (err) {
+    showToast("Gagal mengirim reminder", "error");
+  }
 }
 
 // ==================== ORDER ACTIONS ====================

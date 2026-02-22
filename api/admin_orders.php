@@ -161,6 +161,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             echo json_encode(['success' => true, 'message' => 'Order deleted']);
             break;
 
+        case 'send_reminder':
+            $stmt = $pdo->prepare("SELECT * FROM orders WHERE order_id = ?");
+            $stmt->execute([$orderId]);
+            $order = $stmt->fetch();
+            if (!$order) {
+                echo json_encode(['success' => false, 'message' => 'Order not found']);
+                break;
+            }
+            $emailHelperPath = __DIR__ . '/../email_helper.php';
+            if (file_exists($emailHelperPath)) {
+                require_once $emailHelperPath;
+                $emailHelper = new EmailHelper();
+                $sent = $emailHelper->sendPaymentReminder($order);
+                // Log reminder in notes
+                $noteStmt = $pdo->prepare("UPDATE orders SET notes = CONCAT(COALESCE(notes,''), ?) WHERE order_id = ?");
+                $noteStmt->execute(["\n[" . date('Y-m-d H:i') . "] 📧 Payment reminder email sent", $orderId]);
+                echo json_encode(['success' => true, 'message' => 'Reminder sent', 'email_sent' => $sent]);
+            } else {
+                echo json_encode(['success' => false, 'message' => 'Email helper not found']);
+            }
+            break;
+
         default:
             http_response_code(400);
             echo json_encode(['success' => false, 'message' => 'Invalid action']);
