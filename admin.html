@@ -1,179 +1,235 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="id">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Admin Panel - M2B E-book</title>
-    <meta name="robots" content="noindex, nofollow">
-    <link rel="icon" type="image/x-icon" href="https://m2b.co.id/favicon.ico">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
-        rel="stylesheet">
-    <link rel="stylesheet" href="admin.css">
-</head>
+    <meta name="robots" content="noindex, nofollow" />
+    <link rel="icon" type="image/x-icon" href="https://m2b.co.id/favicon.ico" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="admin.css" />
+  </head>
 
-<body>
+  <body>
     <!-- Login Screen -->
     <div class="login-screen" id="loginScreen">
-        <div class="login-card">
-            <div class="login-header">
-                <span class="login-logo">M2B</span>
-                <h1>Admin Panel</h1>
-                <p>Masuk untuk mengelola pesanan e-book</p>
-            </div>
-            <form id="loginForm" class="login-form">
-                <div class="form-group">
-                    <label for="loginUsername">Username</label>
-                    <input type="text" id="loginUsername" placeholder="Masukkan username" required autocomplete="username">
-                </div>
-                <div class="form-group">
-                    <label for="loginPassword">Password</label>
-                    <div class="password-wrapper">
-                        <input type="password" id="loginPassword" placeholder="Masukkan password" required autocomplete="current-password">
-                        <button type="button" class="toggle-password" onclick="togglePassword()">👁️</button>
-                    </div>
-                </div>
-                <div class="login-error" id="loginError" style="display:none;">
-                    Username atau password salah
-                </div>
-                <button type="submit" class="btn btn-primary btn-block">🔐 Masuk</button>
-            </form>
-            <div class="login-footer">
-                <a href="index.html">← Kembali ke Landing Page</a>
-            </div>
+      <div class="login-card">
+        <div class="login-header">
+          <span class="login-logo">M2B</span>
+          <h1>Admin Panel</h1>
+          <p>Masuk untuk mengelola pesanan e-book</p>
         </div>
+        <form id="loginForm" class="login-form">
+          <div class="form-group">
+            <label for="loginUsername">Username</label>
+            <input
+              type="text"
+              id="loginUsername"
+              placeholder="Masukkan username"
+              required
+              autocomplete="username"
+            />
+          </div>
+          <div class="form-group">
+            <label for="loginPassword">Password</label>
+            <div class="password-wrapper">
+              <input
+                type="password"
+                id="loginPassword"
+                placeholder="Masukkan password"
+                required
+                autocomplete="current-password"
+              />
+              <button
+                type="button"
+                class="toggle-password"
+                onclick="togglePassword()"
+              >
+                👁️
+              </button>
+            </div>
+          </div>
+          <div class="login-error" id="loginError" style="display: none">
+            Username atau password salah
+          </div>
+          <button type="submit" class="btn btn-primary btn-block">
+            🔐 Masuk
+          </button>
+        </form>
+        <div class="login-footer">
+          <a href="index.html">← Kembali ke Landing Page</a>
+        </div>
+      </div>
     </div>
 
     <!-- Admin Dashboard -->
-    <div class="admin-dashboard" id="adminDashboard" style="display:none;">
-        <!-- Admin Navbar -->
-        <nav class="admin-nav">
-            <div class="admin-nav-inner">
-                <div class="admin-brand">
-                    <a href="index.html">
-                        <span class="logo-text">M2B</span>
-                        <span class="logo-badge">Admin</span>
-                    </a>
-                </div>
-                <div class="admin-nav-actions">
-                    <span class="admin-user" id="adminUserDisplay">👤 Admin</span>
-                    <button class="btn btn-sm btn-outline" onclick="handleLogout()">Logout</button>
-                </div>
-            </div>
-        </nav>
+    <div class="admin-dashboard" id="adminDashboard" style="display: none">
+      <!-- Admin Navbar -->
+      <nav class="admin-nav">
+        <div class="admin-nav-inner">
+          <div class="admin-brand">
+            <a href="index.html">
+              <span class="logo-text">M2B</span>
+              <span class="logo-badge">Admin</span>
+            </a>
+          </div>
+          <div class="admin-nav-actions">
+            <span class="admin-user" id="adminUserDisplay">👤 Admin</span>
+            <button class="btn btn-sm btn-outline" onclick="handleLogout()">
+              Logout
+            </button>
+          </div>
+        </div>
+      </nav>
 
-        <!-- Dashboard Content -->
-        <div class="admin-content">
-            <!-- Stats Cards -->
-            <div class="stats-row">
-                <div class="stat-card">
-                    <div class="stat-card-icon" style="background: linear-gradient(135deg, #667eea, #764ba2);">📦</div>
-                    <div class="stat-card-info">
-                        <span class="stat-card-value" id="statTotal">0</span>
-                        <span class="stat-card-label">Total Pesanan</span>
-                    </div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-card-icon" style="background: linear-gradient(135deg, #f59e0b, #ef4444);">⏳</div>
-                    <div class="stat-card-info">
-                        <span class="stat-card-value" id="statPending">0</span>
-                        <span class="stat-card-label">Menunggu Bayar</span>
-                    </div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-card-icon" style="background: linear-gradient(135deg, #10b981, #059669);">✅</div>
-                    <div class="stat-card-info">
-                        <span class="stat-card-value" id="statPaid">0</span>
-                        <span class="stat-card-label">Sudah Bayar</span>
-                    </div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-card-icon" style="background: linear-gradient(135deg, #3b82f6, #1d4ed8);">📧</div>
-                    <div class="stat-card-info">
-                        <span class="stat-card-value" id="statDelivered">0</span>
-                        <span class="stat-card-label">Terkirim</span>
-                    </div>
-                </div>
-                <div class="stat-card stat-card-revenue">
-                    <div class="stat-card-icon" style="background: linear-gradient(135deg, #8b5cf6, #6d28d9);">💰</div>
-                    <div class="stat-card-info">
-                        <span class="stat-card-value" id="statRevenue">Rp 0</span>
-                        <span class="stat-card-label">Total Pendapatan</span>
-                    </div>
-                </div>
+      <!-- Dashboard Content -->
+      <div class="admin-content">
+        <!-- Stats Cards -->
+        <div class="stats-row">
+          <div class="stat-card">
+            <div
+              class="stat-card-icon"
+              style="background: linear-gradient(135deg, #667eea, #764ba2)"
+            >
+              📦
             </div>
-
-            <!-- Toolbar -->
-            <div class="toolbar">
-                <div class="toolbar-left">
-                    <h2>📋 Daftar Pesanan</h2>
-                </div>
-                <div class="toolbar-right">
-                    <div class="search-box">
-                        <input type="text" id="searchInput" placeholder="🔍 Cari nama, email, atau ID..." oninput="filterOrders()">
-                    </div>
-                    <select id="filterStatus" onchange="filterOrders()">
-                        <option value="all">Semua Status</option>
-                        <option value="pending">⏳ Menunggu Bayar</option>
-                        <option value="paid">✅ Sudah Bayar</option>
-                        <option value="delivered">📧 Terkirim</option>
-                        <option value="cancelled">❌ Dibatalkan</option>
-                    </select>
-                    <button class="btn btn-sm btn-primary" onclick="exportCSV()">📥 Export CSV</button>
-                </div>
+            <div class="stat-card-info">
+              <span class="stat-card-value" id="statTotal">0</span>
+              <span class="stat-card-label">Total Pesanan</span>
             </div>
-
-            <!-- Orders Table -->
-            <div class="table-wrapper">
-                <table class="orders-table" id="ordersTable">
-                    <thead>
-                        <tr>
-                            <th>Order ID</th>
-                            <th>Tanggal</th>
-                            <th>Nama</th>
-                            <th>Email</th>
-                            <th>WhatsApp</th>
-                            <th>Kota</th>
-                            <th>Tujuan</th>
-                            <th>Status</th>
-                            <th>Aksi</th>
-                        </tr>
-                    </thead>
-                    <tbody id="ordersBody">
-                        <!-- Rows populated by JS -->
-                    </tbody>
-                </table>
-                <div class="empty-state" id="emptyState" style="display:none;">
-                    <div class="empty-icon">📭</div>
-                    <h3>Belum ada pesanan</h3>
-                    <p>Pesanan dari form landing page akan muncul di sini</p>
-                </div>
+          </div>
+          <div class="stat-card">
+            <div
+              class="stat-card-icon"
+              style="background: linear-gradient(135deg, #f59e0b, #ef4444)"
+            >
+              ⏳
             </div>
-
-            <!-- Pagination -->
-            <div class="pagination" id="pagination"></div>
+            <div class="stat-card-info">
+              <span class="stat-card-value" id="statPending">0</span>
+              <span class="stat-card-label">Menunggu Bayar</span>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div
+              class="stat-card-icon"
+              style="background: linear-gradient(135deg, #10b981, #059669)"
+            >
+              ✅
+            </div>
+            <div class="stat-card-info">
+              <span class="stat-card-value" id="statPaid">0</span>
+              <span class="stat-card-label">Terverifikasi</span>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div
+              class="stat-card-icon"
+              style="background: linear-gradient(135deg, #3b82f6, #1d4ed8)"
+            >
+              📧
+            </div>
+            <div class="stat-card-info">
+              <span class="stat-card-value" id="statDelivered">0</span>
+              <span class="stat-card-label">Ditolak</span>
+            </div>
+          </div>
+          <div class="stat-card stat-card-revenue">
+            <div
+              class="stat-card-icon"
+              style="background: linear-gradient(135deg, #8b5cf6, #6d28d9)"
+            >
+              💰
+            </div>
+            <div class="stat-card-info">
+              <span class="stat-card-value" id="statRevenue">Rp 0</span>
+              <span class="stat-card-label">Total Pendapatan</span>
+            </div>
+          </div>
         </div>
 
-        <!-- Order Detail Modal -->
-        <div class="modal-overlay" id="orderModal" style="display:none;">
-            <div class="modal-card">
-                <div class="modal-header">
-                    <h3>📋 Detail Pesanan</h3>
-                    <button class="modal-close" onclick="closeModal()">&times;</button>
-                </div>
-                <div class="modal-body" id="modalBody">
-                    <!-- Populated by JS -->
-                </div>
-                <div class="modal-footer" id="modalFooter">
-                    <!-- Action buttons populated by JS -->
-                </div>
+        <!-- Toolbar -->
+        <div class="toolbar">
+          <div class="toolbar-left">
+            <h2>📋 Daftar Pesanan</h2>
+          </div>
+          <div class="toolbar-right">
+            <div class="search-box">
+              <input
+                type="text"
+                id="searchInput"
+                placeholder="🔍 Cari nama, email, atau ID..."
+                oninput="debounceSearch()"
+              />
             </div>
+            <select id="filterStatus" onchange="loadOrders()">
+              <option value="all">Semua Status</option>
+              <option value="pending">⏳ Menunggu Bayar</option>
+              <option value="verified">✅ Terverifikasi</option>
+              <option value="failed">❌ Ditolak</option>
+            </select>
+            <button class="btn btn-sm btn-outline" onclick="loadOrders()">
+              🔄 Refresh
+            </button>
+            <button class="btn btn-sm btn-primary" onclick="exportCSV()">
+              📥 Export CSV
+            </button>
+          </div>
         </div>
+
+        <!-- Orders Table -->
+        <div class="table-wrapper">
+          <table class="orders-table" id="ordersTable">
+            <thead>
+              <tr>
+                <th>Order ID</th>
+                <th>Tanggal</th>
+                <th>Nama</th>
+                <th>Email</th>
+                <th>WhatsApp</th>
+                <th>Kota</th>
+                <th>Tujuan</th>
+                <th>Status</th>
+                <th>Aksi</th>
+              </tr>
+            </thead>
+            <tbody id="ordersBody">
+              <!-- Rows populated by JS -->
+            </tbody>
+          </table>
+          <div class="empty-state" id="emptyState" style="display: none">
+            <div class="empty-icon">📭</div>
+            <h3>Belum ada pesanan</h3>
+            <p>Pesanan dari form landing page akan muncul di sini</p>
+          </div>
+        </div>
+
+        <!-- Pagination -->
+        <div class="pagination" id="pagination"></div>
+      </div>
+
+      <!-- Order Detail Modal -->
+      <div class="modal-overlay" id="orderModal" style="display: none">
+        <div class="modal-card">
+          <div class="modal-header">
+            <h3>📋 Detail Pesanan</h3>
+            <button class="modal-close" onclick="closeModal()">&times;</button>
+          </div>
+          <div class="modal-body" id="modalBody">
+            <!-- Populated by JS -->
+          </div>
+          <div class="modal-footer" id="modalFooter">
+            <!-- Action buttons populated by JS -->
+          </div>
+        </div>
+      </div>
     </div>
 
     <script src="admin.js"></script>
-</body>
-
+  </body>
 </html>

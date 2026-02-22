@@ -1,499 +1,647 @@
 /**
- * M2B Admin Panel - JavaScript
- * Payment Management Dashboard
- * Using localStorage for data persistence
+ * M2B Admin Panel v2.0 — Database-Driven
+ * Full integration with MySQL backend + One-Click Verify & Deliver
+ * Updated: February 2026
  */
 
 // ==================== CONFIG ====================
-const ADMIN_CONFIG = {
-    credentials: {
-        username: 'admin',
-        // In production, use proper auth — this is a demo
-        password: 'ebookMora0920*'
-    },
-    storageKeys: {
-        orders: 'm2b_orders',
-        session: 'm2b_admin_session'
-    },
-    perPage: 10,
-    whatsappNumber: '6282261846811'
+const API = {
+  login: "api/admin_login.php",
+  orders: "api/admin_orders.php",
+  verify: "api/verify_payment.php",
 };
 
 // ==================== STATE ====================
+let apiKey = "";
+let allOrders = [];
 let currentPage = 1;
-let filteredOrders = [];
+const perPage = 15;
+let searchTimer = null;
 
 // ==================== INIT ====================
-document.addEventListener('DOMContentLoaded', function () {
-    checkSession();
-    setupLoginForm();
+document.addEventListener("DOMContentLoaded", function () {
+  checkSession();
+  setupLoginForm();
 });
 
 // ==================== AUTH ====================
 function checkSession() {
-    const session = localStorage.getItem(ADMIN_CONFIG.storageKeys.session);
-    if (session) {
-        try {
-            const parsed = JSON.parse(session);
-            const now = Date.now();
-            // Session valid for 24 hours
-            if (parsed.loggedIn && (now - parsed.timestamp) < 86400000) {
-                showDashboard();
-                return;
-            }
-        } catch (e) { }
+  const session = sessionStorage.getItem("m2b_admin");
+  if (session) {
+    try {
+      const parsed = JSON.parse(session);
+      if (parsed.api_key && Date.now() - parsed.ts < 86400000) {
+        apiKey = parsed.api_key;
+        showDashboard();
+        return;
+      }
+    } catch (e) {
+      /* expired */
     }
-    showLogin();
+  }
+  showLogin();
 }
 
 function setupLoginForm() {
-    const form = document.getElementById('loginForm');
-    if (!form) return;
+  const form = document.getElementById("loginForm");
+  if (!form) return;
 
-    form.addEventListener('submit', function (e) {
-        e.preventDefault();
-        const username = document.getElementById('loginUsername').value.trim();
-        const password = document.getElementById('loginPassword').value;
+  form.addEventListener("submit", async function (e) {
+    e.preventDefault();
+    const username = document.getElementById("loginUsername").value.trim();
+    const password = document.getElementById("loginPassword").value;
+    const errEl = document.getElementById("loginError");
+    const btn = form.querySelector('button[type="submit"]');
 
-        if (username === ADMIN_CONFIG.credentials.username &&
-            password === ADMIN_CONFIG.credentials.password) {
-            localStorage.setItem(ADMIN_CONFIG.storageKeys.session, JSON.stringify({
-                loggedIn: true,
-                username: username,
-                timestamp: Date.now()
-            }));
-            document.getElementById('loginError').style.display = 'none';
-            showDashboard();
-        } else {
-            document.getElementById('loginError').style.display = 'block';
-            document.getElementById('loginPassword').value = '';
-        }
-    });
+    btn.disabled = true;
+    btn.textContent = "Memproses...";
+
+    try {
+      const res = await fetch(API.login, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, password }),
+      });
+      const data = await res.json();
+
+      if (data.success) {
+        apiKey = data.api_key;
+        sessionStorage.setItem(
+          "m2b_admin",
+          JSON.stringify({
+            api_key: data.api_key,
+            username: username,
+            ts: Date.now(),
+          }),
+        );
+        errEl.style.display = "none";
+        showDashboard();
+      } else {
+        errEl.style.display = "block";
+        errEl.textContent = data.message || "Login gagal";
+      }
+    } catch (err) {
+      errEl.style.display = "block";
+      errEl.textContent = "Gagal terhubung ke server";
+    }
+
+    btn.disabled = false;
+    btn.textContent = "Masuk";
+  });
 }
 
 function showLogin() {
-    document.getElementById('loginScreen').style.display = 'flex';
-    document.getElementById('adminDashboard').style.display = 'none';
+  document.getElementById("loginScreen").style.display = "flex";
+  document.getElementById("adminDashboard").style.display = "none";
 }
 
 function showDashboard() {
-    document.getElementById('loginScreen').style.display = 'none';
-    document.getElementById('adminDashboard').style.display = 'block';
+  document.getElementById("loginScreen").style.display = "none";
+  document.getElementById("adminDashboard").style.display = "block";
 
-    // Set admin user display
-    const session = JSON.parse(localStorage.getItem(ADMIN_CONFIG.storageKeys.session) || '{}');
-    const userDisplay = document.getElementById('adminUserDisplay');
-    if (userDisplay && session.username) {
-        userDisplay.textContent = `👤 ${session.username}`;
-    }
+  const session = JSON.parse(sessionStorage.getItem("m2b_admin") || "{}");
+  const userDisplay = document.getElementById("adminUserDisplay");
+  if (userDisplay)
+    userDisplay.textContent = `👤 ${session.username || "Admin"}`;
 
-    loadDashboard();
+  loadOrders();
 }
 
 function handleLogout() {
-    localStorage.removeItem(ADMIN_CONFIG.storageKeys.session);
-    showLogin();
-    showToast('Berhasil logout', 'success');
+  sessionStorage.removeItem("m2b_admin");
+  apiKey = "";
+  showLogin();
+  showToast("Berhasil logout", "success");
 }
 
 function togglePassword() {
-    const input = document.getElementById('loginPassword');
-    const btn = document.querySelector('.toggle-password');
-    if (input.type === 'password') {
-        input.type = 'text';
-        btn.textContent = '🙈';
+  const input = document.getElementById("loginPassword");
+  const btn = document.querySelector(".toggle-password");
+  if (input.type === "password") {
+    input.type = "text";
+    btn.textContent = "🙈";
+  } else {
+    input.type = "password";
+    btn.textContent = "👁️";
+  }
+}
+
+// ==================== API HELPERS ====================
+async function apiFetch(url, options = {}) {
+  const defaults = {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${apiKey}`,
+    },
+  };
+  const merged = {
+    ...defaults,
+    ...options,
+    headers: { ...defaults.headers, ...(options.headers || {}) },
+  };
+  const res = await fetch(url, merged);
+
+  if (res.status === 401) {
+    showToast("Sesi expired, silakan login ulang", "error");
+    handleLogout();
+    throw new Error("Unauthorized");
+  }
+  return res.json();
+}
+
+// ==================== LOAD ORDERS ====================
+async function loadOrders() {
+  const status = document.getElementById("filterStatus")?.value || "all";
+  const search = document.getElementById("searchInput")?.value?.trim() || "";
+
+  let url = `${API.orders}?page=${currentPage}&per_page=${perPage}`;
+  if (status !== "all") url += `&status=${status}`;
+  if (search) url += `&search=${encodeURIComponent(search)}`;
+
+  // Show loading
+  const tbody = document.getElementById("ordersBody");
+  if (tbody) {
+    tbody.innerHTML =
+      '<tr><td colspan="9" style="text-align:center;padding:40px;color:#9ca3af;">⏳ Memuat data...</td></tr>';
+  }
+
+  try {
+    const data = await apiFetch(url);
+    if (data.success) {
+      allOrders = data.orders;
+      updateStats(data.stats);
+      renderOrdersTable(data.orders, data.pagination);
     } else {
-        input.type = 'password';
-        btn.textContent = '👁️';
+      showToast("Gagal memuat data: " + (data.message || ""), "error");
     }
-}
-
-// ==================== DASHBOARD ====================
-function loadDashboard() {
-    updateStats();
-    filterOrders();
-}
-
-function getOrders() {
-    try {
-        const data = localStorage.getItem(ADMIN_CONFIG.storageKeys.orders);
-        return data ? JSON.parse(data) : [];
-    } catch (e) {
-        return [];
+  } catch (err) {
+    if (err.message !== "Unauthorized") {
+      showToast("Gagal terhubung ke server", "error");
+      console.error(err);
     }
+  }
 }
 
-function saveOrders(orders) {
-    localStorage.setItem(ADMIN_CONFIG.storageKeys.orders, JSON.stringify(orders));
-}
-
-function updateStats() {
-    const orders = getOrders();
-    const total = orders.length;
-    const pending = orders.filter(o => o.status === 'pending').length;
-    const paid = orders.filter(o => o.status === 'paid').length;
-    const delivered = orders.filter(o => o.status === 'delivered').length;
-    const revenue = orders.filter(o => o.status === 'paid' || o.status === 'delivered')
-        .reduce((sum, o) => sum + (o.amount || 49000), 0);
-
-    document.getElementById('statTotal').textContent = total;
-    document.getElementById('statPending').textContent = pending;
-    document.getElementById('statPaid').textContent = paid;
-    document.getElementById('statDelivered').textContent = delivered;
-    document.getElementById('statRevenue').textContent = formatCurrency(revenue);
-}
-
-// ==================== FILTER & SEARCH ====================
-function filterOrders() {
-    const orders = getOrders();
-    const search = (document.getElementById('searchInput')?.value || '').toLowerCase().trim();
-    const status = document.getElementById('filterStatus')?.value || 'all';
-
-    filteredOrders = orders.filter(order => {
-        const matchSearch = !search ||
-            order.name?.toLowerCase().includes(search) ||
-            order.email?.toLowerCase().includes(search) ||
-            order.orderId?.toLowerCase().includes(search) ||
-            order.phone?.toLowerCase().includes(search) ||
-            order.city?.toLowerCase().includes(search);
-
-        const matchStatus = status === 'all' || order.status === status;
-
-        return matchSearch && matchStatus;
-    });
-
-    // Sort by date (newest first)
-    filteredOrders.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-
+function debounceSearch() {
+  clearTimeout(searchTimer);
+  searchTimer = setTimeout(() => {
     currentPage = 1;
-    renderOrdersTable();
+    loadOrders();
+  }, 400);
+}
+
+// ==================== STATS ====================
+function updateStats(stats) {
+  if (!stats) return;
+  document.getElementById("statTotal").textContent = stats.total || 0;
+  document.getElementById("statPending").textContent = stats.pending || 0;
+  document.getElementById("statPaid").textContent = stats.verified || 0;
+  document.getElementById("statDelivered").textContent = stats.failed || 0;
+  document.getElementById("statRevenue").textContent = formatCurrency(
+    stats.revenue || 0,
+  );
 }
 
 // ==================== RENDER TABLE ====================
-function renderOrdersTable() {
-    const tbody = document.getElementById('ordersBody');
-    const emptyState = document.getElementById('emptyState');
-    const table = document.querySelector('.orders-table');
+function renderOrdersTable(orders, pagination) {
+  const tbody = document.getElementById("ordersBody");
+  const emptyState = document.getElementById("emptyState");
+  const table = document.querySelector(".orders-table");
 
-    if (!tbody) return;
+  if (!tbody) return;
 
-    if (filteredOrders.length === 0) {
-        table.style.display = 'none';
-        emptyState.style.display = 'block';
-        document.getElementById('pagination').innerHTML = '';
-        return;
-    }
+  if (!orders || orders.length === 0) {
+    table.style.display = "none";
+    emptyState.style.display = "block";
+    document.getElementById("pagination").innerHTML = "";
+    return;
+  }
 
-    table.style.display = 'table';
-    emptyState.style.display = 'none';
+  table.style.display = "table";
+  emptyState.style.display = "none";
 
-    // Pagination
-    const totalPages = Math.ceil(filteredOrders.length / ADMIN_CONFIG.perPage);
-    const start = (currentPage - 1) * ADMIN_CONFIG.perPage;
-    const end = start + ADMIN_CONFIG.perPage;
-    const pageOrders = filteredOrders.slice(start, end);
-
-    tbody.innerHTML = pageOrders.map(order => `
+  tbody.innerHTML = orders
+    .map(
+      (order) => `
         <tr>
-            <td><span class="order-id">${escapeHtml(order.orderId)}</span></td>
-            <td><span class="order-date">${formatDate(order.createdAt)}</span></td>
-            <td><span class="order-name">${escapeHtml(order.name)}</span></td>
-            <td><span class="order-email">${escapeHtml(order.email)}</span></td>
-            <td><span class="order-phone">${escapeHtml(order.phone)}</span></td>
-            <td>${escapeHtml(order.city || '-')}</td>
-            <td>${escapeHtml(order.purpose || '-')}</td>
-            <td><span class="status-badge status-${order.status}">${getStatusLabel(order.status)}</span></td>
+            <td><span class="order-id">${esc(order.order_id)}</span></td>
+            <td><span class="order-date">${formatDate(order.created_at)}</span></td>
+            <td><span class="order-name">${esc(order.buyer_name)}</span></td>
+            <td><span class="order-email">${esc(order.buyer_email)}</span></td>
+            <td><span class="order-phone">${esc(order.buyer_whatsapp)}</span></td>
+            <td>${esc(order.buyer_city || "-")}</td>
+            <td>${esc(formatPurpose(order.buyer_purpose))}</td>
+            <td><span class="status-badge status-${order.payment_status}">${getStatusLabel(order.payment_status)}</span></td>
             <td>
                 <div class="action-buttons">
-                    <button class="action-btn btn-view" title="Lihat Detail" onclick="viewOrder('${order.orderId}')">👁️</button>
-                    ${order.status === 'pending' ? `<button class="action-btn btn-confirm" title="Konfirmasi Bayar" onclick="updateOrderStatus('${order.orderId}', 'paid')">✅</button>` : ''}
-                    ${order.status === 'paid' ? `<button class="action-btn btn-confirm" title="Tandai Terkirim" onclick="updateOrderStatus('${order.orderId}', 'delivered')">📧</button>` : ''}
-                    <button class="action-btn btn-delete" title="Hapus" onclick="deleteOrder('${order.orderId}')">🗑️</button>
+                    <button class="action-btn btn-view" title="Detail" onclick="viewOrder('${order.order_id}')">👁️</button>
+                    ${
+                      order.payment_status === "pending"
+                        ? `
+                        <button class="action-btn btn-confirm" title="✅ Verifikasi & Kirim E-book" onclick="verifyAndDeliver('${order.order_id}')">🚀</button>
+                        <button class="action-btn btn-delete" title="Tolak" onclick="rejectOrder('${order.order_id}')">❌</button>
+                    `
+                        : ""
+                    }
+                    ${
+                      order.payment_status === "verified"
+                        ? `
+                        <button class="action-btn btn-confirm" title="Kirim WhatsApp" onclick="sendDeliveryWA('${order.order_id}')">💬</button>
+                    `
+                        : ""
+                    }
+                    <button class="action-btn btn-delete" title="Hapus" onclick="deleteOrder('${order.order_id}')">🗑️</button>
                 </div>
             </td>
         </tr>
-    `).join('');
+    `,
+    )
+    .join("");
 
-    renderPagination(totalPages);
+  renderPagination(pagination);
 }
 
-function renderPagination(totalPages) {
-    const container = document.getElementById('pagination');
-    if (!container || totalPages <= 1) {
-        if (container) container.innerHTML = '';
-        return;
-    }
+function renderPagination(pag) {
+  const container = document.getElementById("pagination");
+  if (!container || !pag || pag.total_pages <= 1) {
+    if (container) container.innerHTML = "";
+    return;
+  }
 
-    let html = '';
-    if (currentPage > 1) {
-        html += `<button class="page-btn" onclick="goToPage(${currentPage - 1})">‹</button>`;
-    }
+  let html = "";
+  if (currentPage > 1)
+    html += `<button class="page-btn" onclick="goToPage(${currentPage - 1})">‹</button>`;
 
-    for (let i = 1; i <= totalPages; i++) {
-        if (totalPages > 7 && i > 2 && i < totalPages - 1 && Math.abs(i - currentPage) > 1) {
-            if (i === 3 || i === totalPages - 2) html += `<span style="padding: 0 4px; color: #9ca3af;">...</span>`;
-            continue;
-        }
-        html += `<button class="page-btn ${i === currentPage ? 'active' : ''}" onclick="goToPage(${i})">${i}</button>`;
+  for (let i = 1; i <= pag.total_pages; i++) {
+    if (
+      pag.total_pages > 7 &&
+      i > 2 &&
+      i < pag.total_pages - 1 &&
+      Math.abs(i - currentPage) > 1
+    ) {
+      if (i === 3 || i === pag.total_pages - 2)
+        html += `<span style="padding:0 4px;color:#9ca3af;">...</span>`;
+      continue;
     }
+    html += `<button class="page-btn ${i === currentPage ? "active" : ""}" onclick="goToPage(${i})">${i}</button>`;
+  }
 
-    if (currentPage < totalPages) {
-        html += `<button class="page-btn" onclick="goToPage(${currentPage + 1})">›</button>`;
-    }
+  if (currentPage < pag.total_pages)
+    html += `<button class="page-btn" onclick="goToPage(${currentPage + 1})">›</button>`;
 
-    container.innerHTML = html;
+  container.innerHTML = html;
 }
 
 function goToPage(page) {
-    currentPage = page;
-    renderOrdersTable();
-    // Scroll to top of table
-    document.querySelector('.toolbar')?.scrollIntoView({ behavior: 'smooth' });
+  currentPage = page;
+  loadOrders();
 }
 
-// ==================== ORDER ACTIONS ====================
+// ==================== VERIFY & DELIVER (One-Click!) ====================
+async function verifyAndDeliver(orderId) {
+  if (
+    !confirm(
+      `Verifikasi pembayaran & kirim e-book untuk ${orderId}?\n\n` +
+        `Ini akan:\n` +
+        `• Mark sebagai terverifikasi di database\n` +
+        `• Kirim email otomatis dengan link download\n` +
+        `• Buka WhatsApp notifikasi ke pembeli`,
+    )
+  ) {
+    return;
+  }
+
+  showToast("⏳ Memproses verifikasi...", "info");
+
+  try {
+    const data = await apiFetch(API.verify, {
+      method: "POST",
+      body: JSON.stringify({ order_id: orderId, action: "approve" }),
+    });
+
+    if (data.success) {
+      showToast(
+        `✅ ${orderId} terverifikasi! Email terkirim: ${data.email_sent ? "Ya" : "Belum (cek manual)"}`,
+        "success",
+      );
+
+      // Auto-open WhatsApp to buyer with delivery message
+      if (data.whatsapp_url) {
+        setTimeout(() => window.open(data.whatsapp_url, "_blank"), 800);
+      }
+
+      // Refresh table
+      loadOrders();
+    } else {
+      showToast(`❌ Gagal: ${data.message}`, "error");
+    }
+  } catch (err) {
+    showToast("❌ Gagal terhubung ke server", "error");
+    console.error(err);
+  }
+}
+
+async function rejectOrder(orderId) {
+  if (!confirm(`Tolak pembayaran ${orderId}?`)) return;
+
+  try {
+    const data = await apiFetch(API.verify, {
+      method: "POST",
+      body: JSON.stringify({ order_id: orderId, action: "reject" }),
+    });
+
+    if (data.success) {
+      showToast(`Pesanan ${orderId} ditolak`, "warning");
+      loadOrders();
+    } else {
+      showToast(`Gagal: ${data.message}`, "error");
+    }
+  } catch (err) {
+    showToast("Gagal terhubung ke server", "error");
+  }
+}
+
+// ==================== VIEW ORDER DETAIL ====================
 function viewOrder(orderId) {
-    const orders = getOrders();
-    const order = orders.find(o => o.orderId === orderId);
-    if (!order) return;
+  const order = allOrders.find((o) => o.order_id === orderId);
+  if (!order) return;
 
-    const modalBody = document.getElementById('modalBody');
-    const modalFooter = document.getElementById('modalFooter');
+  const modalBody = document.getElementById("modalBody");
+  const modalFooter = document.getElementById("modalFooter");
 
-    modalBody.innerHTML = `
+  const emailBadge = order.email_sent
+    ? '<span style="color:#10b981;font-weight:600;">✅ Email terkirim</span>'
+    : '<span style="color:#f59e0b;">⏳ Belum terkirim</span>';
+
+  modalBody.innerHTML = `
         <div class="detail-grid">
             <div class="detail-item">
                 <span class="detail-label">Order ID</span>
-                <span class="detail-value"><span class="order-id">${escapeHtml(order.orderId)}</span></span>
+                <span class="detail-value"><span class="order-id">${esc(order.order_id)}</span></span>
             </div>
             <div class="detail-item">
-                <span class="detail-label">Tanggal</span>
-                <span class="detail-value">${formatDate(order.createdAt)}</span>
+                <span class="detail-label">Tanggal Order</span>
+                <span class="detail-value">${formatDate(order.created_at)}</span>
             </div>
             <div class="detail-item">
                 <span class="detail-label">Nama</span>
-                <span class="detail-value">${escapeHtml(order.name)}</span>
+                <span class="detail-value">${esc(order.buyer_name)}</span>
             </div>
             <div class="detail-item">
                 <span class="detail-label">Email</span>
-                <span class="detail-value"><a href="mailto:${escapeHtml(order.email)}">${escapeHtml(order.email)}</a></span>
+                <span class="detail-value"><a href="mailto:${esc(order.buyer_email)}">${esc(order.buyer_email)}</a></span>
             </div>
             <div class="detail-item">
                 <span class="detail-label">WhatsApp</span>
-                <span class="detail-value"><a href="https://wa.me/${order.phone?.replace(/[^0-9]/g, '')}" target="_blank">${escapeHtml(order.phone)}</a></span>
+                <span class="detail-value"><a href="https://wa.me/${order.buyer_whatsapp}" target="_blank">${esc(order.buyer_whatsapp)}</a></span>
             </div>
             <div class="detail-item">
                 <span class="detail-label">Kota</span>
-                <span class="detail-value">${escapeHtml(order.city || '-')}</span>
+                <span class="detail-value">${esc(order.buyer_city || "-")}</span>
             </div>
             <div class="detail-item">
-                <span class="detail-label">Tujuan Pembelian</span>
-                <span class="detail-value">${escapeHtml(formatPurpose(order.purpose))}</span>
+                <span class="detail-label">Tujuan</span>
+                <span class="detail-value">${esc(formatPurpose(order.buyer_purpose))}</span>
             </div>
             <div class="detail-item">
                 <span class="detail-label">Status</span>
-                <span class="detail-value"><span class="status-badge status-${order.status}">${getStatusLabel(order.status)}</span></span>
+                <span class="detail-value"><span class="status-badge status-${order.payment_status}">${getStatusLabel(order.payment_status)}</span></span>
             </div>
             <div class="detail-item">
-                <span class="detail-label">Jumlah</span>
-                <span class="detail-value" style="font-weight:700; color: var(--primary);">${formatCurrency(order.amount || 49000)}</span>
+                <span class="detail-label">Email Delivery</span>
+                <span class="detail-value">${emailBadge}</span>
             </div>
-            ${order.updatedAt ? `
+            ${
+              order.verified_at
+                ? `
             <div class="detail-item">
-                <span class="detail-label">Terakhir Update</span>
-                <span class="detail-value">${formatDate(order.updatedAt)}</span>
-            </div>` : ''}
+                <span class="detail-label">Diverifikasi</span>
+                <span class="detail-value">${formatDate(order.verified_at)}</span>
+            </div>`
+                : ""
+            }
+            ${
+              order.ebook_url
+                ? `
+            <div class="detail-item" style="grid-column:1/-1;">
+                <span class="detail-label">Download URL</span>
+                <span class="detail-value"><a href="${esc(order.ebook_url)}" target="_blank">${esc(order.ebook_url)}</a></span>
+            </div>`
+                : ""
+            }
+            ${
+              order.notes
+                ? `
+            <div class="detail-item" style="grid-column:1/-1;">
+                <span class="detail-label">Catatan</span>
+                <span class="detail-value" style="white-space:pre-wrap;">${esc(order.notes)}</span>
+            </div>`
+                : ""
+            }
         </div>
     `;
 
-    let footerHtml = '';
-    if (order.status === 'pending') {
-        footerHtml += `<button class="btn btn-sm btn-success" onclick="updateOrderStatus('${order.orderId}', 'paid'); closeModal();">✅ Konfirmasi Bayar</button>`;
-        footerHtml += `<button class="btn btn-sm btn-danger" onclick="updateOrderStatus('${order.orderId}', 'cancelled'); closeModal();">❌ Batalkan</button>`;
-    }
-    if (order.status === 'paid') {
-        footerHtml += `<button class="btn btn-sm btn-info" onclick="updateOrderStatus('${order.orderId}', 'delivered'); closeModal();">📧 Tandai Terkirim</button>`;
-    }
-    footerHtml += `<button class="btn btn-sm btn-outline" onclick="sendWhatsApp('${order.orderId}')">💬 WhatsApp</button>`;
-    footerHtml += `<button class="btn btn-sm btn-outline" onclick="closeModal()">Tutup</button>`;
+  let footerHtml = "";
+  if (order.payment_status === "pending") {
+    footerHtml += `<button class="btn btn-sm btn-success" onclick="verifyAndDeliver('${order.order_id}'); closeModal();">🚀 Verifikasi & Kirim</button>`;
+    footerHtml += `<button class="btn btn-sm btn-danger" onclick="rejectOrder('${order.order_id}'); closeModal();">❌ Tolak</button>`;
+  }
+  if (order.payment_status === "verified") {
+    footerHtml += `<button class="btn btn-sm btn-info" onclick="sendDeliveryWA('${order.order_id}')">💬 Kirim WhatsApp</button>`;
+  }
+  footerHtml += `<button class="btn btn-sm btn-outline" onclick="addNote('${order.order_id}')">📝 Catatan</button>`;
+  footerHtml += `<button class="btn btn-sm btn-outline" onclick="closeModal()">Tutup</button>`;
 
-    modalFooter.innerHTML = footerHtml;
-    document.getElementById('orderModal').style.display = 'flex';
+  modalFooter.innerHTML = footerHtml;
+  document.getElementById("orderModal").style.display = "flex";
 }
 
 function closeModal() {
-    document.getElementById('orderModal').style.display = 'none';
+  document.getElementById("orderModal").style.display = "none";
 }
 
-function updateOrderStatus(orderId, newStatus) {
-    const orders = getOrders();
-    const index = orders.findIndex(o => o.orderId === orderId);
-    if (index === -1) return;
+// ==================== ORDER ACTIONS ====================
+function sendDeliveryWA(orderId) {
+  const order = allOrders.find((o) => o.order_id === orderId);
+  if (!order) return;
 
-    orders[index].status = newStatus;
-    orders[index].updatedAt = new Date().toISOString();
-    saveOrders(orders);
-    updateStats();
-    filterOrders();
-
-    const statusLabels = {
-        pending: 'Menunggu Bayar',
-        paid: 'Sudah Bayar',
-        delivered: 'Terkirim',
-        cancelled: 'Dibatalkan'
-    };
-    showToast(`Pesanan ${orderId} diupdate ke "${statusLabels[newStatus]}"`, 'success');
+  const waPhone = order.buyer_whatsapp;
+  const ebookUrl = order.ebook_url || "https://ebook.m2b.co.id";
+  const text = encodeURIComponent(
+    `✅ *PEMBAYARAN TERVERIFIKASI*\n\n` +
+      `Halo ${order.buyer_name},\n\n` +
+      `Terima kasih! Pembayaran Anda untuk:\n` +
+      `📋 Order ID: *${order.order_id}*\n\n` +
+      `telah kami verifikasi.\n\n` +
+      `📥 *Download E-book:*\n${ebookUrl}\n\n` +
+      `Jika ada pertanyaan, hubungi kami via:\n` +
+      `📧 ebook@m2b.co.id\n` +
+      `💬 https://t.me/+vLwFWh-xg54wMzNl\n\n` +
+      `Selamat belajar! 📚🚀`,
+  );
+  window.open(`https://wa.me/${waPhone}?text=${text}`, "_blank");
 }
 
-function deleteOrder(orderId) {
-    if (!confirm(`Hapus pesanan ${orderId}? Tindakan ini tidak bisa dibatalkan.`)) return;
+async function addNote(orderId) {
+  const note = prompt("Tambahkan catatan untuk pesanan ini:");
+  if (!note) return;
 
-    const orders = getOrders();
-    const filtered = orders.filter(o => o.orderId !== orderId);
-    saveOrders(filtered);
-    updateStats();
-    filterOrders();
-    showToast(`Pesanan ${orderId} telah dihapus`, 'warning');
+  try {
+    const data = await apiFetch(API.orders, {
+      method: "POST",
+      body: JSON.stringify({ action: "add_note", order_id: orderId, note }),
+    });
+    if (data.success) {
+      showToast("Catatan ditambahkan", "success");
+      closeModal();
+      loadOrders();
+    }
+  } catch (err) {
+    showToast("Gagal menambah catatan", "error");
+  }
 }
 
-function sendWhatsApp(orderId) {
-    const orders = getOrders();
-    const order = orders.find(o => o.orderId === orderId);
-    if (!order) return;
+async function deleteOrder(orderId) {
+  if (!confirm(`Hapus pesanan ${orderId}? Tindakan ini tidak bisa dibatalkan.`))
+    return;
 
-    const phone = order.phone?.replace(/[^0-9]/g, '');
-    const waPhone = phone.startsWith('0') ? '62' + phone.substring(1) : phone;
-    const text = encodeURIComponent(
-        `Halo ${order.name},\n\nTerima kasih telah memesan E-book Panduan Ekspor Impor M2B v2.0.\n\n` +
-        `Order ID: ${order.orderId}\nTotal: Rp 49.000\n\n` +
-        `Silakan transfer ke:\nBCA: 8280424243\nA/n Eka Mayang Sari Harahap\n\n` +
-        `Kirim bukti transfer ke chat ini ya.\nTerima kasih! 🙏`
-    );
-
-    window.open(`https://wa.me/${waPhone}?text=${text}`, '_blank');
+  try {
+    const data = await apiFetch(API.orders, {
+      method: "POST",
+      body: JSON.stringify({ action: "delete", order_id: orderId }),
+    });
+    if (data.success) {
+      showToast(`Pesanan ${orderId} dihapus`, "warning");
+      loadOrders();
+    }
+  } catch (err) {
+    showToast("Gagal menghapus", "error");
+  }
 }
 
 // ==================== EXPORT CSV ====================
 function exportCSV() {
-    const orders = filteredOrders.length > 0 ? filteredOrders : getOrders();
-    if (orders.length === 0) {
-        showToast('Tidak ada data untuk di-export', 'warning');
-        return;
-    }
+  if (allOrders.length === 0) {
+    showToast("Tidak ada data untuk di-export", "warning");
+    return;
+  }
 
-    const headers = ['Order ID', 'Tanggal', 'Nama', 'Email', 'WhatsApp', 'Kota', 'Tujuan', 'Status', 'Jumlah'];
-    const rows = orders.map(o => [
-        o.orderId,
-        formatDate(o.createdAt),
-        o.name,
-        o.email,
-        o.phone,
-        o.city || '',
-        formatPurpose(o.purpose),
-        getStatusLabel(o.status),
-        o.amount || 49000
-    ]);
+  const headers = [
+    "Order ID",
+    "Tanggal",
+    "Nama",
+    "Email",
+    "WhatsApp",
+    "Kota",
+    "Tujuan",
+    "Status",
+    "Email Sent",
+    "Verified At",
+  ];
+  const rows = allOrders.map((o) => [
+    o.order_id,
+    formatDate(o.created_at),
+    o.buyer_name,
+    o.buyer_email,
+    o.buyer_whatsapp,
+    o.buyer_city || "",
+    formatPurpose(o.buyer_purpose),
+    getStatusLabel(o.payment_status),
+    o.email_sent ? "Ya" : "Tidak",
+    o.verified_at || "-",
+  ]);
 
-    let csv = '\uFEFF'; // BOM for Excel
-    csv += headers.join(',') + '\n';
-    csv += rows.map(row => row.map(cell => `"${String(cell).replace(/"/g, '""')}"`).join(',')).join('\n');
+  let csv = "\uFEFF";
+  csv += headers.join(",") + "\n";
+  csv += rows
+    .map((row) =>
+      row.map((cell) => `"${String(cell).replace(/"/g, '""')}"`).join(","),
+    )
+    .join("\n");
 
-    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-    const link = document.createElement('a');
-    link.href = URL.createObjectURL(blob);
-    link.download = `m2b_orders_${new Date().toISOString().slice(0, 10)}.csv`;
-    link.click();
-    URL.revokeObjectURL(link.href);
+  const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+  const link = document.createElement("a");
+  link.href = URL.createObjectURL(blob);
+  link.download = `m2b_orders_${new Date().toISOString().slice(0, 10)}.csv`;
+  link.click();
+  URL.revokeObjectURL(link.href);
 
-    showToast(`${orders.length} pesanan berhasil di-export`, 'success');
+  showToast(`${allOrders.length} pesanan berhasil di-export`, "success");
 }
 
 // ==================== TOAST ====================
-function showToast(message, type = 'info') {
-    let container = document.querySelector('.toast-container');
-    if (!container) {
-        container = document.createElement('div');
-        container.className = 'toast-container';
-        document.body.appendChild(container);
-    }
+function showToast(message, type = "info") {
+  let container = document.querySelector(".toast-container");
+  if (!container) {
+    container = document.createElement("div");
+    container.className = "toast-container";
+    document.body.appendChild(container);
+  }
 
-    const icons = { success: '✅', error: '❌', warning: '⚠️', info: 'ℹ️' };
-    const toast = document.createElement('div');
-    toast.className = `toast toast-${type}`;
-    toast.innerHTML = `<span>${icons[type] || 'ℹ️'}</span> ${escapeHtml(message)}`;
-    container.appendChild(toast);
+  const icons = { success: "✅", error: "❌", warning: "⚠️", info: "ℹ️" };
+  const toast = document.createElement("div");
+  toast.className = `toast toast-${type}`;
+  toast.innerHTML = `<span>${icons[type] || "ℹ️"}</span> ${esc(message)}`;
+  container.appendChild(toast);
 
-    setTimeout(() => {
-        toast.style.animation = 'toastOut 0.3s ease forwards';
-        setTimeout(() => toast.remove(), 300);
-    }, 3500);
+  setTimeout(() => {
+    toast.style.animation = "toastOut 0.3s ease forwards";
+    setTimeout(() => toast.remove(), 300);
+  }, 3500);
 }
 
 // ==================== HELPERS ====================
-function generateOrderId() {
-    const date = new Date();
-    const dateStr = date.getFullYear().toString() +
-        String(date.getMonth() + 1).padStart(2, '0') +
-        String(date.getDate()).padStart(2, '0');
-    const random = Math.random().toString(36).substring(2, 8).toUpperCase();
-    return `M2B-${dateStr}-${random}`;
-}
-
 function formatDate(dateStr) {
-    if (!dateStr) return '-';
-    try {
-        const d = new Date(dateStr);
-        return d.toLocaleDateString('id-ID', {
-            day: '2-digit', month: 'short', year: 'numeric',
-            hour: '2-digit', minute: '2-digit'
-        });
-    } catch (e) {
-        return dateStr;
-    }
+  if (!dateStr) return "-";
+  try {
+    const d = new Date(dateStr);
+    return d.toLocaleDateString("id-ID", {
+      day: "2-digit",
+      month: "short",
+      year: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+    });
+  } catch (e) {
+    return dateStr;
+  }
 }
 
 function formatCurrency(amount) {
-    return 'Rp ' + Number(amount).toLocaleString('id-ID');
+  return "Rp " + Number(amount).toLocaleString("id-ID");
 }
 
 function getStatusLabel(status) {
-    const labels = {
-        pending: '⏳ Menunggu Bayar',
-        paid: '✅ Sudah Bayar',
-        delivered: '📧 Terkirim',
-        cancelled: '❌ Dibatalkan'
-    };
-    return labels[status] || status;
+  const labels = {
+    pending: "⏳ Menunggu",
+    verified: "✅ Verified",
+    failed: "❌ Ditolak",
+  };
+  return labels[status] || status;
 }
 
 function formatPurpose(purpose) {
-    const map = {
-        bisnis: 'Memulai Bisnis Ekspor/Impor',
-        umkm: 'Scale Up UMKM ke Pasar Global',
-        belajar: 'Belajar / Riset',
-        profesional: 'Pengembangan Karir Profesional',
-        lainnya: 'Lainnya'
-    };
-    return map[purpose] || purpose || '-';
+  const map = {
+    bisnis: "Bisnis Ekspor/Impor",
+    umkm: "Scale Up UMKM",
+    belajar: "Belajar / Riset",
+    profesional: "Pengembangan Karir",
+    lainnya: "Lainnya",
+  };
+  return map[purpose] || purpose || "-";
 }
 
-function escapeHtml(str) {
-    if (!str) return '';
-    const div = document.createElement('div');
-    div.textContent = str;
-    return div.innerHTML;
+function esc(str) {
+  if (!str) return "";
+  const div = document.createElement("div");
+  div.textContent = str;
+  return div.innerHTML;
 }
 
-// Close modal on outside click
-document.addEventListener('click', function (e) {
-    if (e.target.id === 'orderModal') {
-        closeModal();
-    }
+// ── Modal & keyboard shortcuts ──
+document.addEventListener("click", (e) => {
+  if (e.target.id === "orderModal") closeModal();
 });
-
-// Close modal on Escape key
-document.addEventListener('keydown', function (e) {
-    if (e.key === 'Escape') {
-        closeModal();
-    }
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape") closeModal();
 });
