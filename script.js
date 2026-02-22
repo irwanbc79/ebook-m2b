@@ -307,10 +307,13 @@ function initOrderForm() {
       submitBtn.textContent = "Memproses...";
     }
 
-    // Try server-side API first
+    // Try server-side API first (with 10s timeout)
     let orderId = null;
     let waUrl = null;
     try {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 10000);
+
       const response = await fetch(CONFIG.apiEndpoint, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -321,11 +324,16 @@ function initOrderForm() {
           city: city,
           purpose: purpose,
         }),
+        signal: controller.signal,
       });
-      const result = await response.json();
-      if (result.success) {
-        orderId = result.order_id;
-        waUrl = result.whatsapp_url;
+      clearTimeout(timeoutId);
+
+      if (response.ok) {
+        const result = await response.json();
+        if (result.success) {
+          orderId = result.order_id;
+          waUrl = result.whatsapp_url;
+        }
       }
     } catch (err) {
       console.warn("API call failed, using client-side fallback:", err);

@@ -1,0 +1,31 @@
+<?php
+/**
+ * M2B E-book Configuration
+ * ⚠️ RENAME this file to config.php and fill in your values
+ * 
+ * This file should NOT be committed to git with real credentials.
+ * Add config.php to .gitignore
+ */
+
+// ── Database ──
+define('DB_HOST', 'localhost');
+define('DB_NAME', 'm2b_ebook');
+define('DB_USER', 'root');
+define('DB_PASS', '');
+
+// ── Admin API Key ──
+define('API_SECRET_KEY', 'CHANGE_THIS_TO_A_SECURE_RANDOM_KEY');
+
+// ── E-book Settings ──
+define('EBOOK_PRICE', 49000);
+
+// ── Bank Transfer Info ──
+define('BANK_NAME', 'BCA');
+define('BANK_ACCOUNT', '8280424243');
+define('BANK_HOLDER', 'Eka Mayang Sari Harahap');
+
+// ── Contact ──
+define('ADMIN_WHATSAPP', '6282261846811');
+define('SUPPORT_EMAIL', 'ebook@m2b.co.id');
+define('FROM_EMAIL', 'ebook@m2b.co.id');
+define('FROM_NAME', 'M2B E-book System');
