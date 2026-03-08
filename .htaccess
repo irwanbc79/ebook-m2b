@@ -1,0 +1,107 @@
+# M2B E-book System - Apache Configuration
+# Updated: January 2026
+
+# Default page
+DirectoryIndex index.html index.php
+
+# Enable Rewrite Engine
+RewriteEngine On
+
+# Force HTTPS
+RewriteCond %{HTTPS} off
+RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+# Block access to sensitive files
+<Files "config.php">
+    Require all denied
+</Files>
+
+<Files "email_helper.php">
+    Require all denied
+</Files>
+
+<Files "watermark_pdf.php">
+    Require all denied
+</Files>
+
+<Files ".htaccess">
+    Require all denied
+</Files>
+
+# Block access to log files
+<FilesMatch "\.(log|sql|bak|backup)$">
+    Require all denied
+</FilesMatch>
+
+# Protect directories
+<IfModule mod_autoindex.c>
+    Options -Indexes
+</IfModule>
+
+# Note: <Directory> not allowed in .htaccess — use per-directory .htaccess files instead
+# See temp/.htaccess and logs/.htaccess
+
+# Enable compression (if mod_deflate available)
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/html
+    AddOutputFilterByType DEFLATE text/plain
+    AddOutputFilterByType DEFLATE text/xml
+    AddOutputFilterByType DEFLATE text/css
+    AddOutputFilterByType DEFLATE text/javascript
+    AddOutputFilterByType DEFLATE application/javascript
+    AddOutputFilterByType DEFLATE application/json
+    AddOutputFilterByType DEFLATE application/xml
+</IfModule>
+
+# Browser caching (if mod_expires available)
+<IfModule mod_expires.c>
+    ExpiresActive On
+    
+    # Images
+    ExpiresByType image/jpeg "access plus 1 year"
+    ExpiresByType image/png "access plus 1 year"
+    ExpiresByType image/gif "access plus 1 year"
+    ExpiresByType image/webp "access plus 1 year"
+    ExpiresByType image/svg+xml "access plus 1 year"
+    ExpiresByType image/x-icon "access plus 1 year"
+    
+    # CSS and JavaScript
+    ExpiresByType text/css "access plus 1 hour"
+    ExpiresByType application/javascript "access plus 1 month"
+    ExpiresByType text/javascript "access plus 1 month"
+    
+    # Fonts
+    ExpiresByType font/woff2 "access plus 1 year"
+    ExpiresByType font/woff "access plus 1 year"
+    ExpiresByType font/ttf "access plus 1 year"
+    
+    # HTML
+    ExpiresByType text/html "access plus 0 seconds"
+</IfModule>
+
+# Security Headers
+<IfModule mod_headers.c>
+    Header set X-Content-Type-Options "nosniff"
+    Header set X-Frame-Options "SAMEORIGIN"
+    Header set X-XSS-Protection "1; mode=block"
+    Header set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>
+
+# Custom error pages (optional)
+# ErrorDocument 404 /404.html
+# ErrorDocument 500 /500.html
+
+# === ANTI-CDN CACHE FOR HTML ===
+<IfModule mod_headers.c>
+    <FilesMatch "\.html$">
+        Header set Cache-Control "no-cache, no-store, must-revalidate"
+        Header set Pragma "no-cache"
+        Header set Expires "0"
+        Header set X-Content-Version "v2.0-20260222"
+    </FilesMatch>
+</IfModule>
+
+# LiteSpeed specific - disable cache for HTML
+<IfModule LiteSpeed>
+    CacheDisable public *.html
+</IfModule>

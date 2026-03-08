@@ -1,0 +1,21 @@
+# Temp & uploads
+temp/
+uploads/
+logs/
+
+# Master PDF files (sensitive)
+ebook-master-*.pdf
+
+# Vendor (Composer)
+vendor/
+
+# Config with credentials
+config.php
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
