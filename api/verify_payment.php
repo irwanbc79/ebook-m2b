@@ -217,12 +217,16 @@ try {
         ]);
         
         // Generate WhatsApp notification URL for buyer
+        $bonusDriveLink = defined('BONUS_DRIVE_LINK') ? BONUS_DRIVE_LINK : '';
         $waMessage = "✅ *PEMBAYARAN TERVERIFIKASI*\n\n";
         $waMessage .= "Halo {$order['buyer_name']},\n\n";
         $waMessage .= "Terima kasih! Pembayaran Anda untuk:\n";
         $waMessage .= "📋 Order ID: *{$orderId}*\n\n";
         $waMessage .= "telah kami verifikasi.\n\n";
         $waMessage .= "📥 *Download E-book:*\n{$ebookUrl}\n\n";
+        if ($bonusDriveLink) {
+            $waMessage .= "🎁 *Bonus Template (Invoice, Dokumen, Toolkit):*\n{$bonusDriveLink}\n\n";
+        }
         $waMessage .= "E-book telah di-watermark khusus untuk Anda:\n";
         $waMessage .= "👤 {$order['buyer_name']}\n";
         $waMessage .= "📧 {$order['buyer_email']}\n\n";

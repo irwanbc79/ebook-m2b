@@ -186,6 +186,7 @@ HTML;
         $safeEmail = htmlspecialchars($data['buyer_email'] ?? '', ENT_QUOTES, 'UTF-8');
         $safeOrderId = htmlspecialchars($data['order_id'] ?? '', ENT_QUOTES, 'UTF-8');
         $safeDownloadLink = htmlspecialchars($downloadLink, ENT_QUOTES, 'UTF-8');
+        $bonusDriveLink = defined('BONUS_DRIVE_LINK') ? htmlspecialchars(BONUS_DRIVE_LINK, ENT_QUOTES, 'UTF-8') : '';
         
         $html = <<<HTML
 <!DOCTYPE html>
@@ -238,6 +239,24 @@ HTML;
                 <p style="color:#b45309;font-size:13px;margin:12px 0 0 0;">
                     ⚠️ E-book ini hanya untuk penggunaan pribadi. Dilarang mendistribusikan, menjual kembali, atau membagikan ke pihak lain tanpa izin.
                 </p>
+            </div>
+            
+            <!-- Bonus Templates -->
+            <div style="background:linear-gradient(135deg,#fef3c7,#fde68a);border:2px solid #f59e0b;border-radius:12px;padding:28px;text-align:center;margin:24px 0;">
+                <h2 style="margin:0 0 8px 0;color:#92400e;">🎁 BONUS EKSKLUSIF!</h2>
+                <p style="color:#78350f;margin:0 0 16px 0;font-size:14px;">Sebagai pembeli e-book M2B, Anda mendapatkan bonus template siap pakai:</p>
+                <div style="text-align:left;background:white;border-radius:8px;padding:16px 20px;margin-bottom:20px;">
+                    <ul style="margin:0;padding-left:20px;color:#555;">
+                        <li style="margin:6px 0;">📄 <strong>Template Invoice & Packing List</strong></li>
+                        <li style="margin:6px 0;">📋 <strong>Dokumen Ekspor-Impor Lengkap</strong></li>
+                        <li style="margin:6px 0;">✅ <strong>Bonus Toolkit: LC, Checklist & Lartas</strong></li>
+                        <li style="margin:6px 0;">📊 <strong>Infografis Navigasi Strategis</strong></li>
+                    </ul>
+                </div>
+                <a href="{$bonusDriveLink}" 
+                   style="display:inline-block;padding:16px 36px;background:linear-gradient(135deg,#f59e0b,#d97706);color:white;text-decoration:none;border-radius:8px;font-weight:700;font-size:16px;">
+                    📥 Download Semua Bonus Template
+                </a>
             </div>
             
             <!-- What You Learn -->
