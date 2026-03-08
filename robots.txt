@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /api
+Disallow: /config.php
+Disallow: /logs
+Disallow: /temp
+Disallow: /uploads
+Sitemap: https://ebook.m2b.co.id/sitemap.xml
