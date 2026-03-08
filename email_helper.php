@@ -72,6 +72,13 @@ class EmailHelper {
         
         $priceFormatted = 'Rp ' . number_format($price, 0, ',', '.');
         
+        // HTML-escape user data to prevent injection
+        $safeName = htmlspecialchars($data['buyer_name'], ENT_QUOTES, 'UTF-8');
+        $safeEmail = htmlspecialchars($data['buyer_email'], ENT_QUOTES, 'UTF-8');
+        $safeWhatsapp = htmlspecialchars($data['buyer_whatsapp'], ENT_QUOTES, 'UTF-8');
+        $safeOrderId = htmlspecialchars($data['order_id'], ENT_QUOTES, 'UTF-8');
+        $encodedOrderId = urlencode($data['order_id']);
+        
         $html = <<<HTML
 <!DOCTYPE html>
 <html>
@@ -89,7 +96,7 @@ class EmailHelper {
         
         <!-- Content -->
         <div style="background:white;padding:40px 30px;border-radius:0 0 16px 16px;">
-            <p style="font-size:16px;">Halo <strong>{$data['buyer_name']}</strong>,</p>
+            <p style="font-size:16px;">Halo <strong>{$safeName}</strong>,</p>
             
             <p>Terima kasih telah memesan <strong>"Panduan Global Export & Import untuk Indonesia"</strong> dari M2B E-book.</p>
             
@@ -99,19 +106,19 @@ class EmailHelper {
                 <table style="width:100%;border-collapse:collapse;">
                     <tr>
                         <td style="padding:8px 0;color:#666;">Order ID:</td>
-                        <td style="padding:8px 0;text-align:right;font-weight:600;">{$data['order_id']}</td>
+                        <td style="padding:8px 0;text-align:right;font-weight:600;">{$safeOrderId}</td>
                     </tr>
                     <tr>
                         <td style="padding:8px 0;color:#666;">Nama:</td>
-                        <td style="padding:8px 0;text-align:right;">{$data['buyer_name']}</td>
+                        <td style="padding:8px 0;text-align:right;">{$safeName}</td>
                     </tr>
                     <tr>
                         <td style="padding:8px 0;color:#666;">Email:</td>
-                        <td style="padding:8px 0;text-align:right;">{$data['buyer_email']}</td>
+                        <td style="padding:8px 0;text-align:right;">{$safeEmail}</td>
                     </tr>
                     <tr>
                         <td style="padding:8px 0;color:#666;">WhatsApp:</td>
-                        <td style="padding:8px 0;text-align:right;">{$data['buyer_whatsapp']}</td>
+                        <td style="padding:8px 0;text-align:right;">{$safeWhatsapp}</td>
                     </tr>
                     <tr style="border-top:1px dashed #ddd;">
                         <td style="padding:12px 0 0 0;color:#666;font-weight:600;">Harga:</td>
@@ -134,14 +141,14 @@ class EmailHelper {
             <ol style="padding-left:20px;color:#555;">
                 <li style="margin:8px 0;">Transfer sejumlah <strong>{$priceFormatted}</strong> ke rekening di atas</li>
                 <li style="margin:8px 0;">Setelah transfer, kirim bukti pembayaran via WhatsApp ke <strong>+62 822-6184-6811</strong></li>
-                <li style="margin:8px 0;">Sertakan <strong>Order ID: {$data['order_id']}</strong> dalam pesan WhatsApp</li>
+                <li style="margin:8px 0;">Sertakan <strong>Order ID: {$safeOrderId}</strong> dalam pesan WhatsApp</li>
                 <li style="margin:8px 0;">Tim kami akan verifikasi pembayaran (maks. 2 jam)</li>
                 <li style="margin:8px 0;">E-book akan dikirim ke email ini setelah pembayaran terverifikasi</li>
             </ol>
             
             <!-- CTA Button -->
             <div style="text-align:center;margin:32px 0;">
-                <a href="https://wa.me/{$adminWa}?text=Halo%2C%20saya%20sudah%20transfer%20untuk%20Order%20ID%3A%20{$data['order_id']}" 
+                <a href="https://wa.me/{$adminWa}?text=Halo%2C%20saya%20sudah%20transfer%20untuk%20Order%20ID%3A%20{$encodedOrderId}" 
                    style="display:inline-block;padding:16px 32px;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);color:white;text-decoration:none;border-radius:8px;font-weight:600;font-size:16px;">
                     💬 Konfirmasi via WhatsApp
                 </a>
@@ -174,6 +181,12 @@ HTML;
         $downloadLink = isset($data['ebook_url']) ? $data['ebook_url'] : (defined('GOOGLE_DRIVE_LINK') ? GOOGLE_DRIVE_LINK : '#');
         $telegramGroup = defined('TELEGRAM_GROUP') ? TELEGRAM_GROUP : 'https://t.me/+vLwFWh-xg54wMzNl';
         
+        // HTML-escape user data
+        $safeName = htmlspecialchars($data['buyer_name'] ?? '', ENT_QUOTES, 'UTF-8');
+        $safeEmail = htmlspecialchars($data['buyer_email'] ?? '', ENT_QUOTES, 'UTF-8');
+        $safeOrderId = htmlspecialchars($data['order_id'] ?? '', ENT_QUOTES, 'UTF-8');
+        $safeDownloadLink = htmlspecialchars($downloadLink, ENT_QUOTES, 'UTF-8');
+        
         $html = <<<HTML
 <!DOCTYPE html>
 <html>
@@ -194,10 +207,10 @@ HTML;
             <!-- Success Box -->
             <div style="background:#d1fae5;border:2px solid #10b981;border-radius:12px;padding:24px;text-align:center;margin-bottom:24px;">
                 <h2 style="color:#065f46;margin:0;">✅ Pembayaran Anda Telah Dikonfirmasi</h2>
-                <p style="margin:8px 0 0 0;color:#047857;">Order ID: <strong>{$data['order_id']}</strong></p>
+                <p style="margin:8px 0 0 0;color:#047857;">Order ID: <strong>{$safeOrderId}</strong></p>
             </div>
             
-            <p style="font-size:16px;">Halo <strong>{$data['buyer_name']}</strong>,</p>
+            <p style="font-size:16px;">Halo <strong>{$safeName}</strong>,</p>
             
             <p>Terima kasih atas pembayaran Anda! Kami dengan senang hati mengonfirmasi bahwa pembayaran untuk e-book <strong>"Panduan Global Export & Import untuk Indonesia"</strong> telah kami terima.</p>
             
@@ -205,7 +218,7 @@ HTML;
             <div style="background:#f0fdf4;border:2px dashed #10b981;border-radius:12px;padding:32px;text-align:center;margin:24px 0;">
                 <h2 style="margin:0 0 12px 0;color:#065f46;">📚 Download E-book Anda</h2>
                 <p style="color:#666;margin:0 0 20px 0;">Klik tombol di bawah ini untuk mengunduh e-book:</p>
-                <a href="{$downloadLink}" 
+                <a href="{$safeDownloadLink}" 
                    style="display:inline-block;padding:18px 40px;background:#10b981;color:white;text-decoration:none;border-radius:8px;font-weight:700;font-size:18px;">
                     📥 Download E-book Sekarang
                 </a>
@@ -219,8 +232,8 @@ HTML;
                 <h3 style="margin:0 0 12px 0;color:#92400e;">🔖 Informasi Penting</h3>
                 <p style="margin:4px 0;">E-book ini telah di-watermark khusus untuk Anda:</p>
                 <ul style="margin:12px 0;padding-left:20px;">
-                    <li><strong>Nama:</strong> {$data['buyer_name']}</li>
-                    <li><strong>Email:</strong> {$data['buyer_email']}</li>
+                    <li><strong>Nama:</strong> {$safeName}</li>
+                    <li><strong>Email:</strong> {$safeEmail}</li>
                 </ul>
                 <p style="color:#b45309;font-size:13px;margin:12px 0 0 0;">
                     ⚠️ E-book ini hanya untuk penggunaan pribadi. Dilarang mendistribusikan, menjual kembali, atau membagikan ke pihak lain tanpa izin.
@@ -299,6 +312,11 @@ HTML;
         $bankAccount = defined('BANK_ACCOUNT') ? BANK_ACCOUNT : '8280424243';
         $bankHolder = defined('BANK_HOLDER') ? BANK_HOLDER : 'Eka Mayang Sari Harahap';
         
+        // HTML-escape user data
+        $safeName = htmlspecialchars($data['buyer_name'] ?? '', ENT_QUOTES, 'UTF-8');
+        $safeOrderId = htmlspecialchars($data['order_id'] ?? '', ENT_QUOTES, 'UTF-8');
+        $encodedOrderId = urlencode($data['order_id'] ?? '');
+        
         $html = <<<HTML
 <!DOCTYPE html>
 <html>
@@ -319,10 +337,10 @@ HTML;
             <!-- Alert Box -->
             <div style="background:#fef2f2;border:2px solid #ef4444;border-radius:12px;padding:24px;text-align:center;margin-bottom:24px;">
                 <h2 style="color:#991b1b;margin:0;">Pembayaran Belum Dapat Diverifikasi</h2>
-                <p style="margin:8px 0 0 0;color:#b91c1c;">Order ID: <strong>{$data['order_id']}</strong></p>
+                <p style="margin:8px 0 0 0;color:#b91c1c;">Order ID: <strong>{$safeOrderId}</strong></p>
             </div>
             
-            <p style="font-size:16px;">Halo <strong>{$data['buyer_name']}</strong>,</p>
+            <p style="font-size:16px;">Halo <strong>{$safeName}</strong>,</p>
             
             <p>Terima kasih atas minat Anda pada e-book <strong>"Panduan Global Export & Import untuk Indonesia"</strong>.</p>
             
@@ -340,13 +358,13 @@ HTML;
                 <ol style="padding-left:20px;color:#555;">
                     <li style="margin:8px 0;">Transfer <strong>{$priceFormatted}</strong> ke <strong>{$bankName} {$bankAccount}</strong> a/n <strong>{$bankHolder}</strong></li>
                     <li style="margin:8px 0;">Screenshot bukti transfer</li>
-                    <li style="margin:8px 0;">Kirim bukti via WhatsApp beserta Order ID: <strong>{$data['order_id']}</strong></li>
+                    <li style="margin:8px 0;">Kirim bukti via WhatsApp beserta Order ID: <strong>{$safeOrderId}</strong></li>
                 </ol>
             </div>
             
             <!-- CTA Button -->
             <div style="text-align:center;margin:32px 0;">
-                <a href="https://wa.me/{$adminWa}?text=Halo%2C%20saya%20ingin%20konfirmasi%20pembayaran%20untuk%20Order%20ID%3A%20{$data['order_id']}"
+                <a href="https://wa.me/{$adminWa}?text=Halo%2C%20saya%20ingin%20konfirmasi%20pembayaran%20untuk%20Order%20ID%3A%20{$encodedOrderId}"
                    style="display:inline-block;padding:16px 32px;background:linear-gradient(135deg,#10b981 0%,#059669 100%);color:white;text-decoration:none;border-radius:8px;font-weight:600;font-size:16px;">
                     💬 Hubungi Kami via WhatsApp
                 </a>
@@ -383,6 +401,11 @@ HTML;
         $bankAccount = defined('BANK_ACCOUNT') ? BANK_ACCOUNT : '8280424243';
         $bankHolder = defined('BANK_HOLDER') ? BANK_HOLDER : 'Eka Mayang Sari Harahap';
         
+        // HTML-escape user data
+        $safeName = htmlspecialchars($data['buyer_name'] ?? '', ENT_QUOTES, 'UTF-8');
+        $safeOrderId = htmlspecialchars($data['order_id'] ?? '', ENT_QUOTES, 'UTF-8');
+        $encodedOrderId = urlencode($data['order_id'] ?? '');
+        
         $html = <<<HTML
 <!DOCTYPE html>
 <html>
@@ -400,7 +423,7 @@ HTML;
         
         <!-- Content -->
         <div style="background:white;padding:40px 30px;border-radius:0 0 16px 16px;">
-            <p style="font-size:16px;">Halo <strong>{$data['buyer_name']}</strong>,</p>
+            <p style="font-size:16px;">Halo <strong>{$safeName}</strong>,</p>
             
             <p>Kami melihat bahwa pesanan e-book Anda belum selesai diproses. Buku <strong>"Panduan Global Export & Import untuk Indonesia v2.0"</strong> masih menunggu Anda! 📚</p>
             
@@ -410,11 +433,11 @@ HTML;
                 <table style="width:100%;border-collapse:collapse;">
                     <tr>
                         <td style="padding:8px 0;color:#666;">Order ID:</td>
-                        <td style="padding:8px 0;text-align:right;font-weight:600;">{$data['order_id']}</td>
+                        <td style="padding:8px 0;text-align:right;font-weight:600;">{$safeOrderId}</td>
                     </tr>
                     <tr>
                         <td style="padding:8px 0;color:#666;">Nama:</td>
-                        <td style="padding:8px 0;text-align:right;">{$data['buyer_name']}</td>
+                        <td style="padding:8px 0;text-align:right;">{$safeName}</td>
                     </tr>
                     <tr style="border-top:1px dashed #ddd;">
                         <td style="padding:12px 0 0 0;color:#666;font-weight:600;">Harga:</td>
@@ -444,7 +467,7 @@ HTML;
             
             <!-- CTA Button -->
             <div style="text-align:center;margin:32px 0;">
-                <a href="https://wa.me/{$adminWa}?text=Halo%2C%20saya%20ingin%20melanjutkan%20pembayaran%20untuk%20Order%20ID%3A%20{$data['order_id']}"
+                <a href="https://wa.me/{$adminWa}?text=Halo%2C%20saya%20ingin%20melanjutkan%20pembayaran%20untuk%20Order%20ID%3A%20{$encodedOrderId}"
                    style="display:inline-block;padding:16px 32px;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);color:white;text-decoration:none;border-radius:8px;font-weight:600;font-size:16px;">
                     💬 Konfirmasi Pembayaran via WhatsApp
                 </a>

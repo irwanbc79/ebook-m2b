@@ -28,8 +28,21 @@ RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
     Require all denied
 </Files>
 
-# Block access to log files
-<FilesMatch "\.(log|sql|bak|backup)$">
+<Files "composer.json">
+    Require all denied
+</Files>
+
+<Files "composer.lock">
+    Require all denied
+</Files>
+
+# Block access to log files and backups
+<FilesMatch "\.(log|sql|bak|backup|env|ini)$">
+    Require all denied
+</FilesMatch>
+
+# Block access to hidden files (like .git)
+<FilesMatch "^\.">
     Require all denied
 </FilesMatch>
 
@@ -85,6 +98,8 @@ RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
     Header set X-Frame-Options "SAMEORIGIN"
     Header set X-XSS-Protection "1; mode=block"
     Header set Referrer-Policy "strict-origin-when-cross-origin"
+    Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains" env=HTTPS
+    Header set Permissions-Policy "camera=(), microphone=(), geolocation=()"
 </IfModule>
 
 # Custom error pages (optional)

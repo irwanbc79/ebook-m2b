@@ -26,6 +26,22 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     exit;
 }
 
+// Brute-force rate limiting (max 5 attempts per IP per 15 minutes)
+$loginRateFile = __DIR__ . '/../temp/login_' . md5($_SERVER['REMOTE_ADDR']) . '.json';
+if (file_exists($loginRateFile)) {
+    $rateData = json_decode(file_get_contents($loginRateFile), true);
+    if ($rateData && $rateData['count'] >= 5 && (time() - $rateData['first']) < 900) {
+        http_response_code(429);
+        echo json_encode(['success' => false, 'message' => 'Terlalu banyak percobaan login. Coba lagi dalam 15 menit.']);
+        exit;
+    }
+    if (time() - $rateData['first'] >= 900) {
+        $rateData = ['count' => 0, 'first' => time()];
+    }
+} else {
+    $rateData = ['count' => 0, 'first' => time()];
+}
+
 $input = json_decode(file_get_contents('php://input'), true);
 $username = $input['username'] ?? '';
 $password = $input['password'] ?? '';
@@ -36,8 +52,11 @@ if (empty($username) || empty($password)) {
     exit;
 }
 
-// Validate credentials
-if ($username === 'admin' && $password === ADMIN_PASSWORD) {
+// Validate credentials with timing-safe comparison
+if (hash_equals('admin', $username) && hash_equals(ADMIN_PASSWORD, $password)) {
+    // Reset rate limit on success
+    @unlink($loginRateFile);
+
     echo json_encode([
         'success' => true,
         'message' => 'Login berhasil',
@@ -46,6 +65,11 @@ if ($username === 'admin' && $password === ADMIN_PASSWORD) {
         'expires_in' => 86400
     ]);
 } else {
+    // Increment failed attempts
+    $rateData['count']++;
+    @file_put_contents($loginRateFile, json_encode($rateData));
+
+    error_log('Failed admin login attempt from ' . $_SERVER['REMOTE_ADDR']);
     http_response_code(401);
     echo json_encode(['success' => false, 'message' => 'Username atau password salah']);
 }

@@ -75,7 +75,8 @@ try {
         DB_PASS,
         [
             PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
+            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+            PDO::ATTR_EMULATE_PREPARES => false
         ]
     );
 } catch (PDOException $e) {
@@ -244,7 +245,12 @@ try {
             'email_sent' => $emailSent,
             'ebook_url' => $ebookUrl,
             'whatsapp_url' => $whatsappUrl,
-            'watermark_info' => $watermarkInfo
+            'watermark_info' => $watermarkInfo ? [
+                'success' => $watermarkInfo['success'] ?? false,
+                'method' => $watermarkInfo['method'] ?? 'unknown',
+                'page_count' => $watermarkInfo['page_count'] ?? null,
+                'message' => $watermarkInfo['message'] ?? ''
+            ] : null
         ]);
         
     } elseif ($action === 'reject') {
@@ -284,7 +290,6 @@ try {
     http_response_code(500);
     echo json_encode([
         'success' => false,
-        'message' => 'Failed to process verification',
-        'error' => $e->getMessage()
+        'message' => 'Failed to process verification'
     ]);
 }

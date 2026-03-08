@@ -46,7 +46,7 @@ try {
     $pdo = new PDO(
         'mysql:host=' . DB_HOST . ';dbname=' . DB_NAME . ';charset=utf8mb4',
         DB_USER, DB_PASS,
-        [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION, PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC]
+        [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION, PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC, PDO::ATTR_EMULATE_PREPARES => false]
     );
 } catch (PDOException $e) {
     http_response_code(500);
@@ -104,8 +104,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     $total = $countStmt->fetch()['total'];
 
     // Get paginated results
-    $sql .= " LIMIT $perPage OFFSET $offset";
+    $sql .= " LIMIT ? OFFSET ?";
     $stmt = $pdo->prepare($sql);
+    $params[] = $perPage;
+    $params[] = $offset;
     $stmt->execute($params);
     $orders = $stmt->fetchAll();
 

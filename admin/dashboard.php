@@ -9,17 +9,34 @@
 session_start();
 require_once '../config.php';
 
+// Session timeout (2 hours)
+if (isset($_SESSION['admin_logged_in']) && isset($_SESSION['login_time'])) {
+    if (time() - $_SESSION['login_time'] > 7200) {
+        session_destroy();
+        session_start();
+    }
+}
+
 // Authentication
 $admin_password = defined('ADMIN_PASSWORD') ? ADMIN_PASSWORD : 'm2b_admin_2024';
 
 if (!isset($_SESSION['admin_logged_in'])) {
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['password'])) {
-        if ($_POST['password'] === $admin_password) {
+        // Verify CSRF token
+        if (!isset($_POST['csrf_token']) || !isset($_SESSION['csrf_token']) || !hash_equals($_SESSION['csrf_token'], $_POST['csrf_token'])) {
+            $login_error = 'Sesi tidak valid, silakan coba lagi.';
+        } elseif (hash_equals($admin_password, $_POST['password'])) {
+            session_regenerate_id(true);
             $_SESSION['admin_logged_in'] = true;
             $_SESSION['login_time'] = time();
         } else {
             $login_error = 'Password salah!';
         }
+    }
+    
+    // Generate CSRF token for login form
+    if (!isset($_SESSION['csrf_token'])) {
+        $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
     }
     
     if (!isset($_SESSION['admin_logged_in'])) {
@@ -127,6 +144,7 @@ if (!isset($_SESSION['admin_logged_in'])) {
                     <div class="error"><?= htmlspecialchars($login_error) ?></div>
                 <?php endif; ?>
                 <form method="POST">
+                    <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($_SESSION['csrf_token']) ?>">
                     <div class="form-group">
                         <label for="password">Password</label>
                         <input type="password" id="password" name="password" placeholder="Masukkan password admin" required autofocus>

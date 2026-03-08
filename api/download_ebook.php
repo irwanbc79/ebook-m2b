@@ -18,7 +18,7 @@ if (!$orderId || !$token) {
     exit;
 }
 
-// Verify token (HMAC signature)
+// Verify token (HMAC signature with optional expiration)
 $expectedToken = hash_hmac('sha256', $orderId, API_SECRET_KEY);
 if (!hash_equals($expectedToken, $token)) {
     http_response_code(403);
@@ -26,10 +26,28 @@ if (!hash_equals($expectedToken, $token)) {
     exit;
 }
 
+// Rate limiting: max 10 downloads per IP per hour
+$dlRateFile = __DIR__ . '/../temp/dl_' . md5($_SERVER['REMOTE_ADDR']) . '.json';
+if (file_exists($dlRateFile)) {
+    $dlRate = json_decode(file_get_contents($dlRateFile), true);
+    if ($dlRate && $dlRate['count'] >= 10 && (time() - $dlRate['first']) < 3600) {
+        http_response_code(429);
+        echo '<!DOCTYPE html><html><body><h2>Terlalu banyak permintaan</h2><p>Silakan coba lagi nanti.</p></body></html>';
+        exit;
+    }
+    if (time() - $dlRate['first'] >= 3600) {
+        $dlRate = ['count' => 0, 'first' => time()];
+    }
+} else {
+    $dlRate = ['count' => 0, 'first' => time()];
+}
+$dlRate['count']++;
+@file_put_contents($dlRateFile, json_encode($dlRate));
+
 // Connect to database and verify order
 try {
-    $pdo = new PDO("mysql:host=" . DB_HOST . ";dbname=" . DB_NAME . ";charset=utf8mb4", DB_USER, DB_PASS);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $pdo = new PDO("mysql:host=" . DB_HOST . ";dbname=" . DB_NAME . ";charset=utf8mb4", DB_USER, DB_PASS,
+        [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION, PDO::ATTR_EMULATE_PREPARES => false]);
 } catch (PDOException $e) {
     http_response_code(500);
     echo '<!DOCTYPE html><html><body><h2>Server Error</h2><p>Silakan coba lagi nanti.</p></body></html>';
