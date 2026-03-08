@@ -24,6 +24,9 @@ document.addEventListener("DOMContentLoaded", function () {
   initMobileMenu();
   initFAQ();
   initOrderForm();
+  initCountdownTimer();
+  initStickyCta();
+  initSocialProofPopup();
 });
 
 /**
@@ -462,4 +465,121 @@ function formatPurposeLabel(purpose) {
     lainnya: "Lainnya",
   };
   return map[purpose] || "Tidak dipilih";
+}
+
+/**
+ * Countdown Timer — rolling 3-day deadline to create urgency
+ */
+function initCountdownTimer() {
+  const container = document.getElementById('promoCountdown');
+  if (!container) return;
+
+  // Create a rolling deadline: always ~3 days from first visit
+  const STORAGE_KEY = 'promo_deadline';
+  let deadline;
+  try {
+    const stored = localStorage.getItem(STORAGE_KEY);
+    if (stored) {
+      deadline = new Date(stored);
+      // If deadline already passed, reset to new 3-day window
+      if (deadline <= new Date()) {
+        deadline = new Date(Date.now() + 3 * 24 * 60 * 60 * 1000);
+        localStorage.setItem(STORAGE_KEY, deadline.toISOString());
+      }
+    } else {
+      deadline = new Date(Date.now() + 3 * 24 * 60 * 60 * 1000);
+      localStorage.setItem(STORAGE_KEY, deadline.toISOString());
+    }
+  } catch (e) {
+    deadline = new Date(Date.now() + 3 * 24 * 60 * 60 * 1000);
+  }
+
+  function updateTimer() {
+    const now = new Date();
+    const diff = Math.max(0, deadline - now);
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+    const el = (id) => document.getElementById(id);
+    if (el('countDays')) el('countDays').textContent = String(days).padStart(2, '0');
+    if (el('countHours')) el('countHours').textContent = String(hours).padStart(2, '0');
+    if (el('countMinutes')) el('countMinutes').textContent = String(minutes).padStart(2, '0');
+    if (el('countSeconds')) el('countSeconds').textContent = String(seconds).padStart(2, '0');
+  }
+
+  updateTimer();
+  setInterval(updateTimer, 1000);
+}
+
+/**
+ * Sticky Bottom CTA Bar — appears after scrolling past hero
+ */
+function initStickyCta() {
+  const bar = document.getElementById('stickyCta');
+  const orderSection = document.getElementById('order');
+  if (!bar) return;
+
+  window.addEventListener('scroll', function () {
+    const scrollY = window.pageYOffset || document.documentElement.scrollTop;
+    const heroEnd = 600;
+    // Hide when order section is visible
+    const orderTop = orderSection ? orderSection.offsetTop - window.innerHeight : Infinity;
+    const orderBottom = orderSection ? orderSection.offsetTop + orderSection.offsetHeight : Infinity;
+
+    if (scrollY > heroEnd && (scrollY < orderTop || scrollY > orderBottom)) {
+      bar.classList.add('visible');
+    } else {
+      bar.classList.remove('visible');
+    }
+  });
+}
+
+/**
+ * Social Proof Notification Popup — shows fake recent purchases
+ */
+function initSocialProofPopup() {
+  const popup = document.getElementById('socialProofPopup');
+  if (!popup) return;
+
+  const buyers = [
+    { name: 'Budi S.', city: 'Jakarta', initial: 'B' },
+    { name: 'Sari W.', city: 'Bandung', initial: 'S' },
+    { name: 'Andi P.', city: 'Surabaya', initial: 'A' },
+    { name: 'Dewi R.', city: 'Medan', initial: 'D' },
+    { name: 'Rizky F.', city: 'Makassar', initial: 'R' },
+    { name: 'Hendra L.', city: 'Semarang', initial: 'H' },
+    { name: 'Putri M.', city: 'Yogyakarta', initial: 'P' },
+    { name: 'Agus T.', city: 'Bali', initial: 'A' },
+    { name: 'Lina K.', city: 'Palembang', initial: 'L' },
+    { name: 'Farhan Z.', city: 'Bekasi', initial: 'F' },
+  ];
+
+  let index = Math.floor(Math.random() * buyers.length);
+
+  function showNotification() {
+    const buyer = buyers[index];
+    const nameEl = document.getElementById('proofName');
+    const cityEl = document.getElementById('proofCity');
+    const avatarEl = document.getElementById('proofAvatar');
+    if (nameEl) nameEl.textContent = buyer.name;
+    if (cityEl) cityEl.textContent = buyer.city;
+    if (avatarEl) avatarEl.textContent = buyer.initial;
+
+    popup.classList.add('show');
+
+    setTimeout(() => {
+      popup.classList.remove('show');
+      index = (index + 1) % buyers.length;
+    }, 4000);
+  }
+
+  // First show after 15 seconds, then every 25-40 seconds (randomized)
+  setTimeout(() => {
+    showNotification();
+    setInterval(() => {
+      showNotification();
+    }, 25000 + Math.random() * 15000);
+  }, 15000);
 }

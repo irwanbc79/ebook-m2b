@@ -1766,3 +1766,244 @@ body {
         padding: 24px;
     }
 }
+
+/* ==================== */
+/* SALES CONVERSION     */
+/* ==================== */
+
+/* Social Proof Counter (Hero) */
+.social-proof-counter {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(16, 185, 129, 0.1);
+    border: 1px solid rgba(16, 185, 129, 0.3);
+    padding: 8px 16px;
+    border-radius: 50px;
+    font-size: 0.9rem;
+    color: var(--dark);
+    margin-bottom: 8px;
+}
+
+.proof-dot {
+    width: 8px;
+    height: 8px;
+    background: var(--success);
+    border-radius: 50%;
+    animation: pulse-dot 2s infinite;
+}
+
+@keyframes pulse-dot {
+
+    0%,
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    50% {
+        opacity: 0.5;
+        transform: scale(1.5);
+    }
+}
+
+/* Countdown Timer */
+.promo-countdown {
+    margin-top: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+}
+
+.countdown-label {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--danger);
+}
+
+.countdown-timer {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.countdown-unit {
+    background: var(--dark);
+    color: var(--white);
+    padding: 8px 12px;
+    border-radius: var(--radius);
+    text-align: center;
+    min-width: 54px;
+}
+
+.countdown-unit span {
+    display: block;
+    font-size: 1.5rem;
+    font-weight: 800;
+    line-height: 1;
+}
+
+.countdown-unit small {
+    display: block;
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    opacity: 0.7;
+    margin-top: 2px;
+}
+
+.countdown-sep {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--dark);
+}
+
+/* Trust Badges */
+.trust-badges {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 16px;
+    flex-wrap: wrap;
+}
+
+.trust-item {
+    background: var(--bg-light);
+    border: 1px solid var(--gray-lighter);
+    padding: 6px 14px;
+    border-radius: 50px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--gray);
+}
+
+/* Sticky Bottom CTA Bar */
+.sticky-cta-bar {
+    position: fixed;
+    bottom: -80px;
+    left: 0;
+    right: 0;
+    background: var(--white);
+    border-top: 1px solid var(--gray-lighter);
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.1);
+    padding: 12px 0;
+    z-index: 999;
+    transition: bottom 0.3s ease;
+}
+
+.sticky-cta-bar.visible {
+    bottom: 0;
+}
+
+.sticky-cta-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.sticky-cta-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 0.9rem;
+}
+
+.sticky-cta-info s {
+    color: var(--gray-light);
+    font-size: 0.85rem;
+}
+
+.sticky-price {
+    color: var(--danger);
+    font-weight: 700;
+    font-size: 1.1rem;
+}
+
+.btn-sm {
+    padding: 10px 24px;
+    font-size: 0.9rem;
+}
+
+/* Social Proof Notification Popup */
+.social-proof-popup {
+    position: fixed;
+    bottom: 90px;
+    left: 20px;
+    background: var(--white);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-xl);
+    padding: 14px 18px;
+    z-index: 998;
+    opacity: 0;
+    transform: translateX(-120%);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    max-width: 320px;
+    border-left: 3px solid var(--success);
+}
+
+.social-proof-popup.show {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.proof-popup-content {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.proof-popup-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--gradient-primary);
+    color: var(--white);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 1rem;
+    flex-shrink: 0;
+}
+
+.proof-popup-text {
+    font-size: 0.85rem;
+    line-height: 1.4;
+}
+
+.proof-popup-text small {
+    color: var(--gray);
+}
+
+/* Responsive: Sticky CTA */
+@media (max-width: 768px) {
+    .sticky-cta-info strong {
+        display: none;
+    }
+
+    .sticky-cta-info {
+        gap: 4px;
+    }
+
+    .countdown-unit {
+        min-width: 44px;
+        padding: 6px 8px;
+    }
+
+    .countdown-unit span {
+        font-size: 1.2rem;
+    }
+
+    .social-proof-popup {
+        left: 10px;
+        right: 10px;
+        max-width: none;
+        bottom: 80px;
+    }
+
+    .social-proof-counter {
+        font-size: 0.8rem;
+        padding: 6px 12px;
+    }
+}
