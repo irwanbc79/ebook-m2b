@@ -1,9 +1,17 @@
 User-agent: *
 Allow: /
 Disallow: /admin
+Disallow: /admin.html
 Disallow: /api
 Disallow: /config.php
+Disallow: /config.php.example
 Disallow: /logs
 Disallow: /temp
 Disallow: /uploads
+Disallow: /database
+Disallow: /out_ebook.html
+Disallow: /email_helper.php
+Disallow: /watermark_pdf.php
+Disallow: /composer.json
+Disallow: /composer.lock
 Sitemap: https://ebook.m2b.co.id/sitemap.xml

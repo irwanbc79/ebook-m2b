@@ -1,14 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>
     <loc>https://ebook.m2b.co.id/</loc>
-    <lastmod>2026-03-08</lastmod>
+    <lastmod>2026-05-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
+    <image:image>
+      <image:loc>https://ebook.m2b.co.id/img/og-cover.jpg</image:loc>
+      <image:title>E-book Panduan Lengkap Ekspor Impor Indonesia 2026 — M2B v2.0</image:title>
+      <image:caption>Cover e-book panduan ekspor impor terlengkap 2026 dari Tim M2B</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://ebook.m2b.co.id/img/infographic-navigasi-strategis.png</image:loc>
+      <image:title>Infografis Navigasi Strategis Ekspor-Impor Indonesia 2026</image:title>
+      <image:caption>Peta jalan strategis ekspor-impor dari fondasi regulasi hingga sustainability — M2B 2026</image:caption>
+    </image:image>
   </url>
   <url>
     <loc>https://ebook.m2b.co.id/toolkit.html</loc>
-    <lastmod>2026-03-08</lastmod>
+    <lastmod>2026-05-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
