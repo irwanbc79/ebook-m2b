@@ -116,15 +116,46 @@
             "price": "49000",
             "priceValidUntil": "2026-12-31",
             "availability": "https://schema.org/InStock",
+            "itemCondition": "https://schema.org/NewCondition",
             "seller": {
                 "@type": "Organization",
-                "name": "M2B - Logistic | Solution | Partner"
+                "name": "M2B - Logistic | Solution | Partner",
+                "url": "https://m2b.co.id"
+            },
+            "shippingDetails": {
+                "@type": "OfferShippingDetails",
+                "shippingRate": {
+                    "@type": "MonetaryAmount",
+                    "value": "0",
+                    "currency": "IDR"
+                },
+                "deliveryTime": {
+                    "@type": "ShippingDeliveryTime",
+                    "handlingTime": {
+                        "@type": "QuantitativeValue",
+                        "minValue": 0,
+                        "maxValue": 0,
+                        "unitCode": "DAY"
+                    },
+                    "transitTime": {
+                        "@type": "QuantitativeValue",
+                        "minValue": 0,
+                        "maxValue": 0,
+                        "unitCode": "DAY"
+                    }
+                },
+                "shippingDestination": {
+                    "@type": "DefinedRegion",
+                    "addressCountry": "ID"
+                }
             },
             "hasMerchantReturnPolicy": {
                 "@type": "MerchantReturnPolicy",
+                "applicableCountry": "ID",
                 "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
                 "merchantReturnDays": 7,
-                "returnMethod": "https://schema.org/ReturnByMail"
+                "returnMethod": "https://schema.org/ReturnByMail",
+                "returnFees": "https://schema.org/FreeReturn"
             }
         },
         "aggregateRating": {
