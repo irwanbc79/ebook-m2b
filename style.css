@@ -179,6 +179,12 @@ body {
     background-clip: text;
 }
 
+.nav-logo-img {
+    height: 46px;
+    width: auto;
+    display: block;
+}
+
 .logo-subtitle {
     font-size: 10px;
     color: var(--gray);
