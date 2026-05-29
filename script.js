@@ -24,9 +24,7 @@ document.addEventListener("DOMContentLoaded", function () {
   initMobileMenu();
   initFAQ();
   initOrderForm();
-  initCountdownTimer();
   initStickyCta();
-  initSocialProofPopup();
 });
 
 /**
