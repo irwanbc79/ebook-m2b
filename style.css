@@ -324,7 +324,7 @@ body {
 /* HERO SECTION         */
 /* ==================== */
 .hero {
-    padding: 130px 0 80px;
+    padding: 120px 0 70px;
     background: linear-gradient(180deg, #f0f4ff 0%, #f8faff 40%, var(--white) 100%);
     position: relative;
     overflow: hidden;
@@ -343,8 +343,8 @@ body {
 
 .hero .container {
     display: grid;
-    grid-template-columns: 1.1fr 0.9fr;
-    gap: 60px;
+    grid-template-columns: 1.2fr 0.8fr;
+    gap: 40px;
     align-items: center;
     position: relative;
     z-index: 1;
@@ -463,26 +463,36 @@ body {
 .hero-image {
     display: flex;
     justify-content: center;
+    align-items: center;
+    perspective: 1000px;
 }
 
 .book-mockup {
     position: relative;
     animation: float 6s ease-in-out infinite;
+    transform: rotateY(-5deg);
+    transition: transform 0.4s ease;
+}
+
+.book-mockup:hover {
+    transform: rotateY(0deg) scale(1.02);
 }
 
 .book-mockup img {
     width: 100%;
-    max-width: 520px;
+    max-width: 380px;
     border-radius: var(--radius-lg);
-    box-shadow: var(--shadow-xl);
+    box-shadow:
+        0 25px 50px -12px rgba(0, 0, 0, 0.2),
+        0 0 40px rgba(102, 126, 234, 0.1);
 }
 
 .book-badge {
     position: absolute;
-    bottom: -20px;
-    right: -20px;
+    bottom: -14px;
+    right: -14px;
     background: var(--white);
-    padding: 20px;
+    padding: 16px 20px;
     border-radius: var(--radius-lg);
     box-shadow: var(--shadow-lg);
     text-align: center;
@@ -490,7 +500,7 @@ body {
 
 .price-new {
     display: block;
-    font-size: 28px;
+    font-size: 22px;
     font-weight: 800;
     color: var(--primary);
 }
@@ -1362,7 +1372,15 @@ body {
     }
 
     .hero {
-        padding: 130px 0 60px;
+        padding: 110px 0 50px;
+    }
+
+    .book-mockup {
+        transform: none;
+    }
+
+    .book-mockup img {
+        max-width: 300px;
     }
 
     .hero-title {
