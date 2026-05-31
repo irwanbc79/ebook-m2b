@@ -1,8 +1,6 @@
 /* M2B Admin Panel - Styles */
 /* Admin Dashboard for E-book Payment Management */
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
-
 :root {
     --primary: #667eea;
     --primary-dark: #764ba2;

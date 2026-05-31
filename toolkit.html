@@ -94,7 +94,7 @@
 
     <!-- Alpine.js -->
     <script
-      src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"
+      src="https://unpkg.com/alpinejs@3.14.3/dist/cdn.min.js"
       defer
     ></script>
 
@@ -877,7 +877,7 @@
     <div class="layout">
       <!-- ═══ SIDEBAR ═══ -->
       <nav class="sidebar">
-        <a href="https://m2b.co.id/out_ebook_v2.html" class="back-link">
+        <a href="https://ebook.m2b.co.id/out_ebook.html" class="back-link">
           ← <span x-text="lang === 'id' ? 'Kembali ke E-book' : 'Back to E-book'"></span>
         </a>
 
@@ -1291,7 +1291,7 @@
           </p>
           <ul style="list-style: none; padding: 0; margin-top: 0.75rem;">
             <li style="margin: 0.3rem 0;">🌐 Website: <a href="https://www.m2b.co.id" target="_blank">www.m2b.co.id</a></li>
-            <li style="margin: 0.3rem 0;">📱 WhatsApp: <a href="https://wa.me/6281263027818" target="_blank">+62 812 6302 7818</a></li>
+            <li style="margin: 0.3rem 0;">📱 WhatsApp: <a href="https://wa.me/6282261846811" target="_blank">+62 822 6184 6811</a></li>
             <li style="margin: 0.3rem 0;">📧 Email: <a href="mailto:info@m2b.co.id">info@m2b.co.id</a></li>
           </ul>
         </section>
@@ -1360,7 +1360,6 @@
 
           resetChecklist() {
             this.checks = {};
-            Object.keys(this.checks).forEach(k => delete this.checks[k]);
             this.allChecklistItems.forEach(item => { this.checks[item.key] = false; });
             localStorage.removeItem('m2b_toolkit_checks');
           },

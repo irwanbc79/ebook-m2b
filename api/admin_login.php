@@ -57,11 +57,14 @@ if (hash_equals('admin', $username) && hash_equals(ADMIN_PASSWORD, $password)) {
     // Reset rate limit on success
     @unlink($loginRateFile);
 
+    // Generate time-limited session token instead of raw API key
+    $tokenExpiry = time() + 86400; // 24 hours
+    $sessionToken = hash_hmac('sha256', API_SECRET_KEY . '|' . $tokenExpiry, API_SECRET_KEY);
+    
     echo json_encode([
         'success' => true,
         'message' => 'Login berhasil',
-        'api_key' => API_SECRET_KEY,
-        'admin_whatsapp' => ADMIN_WHATSAPP,
+        'api_key' => $sessionToken . '|' . $tokenExpiry,
         'expires_in' => 86400
     ]);
 } else {

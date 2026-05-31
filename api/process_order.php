@@ -164,7 +164,7 @@ if (!empty($errors)) {
 }
 
 // Generate unique Order ID
-$orderId = 'M2B-' . date('Ymd') . '-' . strtoupper(substr(md5(uniqid(rand(), true)), 0, 6));
+$orderId = 'M2B-' . date('Ymd') . '-' . strtoupper(bin2hex(random_bytes(3)));
 
 // Clean WhatsApp number
 $whatsapp = preg_replace('/[^0-9]/', '', $data['whatsapp']);
@@ -248,7 +248,6 @@ try {
         echo json_encode([
             'success' => false,
             'message' => 'Failed to create order',
-            'error' => $e->getMessage()
         ]);
     }
 }

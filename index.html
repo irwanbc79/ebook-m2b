@@ -62,22 +62,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
         rel="stylesheet">
 
-    <link rel="stylesheet" href="style.css?v=20260529">
-
-    <!-- Critical inline styles for order layout (overrides for CDN cache) -->
-    <style>
-        /* Responsive order layout override */
-        @media (max-width: 768px) {
-            .order-layout {
-                grid-template-columns: 1fr !important;
-                gap: 24px;
-            }
-
-            .order-right {
-                position: static;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="style.css?v=20260531">
 
     <!-- Structured Data: Product with Reviews -->
     <script type="application/ld+json">
@@ -305,6 +290,9 @@
 </head>
 
 <body>
+    <!-- Skip to main content -->
+    <a href="#content" class="sr-only" style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;">Langsung ke konten</a>
+
     <!-- Header Navigation -->
     <nav class="navbar" id="navbar">
         <div class="container">
@@ -343,11 +331,11 @@
                 </div>
 
                 <!-- Trust signals (klaim nyata, bukan angka karangan) -->
-                <div class="trust-strip" style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:8px">
-                    <span style="display:inline-flex;align-items:center;gap:6px;background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,0.3);padding:7px 14px;border-radius:50px;font-size:0.85rem;color:var(--dark);font-weight:600">🔒 Garansi 7 Hari Uang Kembali</span>
-                    <span style="display:inline-flex;align-items:center;gap:6px;background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,0.3);padding:7px 14px;border-radius:50px;font-size:0.85rem;color:var(--dark);font-weight:600">🔖 E-book Asli Ber-watermark</span>
-                    <span style="display:inline-flex;align-items:center;gap:6px;background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,0.3);padding:7px 14px;border-radius:50px;font-size:0.85rem;color:var(--dark);font-weight:600">🔄 Update Gratis Selamanya</span>
-                    <span style="display:inline-flex;align-items:center;gap:6px;background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,0.3);padding:7px 14px;border-radius:50px;font-size:0.85rem;color:var(--dark);font-weight:600">🇬🇧 Bonus Versi Inggris</span>
+                <div class="trust-strip">
+                    <span class="trust-badge-item">🔒 Garansi 7 Hari Uang Kembali</span>
+                    <span class="trust-badge-item">🔖 E-book Asli Ber-watermark</span>
+                    <span class="trust-badge-item">🔄 Update Gratis Selamanya</span>
+                    <span class="trust-badge-item">🇬🇧 Bonus Versi Inggris</span>
                 </div>
 
                 <div class="cta-group">
@@ -370,6 +358,9 @@
             </div>
         </div>
     </header>
+
+    <!-- Main Content -->
+    <main>
 
     <!-- Features Section -->
     <section class="features-section">
@@ -824,7 +815,7 @@
                                     </div>
                                     <div class="payment-row">
                                         <span class="payment-label">No. Rekening:</span>
-                                        <span class="payment-value copyable" onclick="copyToClipboard('8280424243')">
+                                        <span class="payment-value copyable" data-copy="8280424243">
                                             8280424243 <small>📋 Salin</small>
                                         </span>
                                     </div>
@@ -860,7 +851,7 @@
             </div>
             <div class="faq-list">
                 <div class="faq-item">
-                    <button class="faq-question" onclick="toggleFaq(this)">
+                    <button class="faq-question" aria-expanded="false">
                         <span>Apa perbedaan e-book v2.0 dengan versi sebelumnya?</span>
                         <span class="faq-icon">+</span>
                     </button>
@@ -872,7 +863,7 @@
                     </div>
                 </div>
                 <div class="faq-item">
-                    <button class="faq-question" onclick="toggleFaq(this)">
+                    <button class="faq-question" aria-expanded="false">
                         <span>Apakah e-book ini dalam bentuk cetak?</span>
                         <span class="faq-icon">+</span>
                     </button>
@@ -882,7 +873,7 @@
                     </div>
                 </div>
                 <div class="faq-item">
-                    <button class="faq-question" onclick="toggleFaq(this)">
+                    <button class="faq-question" aria-expanded="false">
                         <span>Apakah tersedia dalam Bahasa Inggris?</span>
                         <span class="faq-icon">+</span>
                     </button>
@@ -892,7 +883,7 @@
                     </div>
                 </div>
                 <div class="faq-item">
-                    <button class="faq-question" onclick="toggleFaq(this)">
+                    <button class="faq-question" aria-expanded="false">
                         <span>Apakah materi akan di-update?</span>
                         <span class="faq-icon">+</span>
                     </button>
@@ -902,7 +893,7 @@
                     </div>
                 </div>
                 <div class="faq-item">
-                    <button class="faq-question" onclick="toggleFaq(this)">
+                    <button class="faq-question" aria-expanded="false">
                         <span>Bagaimana cara bergabung dengan grup Telegram?</span>
                         <span class="faq-icon">+</span>
                     </button>
@@ -912,7 +903,7 @@
                     </div>
                 </div>
                 <div class="faq-item">
-                    <button class="faq-question" onclick="toggleFaq(this)">
+                    <button class="faq-question" aria-expanded="false">
                         <span>Apakah ada garansi uang kembali?</span>
                         <span class="faq-icon">+</span>
                     </button>
@@ -924,6 +915,8 @@
             </div>
         </div>
     </section>
+
+    </main>
 
     <!-- Final CTA -->
     <section class="final-cta-section">
@@ -996,18 +989,7 @@
         </div>
     </div>
 
-    <!-- Social Proof Notification Popup -->
-    <div class="social-proof-popup" id="socialProofPopup">
-        <div class="proof-popup-content">
-            <div class="proof-popup-avatar" id="proofAvatar">B</div>
-            <div class="proof-popup-text">
-                <strong id="proofName">Budi</strong> dari <span id="proofCity">Jakarta</span>
-                <br><small>baru saja membeli e-book ini</small>
-            </div>
-        </div>
-    </div>
-
-    <script src="script.js?v=20260310"></script>
+    <script src="script.js?v=20260531"></script>
 </body>
 
 </html>

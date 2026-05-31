@@ -14,7 +14,7 @@ define('DB_USER', 'root');
 define('DB_PASS', '');
 
 // ── Admin Login ──
-define('ADMIN_PASSWORD', 'admin123');
+define('ADMIN_PASSWORD', 'admin123'); // ⚠️ CHANGE THIS! Use a strong password. Consider password_hash() for production.
 
 // ── Admin API Key ──
 define('API_SECRET_KEY', 'CHANGE_THIS_TO_A_SECURE_RANDOM_KEY');
@@ -32,3 +32,17 @@ define('ADMIN_WHATSAPP', '6282261846811');
 define('SUPPORT_EMAIL', 'ebook@m2b.co.id');
 define('FROM_EMAIL', 'ebook@m2b.co.id');
 define('FROM_NAME', 'M2B E-book System');
+
+// ── Site Settings ──
+define('SITE_URL', 'https://ebook.m2b.co.id');
+
+// ── Telegram ──
+define('TELEGRAM_GROUP', 'https://t.me/+vLwFWh-xg54wMzNl');
+
+// ── E-book Files ──
+define('WATERMARK_ENABLED', true);
+define('MASTER_EBOOK_PATH', __DIR__ . '/ebooks/master-id.pdf');
+define('MASTER_EBOOK_PATH_EN', __DIR__ . '/ebooks/master-en.pdf');
+define('EBOOK_TITLE', 'Panduan Lengkap Ekspor Impor Indonesia 2026');
+define('GOOGLE_DRIVE_LINK', 'https://drive.google.com/CHANGE_THIS');
+define('BONUS_DRIVE_LINK', 'https://drive.google.com/CHANGE_THIS_BONUS');

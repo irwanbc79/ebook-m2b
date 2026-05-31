@@ -9,6 +9,7 @@ Disallow: /logs
 Disallow: /temp
 Disallow: /uploads
 Disallow: /database
+Disallow: /vendor/
 Disallow: /out_ebook.html
 Disallow: /email_helper.php
 Disallow: /watermark_pdf.php

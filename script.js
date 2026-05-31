@@ -1,6 +1,6 @@
 /**
- * M2B E-book Landing Page - JavaScript v2.0
- * Updated: February 2026 - 22 Chapters Edition
+ * M2B E-book Landing Page - JavaScript v2.1
+ * Updated: May 2026 - Refactored & Optimized
  * WhatsApp: +62 822 6184 6811
  */
 
@@ -19,12 +19,12 @@ document.addEventListener("DOMContentLoaded", function () {
   initSmoothScroll();
   initNavbarScroll();
   initScrollAnimations();
-  initCounterAnimation();
   initBackToTop();
   initMobileMenu();
   initFAQ();
   initOrderForm();
   initStickyCta();
+  initCopyToClipboard();
 });
 
 /**
@@ -33,8 +33,12 @@ document.addEventListener("DOMContentLoaded", function () {
 function initSmoothScroll() {
   document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
     anchor.addEventListener("click", function (e) {
-      e.preventDefault();
       const targetId = this.getAttribute("href");
+
+      // Guard against empty hash
+      if (!targetId || targetId === "#") return;
+
+      e.preventDefault();
       const target = document.querySelector(targetId);
 
       if (target) {
@@ -55,21 +59,39 @@ function initSmoothScroll() {
 }
 
 /**
+ * Throttled scroll handler using requestAnimationFrame
+ */
+function createScrollHandler(callback) {
+  let ticking = false;
+  return function () {
+    if (!ticking) {
+      window.requestAnimationFrame(function () {
+        callback();
+        ticking = false;
+      });
+      ticking = true;
+    }
+  };
+}
+
+/**
  * Initialize Navbar Scroll Effect
  */
 function initNavbarScroll() {
   const navbar = document.querySelector(".navbar");
   if (!navbar) return;
 
-  window.addEventListener("scroll", function () {
-    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-
-    if (scrollTop > 50) {
-      navbar.classList.add("scrolled");
-    } else {
-      navbar.classList.remove("scrolled");
-    }
-  });
+  window.addEventListener(
+    "scroll",
+    createScrollHandler(function () {
+      const scrollTop = window.scrollY;
+      if (scrollTop > 50) {
+        navbar.classList.add("scrolled");
+      } else {
+        navbar.classList.remove("scrolled");
+      }
+    })
+  );
 }
 
 /**
@@ -77,15 +99,15 @@ function initNavbarScroll() {
  */
 function initScrollAnimations() {
   const elements = document.querySelectorAll(
-    ".feature-card, .chapter-card, .audience-card, .testimonial-card, " +
-    ".part-header, .infographic-wrapper, .pricing-card",
+    ".feature-card, .chapter-card, .audience-card, " +
+    ".part-header, .infographic-wrapper"
   );
 
   if (!elements.length) return;
 
   const observer = new IntersectionObserver(
     (entries) => {
-      entries.forEach((entry, index) => {
+      entries.forEach((entry) => {
         if (entry.isIntersecting) {
           // Stagger animation based on index within view
           const siblings = Array.from(entry.target.parentElement.children);
@@ -103,7 +125,7 @@ function initScrollAnimations() {
     {
       threshold: 0.1,
       rootMargin: "0px 0px -50px 0px",
-    },
+    }
   );
 
   elements.forEach((el) => {
@@ -115,60 +137,22 @@ function initScrollAnimations() {
 }
 
 /**
- * Initialize Counter Animation
- */
-function initCounterAnimation() {
-  const counters = document.querySelectorAll(".stat-number[data-target]");
-  if (!counters.length) return;
-
-  const observer = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          animateCounter(entry.target);
-          observer.unobserve(entry.target);
-        }
-      });
-    },
-    { threshold: 0.5 },
-  );
-
-  counters.forEach((counter) => observer.observe(counter));
-}
-
-function animateCounter(element) {
-  const target = parseInt(element.getAttribute("data-target"));
-  const duration = 2000; // 2 seconds
-  const steps = 60;
-  const increment = target / steps;
-  let current = 0;
-  const stepTime = duration / steps;
-
-  const timer = setInterval(() => {
-    current += increment;
-    if (current >= target) {
-      element.textContent = target;
-      clearInterval(timer);
-    } else {
-      element.textContent = Math.floor(current);
-    }
-  }, stepTime);
-}
-
-/**
  * Initialize Back to Top Button
  */
 function initBackToTop() {
   const btn = document.getElementById("backToTop");
   if (!btn) return;
 
-  window.addEventListener("scroll", function () {
-    if (window.pageYOffset > 500) {
-      btn.classList.add("visible");
-    } else {
-      btn.classList.remove("visible");
-    }
-  });
+  window.addEventListener(
+    "scroll",
+    createScrollHandler(function () {
+      if (window.scrollY > 500) {
+        btn.classList.add("visible");
+      } else {
+        btn.classList.remove("visible");
+      }
+    })
+  );
 
   btn.addEventListener("click", function () {
     window.scrollTo({
@@ -205,28 +189,35 @@ function initMobileMenu() {
 }
 
 /**
- * Initialize FAQ Accordion
+ * Initialize FAQ Accordion — event delegation from .faq-list
  */
 function initFAQ() {
-  // Already handled by inline toggleFaq function, but add keyboard support
-  const faqButtons = document.querySelectorAll(".faq-question");
-  faqButtons.forEach((button) => {
-    button.addEventListener("keydown", function (e) {
-      if (e.key === "Enter" || e.key === " ") {
-        e.preventDefault();
-        toggleFaq(this);
-      }
-    });
+  const faqList = document.querySelector(".faq-list");
+  if (!faqList) return;
+
+  faqList.addEventListener("click", function (e) {
+    const button = e.target.closest(".faq-question");
+    if (!button) return;
+    toggleFaq(button);
+  });
+
+  // Keyboard support
+  faqList.addEventListener("keydown", function (e) {
+    if (e.key === "Enter" || e.key === " ") {
+      const button = e.target.closest(".faq-question");
+      if (!button) return;
+      e.preventDefault();
+      toggleFaq(button);
+    }
   });
 }
 
 /**
- * Toggle FAQ - Global function
+ * Toggle FAQ
  */
 function toggleFaq(button) {
   const item = button.parentElement;
   const icon = button.querySelector(".faq-icon");
-  const answer = item.querySelector(".faq-answer");
   const isActive = item.classList.contains("active");
 
   // Close all
@@ -234,11 +225,14 @@ function toggleFaq(button) {
     i.classList.remove("active");
     const ic = i.querySelector(".faq-icon");
     if (ic) ic.textContent = "+";
+    const btn = i.querySelector(".faq-question");
+    if (btn) btn.setAttribute("aria-expanded", "false");
   });
 
   if (!isActive) {
     item.classList.add("active");
     if (icon) icon.textContent = "−";
+    button.setAttribute("aria-expanded", "true");
   }
 }
 
@@ -256,22 +250,50 @@ function generateOrderId() {
 }
 
 /**
- * Copy to Clipboard
+ * Initialize Copy to Clipboard — event delegation
  */
-function copyToClipboard(text) {
-  if (navigator.clipboard) {
-    navigator.clipboard.writeText(text).then(() => {
-      alert("Berhasil disalin!");
-    });
-  } else {
-    const textArea = document.createElement("textarea");
-    textArea.value = text;
-    document.body.appendChild(textArea);
-    textArea.select();
-    document.execCommand("copy");
-    document.body.removeChild(textArea);
-    alert("Berhasil disalin!");
-  }
+function initCopyToClipboard() {
+  document.addEventListener("click", function (e) {
+    const copyEl = e.target.closest(".copyable");
+    if (!copyEl) return;
+
+    const text = copyEl.dataset.copy;
+    if (!text) return;
+
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(text).then(
+        () => showToast("Berhasil disalin!"),
+        () => showToast("Gagal menyalin", true)
+      );
+    }
+  });
+}
+
+/**
+ * Show toast notification (replaces alert())
+ */
+function showToast(message, isError) {
+  // Remove existing toast
+  const existing = document.querySelector(".m2b-toast");
+  if (existing) existing.remove();
+
+  const toast = document.createElement("div");
+  toast.className = "m2b-toast";
+  toast.textContent = message;
+  toast.style.cssText =
+    "position:fixed;bottom:100px;left:50%;transform:translateX(-50%);" +
+    "padding:12px 24px;border-radius:8px;font-size:14px;font-weight:600;" +
+    "z-index:10000;animation:fadeIn 0.3s ease;" +
+    (isError
+      ? "background:#fef2f2;color:#dc2626;border:1px solid #fecaca;"
+      : "background:#f0fdf4;color:#065f46;border:1px solid #bbf7d0;");
+
+  document.body.appendChild(toast);
+  setTimeout(() => {
+    toast.style.opacity = "0";
+    toast.style.transition = "opacity 0.3s ease";
+    setTimeout(() => toast.remove(), 300);
+  }, 2500);
 }
 
 /**
@@ -293,19 +315,19 @@ function initOrderForm() {
 
     // Validation
     if (!fullName || !email || !whatsapp || !city) {
-      alert("Mohon lengkapi semua field yang wajib diisi.");
+      showToast("Mohon lengkapi semua field yang wajib diisi.", true);
       return;
     }
 
     if (!isValidEmail(email)) {
-      alert("Format email tidak valid.");
+      showToast("Format email tidak valid.", true);
       return;
     }
 
     // Validate WhatsApp format
     const waClean = whatsapp.replace(/[^0-9]/g, '');
     if (waClean.length < 10 || waClean.length > 15) {
-      alert("Nomor WhatsApp tidak valid. Gunakan format 08xx atau 628xx.");
+      showToast("Nomor WhatsApp tidak valid. Gunakan format 08xx atau 628xx.", true);
       return;
     }
 
@@ -375,7 +397,7 @@ function initOrderForm() {
         `Kota: ${city}\n` +
         `Tujuan: ${formatPurposeLabel(purpose)}\n\n` +
         `Total: Rp 49.000\n\n` +
-        `Saya akan segera melakukan pembayaran. Terima kasih! 🙏`,
+        `Saya akan segera melakukan pembayaran. Terima kasih! 🙏`
       );
       waUrl = `https://wa.me/${CONFIG.whatsappNumber}?text=${waMessage}`;
     }
@@ -441,6 +463,7 @@ function showOrderSuccess(orderId) {
   setTimeout(() => {
     formCard.innerHTML = originalContent;
     initOrderForm(); // Re-attach event listener
+    initCopyToClipboard(); // Re-attach copy listener
   }, 8000);
 }
 
@@ -466,52 +489,6 @@ function formatPurposeLabel(purpose) {
 }
 
 /**
- * Countdown Timer — rolling 3-day deadline to create urgency
- */
-function initCountdownTimer() {
-  const container = document.getElementById('promoCountdown');
-  if (!container) return;
-
-  // Create a rolling deadline: always ~3 days from first visit
-  const STORAGE_KEY = 'promo_deadline';
-  let deadline;
-  try {
-    const stored = localStorage.getItem(STORAGE_KEY);
-    if (stored) {
-      deadline = new Date(stored);
-      // If deadline already passed, reset to new 3-day window
-      if (deadline <= new Date()) {
-        deadline = new Date(Date.now() + 3 * 24 * 60 * 60 * 1000);
-        localStorage.setItem(STORAGE_KEY, deadline.toISOString());
-      }
-    } else {
-      deadline = new Date(Date.now() + 3 * 24 * 60 * 60 * 1000);
-      localStorage.setItem(STORAGE_KEY, deadline.toISOString());
-    }
-  } catch (e) {
-    deadline = new Date(Date.now() + 3 * 24 * 60 * 60 * 1000);
-  }
-
-  function updateTimer() {
-    const now = new Date();
-    const diff = Math.max(0, deadline - now);
-    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-    const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-    const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-
-    const el = (id) => document.getElementById(id);
-    if (el('countDays')) el('countDays').textContent = String(days).padStart(2, '0');
-    if (el('countHours')) el('countHours').textContent = String(hours).padStart(2, '0');
-    if (el('countMinutes')) el('countMinutes').textContent = String(minutes).padStart(2, '0');
-    if (el('countSeconds')) el('countSeconds').textContent = String(seconds).padStart(2, '0');
-  }
-
-  updateTimer();
-  setInterval(updateTimer, 1000);
-}
-
-/**
  * Sticky Bottom CTA Bar — appears after scrolling past hero
  */
 function initStickyCta() {
@@ -519,8 +496,8 @@ function initStickyCta() {
   const orderSection = document.getElementById('order');
   if (!bar) return;
 
-  window.addEventListener('scroll', function () {
-    const scrollY = window.pageYOffset || document.documentElement.scrollTop;
+  window.addEventListener('scroll', createScrollHandler(function () {
+    const scrollY = window.scrollY;
     const heroEnd = 600;
     // Hide when order section is visible
     const orderTop = orderSection ? orderSection.offsetTop - window.innerHeight : Infinity;
@@ -531,53 +508,5 @@ function initStickyCta() {
     } else {
       bar.classList.remove('visible');
     }
-  });
-}
-
-/**
- * Social Proof Notification Popup — shows fake recent purchases
- */
-function initSocialProofPopup() {
-  const popup = document.getElementById('socialProofPopup');
-  if (!popup) return;
-
-  const buyers = [
-    { name: 'Budi S.', city: 'Jakarta', initial: 'B' },
-    { name: 'Sari W.', city: 'Bandung', initial: 'S' },
-    { name: 'Andi P.', city: 'Surabaya', initial: 'A' },
-    { name: 'Dewi R.', city: 'Medan', initial: 'D' },
-    { name: 'Rizky F.', city: 'Makassar', initial: 'R' },
-    { name: 'Hendra L.', city: 'Semarang', initial: 'H' },
-    { name: 'Putri M.', city: 'Yogyakarta', initial: 'P' },
-    { name: 'Agus T.', city: 'Bali', initial: 'A' },
-    { name: 'Lina K.', city: 'Palembang', initial: 'L' },
-    { name: 'Farhan Z.', city: 'Bekasi', initial: 'F' },
-  ];
-
-  let index = Math.floor(Math.random() * buyers.length);
-
-  function showNotification() {
-    const buyer = buyers[index];
-    const nameEl = document.getElementById('proofName');
-    const cityEl = document.getElementById('proofCity');
-    const avatarEl = document.getElementById('proofAvatar');
-    if (nameEl) nameEl.textContent = buyer.name;
-    if (cityEl) cityEl.textContent = buyer.city;
-    if (avatarEl) avatarEl.textContent = buyer.initial;
-
-    popup.classList.add('show');
-
-    setTimeout(() => {
-      popup.classList.remove('show');
-      index = (index + 1) % buyers.length;
-    }, 4000);
-  }
-
-  // First show after 15 seconds, then every 25-40 seconds (randomized)
-  setTimeout(() => {
-    showNotification();
-    setInterval(() => {
-      showNotification();
-    }, 25000 + Math.random() * 15000);
-  }, 15000);
+  }));
 }
