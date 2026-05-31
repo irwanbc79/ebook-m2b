@@ -117,7 +117,7 @@ RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
         Header set Cache-Control "no-cache, no-store, must-revalidate"
         Header set Pragma "no-cache"
         Header set Expires "0"
-        Header set X-Content-Version "v2.0-20260222"
+        Header set X-Content-Version "v2.1-20260531"
     </FilesMatch>
 </IfModule>
 
