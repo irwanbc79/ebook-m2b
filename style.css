@@ -324,10 +324,13 @@ body {
 /* HERO SECTION         */
 /* ==================== */
 .hero {
-    padding: 120px 0 70px;
+    padding: 120px 0 60px;
     background: linear-gradient(180deg, #f0f4ff 0%, #f8faff 40%, var(--white) 100%);
     position: relative;
     overflow: hidden;
+    min-height: 85vh;
+    display: flex;
+    align-items: center;
 }
 
 .hero::before {
@@ -464,38 +467,55 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    perspective: 1000px;
+    perspective: 800px;
+    position: relative;
+}
+
+/* Decorative backdrop behind book */
+.hero-image::before {
+    content: '';
+    position: absolute;
+    width: 320px;
+    height: 320px;
+    background: var(--gradient-primary);
+    border-radius: 50%;
+    filter: blur(60px);
+    opacity: 0.12;
+    z-index: 0;
 }
 
 .book-mockup {
     position: relative;
-    animation: float 6s ease-in-out infinite;
-    transform: rotateY(-5deg);
-    transition: transform 0.4s ease;
+    z-index: 1;
+    transform: rotateY(-6deg) rotateX(2deg);
+    transition: transform 0.5s ease;
 }
 
 .book-mockup:hover {
-    transform: rotateY(0deg) scale(1.02);
+    transform: rotateY(0deg) rotateX(0deg) scale(1.03);
 }
 
 .book-mockup img {
-    width: 100%;
-    max-width: 380px;
+    width: auto;
+    max-width: 340px;
+    max-height: 440px;
+    object-fit: contain;
     border-radius: var(--radius-lg);
     box-shadow:
-        0 25px 50px -12px rgba(0, 0, 0, 0.2),
-        0 0 40px rgba(102, 126, 234, 0.1);
+        0 30px 60px -15px rgba(0, 0, 0, 0.25),
+        0 0 50px rgba(102, 126, 234, 0.12);
 }
 
 .book-badge {
     position: absolute;
-    bottom: -14px;
-    right: -14px;
+    bottom: -10px;
+    right: -10px;
     background: var(--white);
-    padding: 16px 20px;
+    padding: 14px 18px;
     border-radius: var(--radius-lg);
     box-shadow: var(--shadow-lg);
     text-align: center;
+    z-index: 2;
 }
 
 .price-new {
@@ -1372,7 +1392,12 @@ body {
     }
 
     .hero {
-        padding: 110px 0 50px;
+        padding: 110px 0 40px;
+        min-height: auto;
+    }
+
+    .hero-image::before {
+        display: none;
     }
 
     .book-mockup {
@@ -1380,7 +1405,8 @@ body {
     }
 
     .book-mockup img {
-        max-width: 300px;
+        max-width: 260px;
+        max-height: 340px;
     }
 
     .hero-title {
