@@ -16,6 +16,8 @@ const CONFIG = {
 
 // Initialize when DOM is ready
 document.addEventListener("DOMContentLoaded", function () {
+  initPromoBar();
+  initCountdownTimer();
   initSmoothScroll();
   initNavbarScroll();
   initScrollAnimations();
@@ -403,7 +405,7 @@ function initOrderForm() {
     }
 
     // Show success feedback
-    showOrderSuccess(orderId);
+    showOrderSuccess(orderId, waUrl);
 
     // Open WhatsApp
     setTimeout(() => {
@@ -435,7 +437,7 @@ function saveOrder(order) {
 /**
  * Show success message after order
  */
-function showOrderSuccess(orderId) {
+function showOrderSuccess(orderId, waUrl) {
   const formCard = document.querySelector(".order-form-card");
   if (!formCard) return;
 
@@ -445,26 +447,187 @@ function showOrderSuccess(orderId) {
   const safeOrderId = orderId.replace(/[<>"'&]/g, c => ({ '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;', '&': '&amp;' }[c]));
 
   formCard.innerHTML = `
-        <div style="text-align:center; padding:60px 36px;">
-            <div style="font-size:64px; margin-bottom:20px;">🎉</div>
-            <h3 style="font-size:22px; font-weight:700; color:#1f2937; margin-bottom:8px;">Pesanan Berhasil!</h3>
-            <p style="color:#6b7280; margin-bottom:16px;">Order ID: <strong style="color:#667eea;">${safeOrderId}</strong></p>
-            <p style="color:#6b7280; font-size:14px; margin-bottom:24px;">
-                Anda akan diarahkan ke WhatsApp untuk konfirmasi pembayaran.<br>
-                Silakan transfer ke BCA: <strong>8280424243</strong> a/n Eka Mayang Sari Harahap
-            </p>
-            <div style="background:#f0fdf4; border:1px solid #bbf7d0; border-radius:8px; padding:14px; font-size:13px; color:#065f46;">
-                📧 E-book akan dikirim ke email Anda setelah pembayaran terverifikasi (maks. 2 jam)
+        <div class="checkout-success-container" style="text-align:center; padding:32px 24px;">
+            <div style="font-size:56px; margin-bottom:16px;">🎉</div>
+            <h3 style="font-size:22px; font-weight:700; color:#1f2937; margin-bottom:4px;">Pesanan Berhasil!</h3>
+            <p style="color:#6b7280; font-size:14px; margin-bottom:16px;">Order ID: <strong style="color:#667eea;">${safeOrderId}</strong></p>
+            
+            <!-- BCA Transfer Details -->
+            <div style="background:#f9fafb; border:1px solid #e5e7eb; border-radius:12px; padding:16px; margin-bottom:20px; text-align:left;">
+                <h4 style="margin:0 0 10px 0; font-size:14px; color:#374151;">💳 Transfer Ke:</h4>
+                <div style="display:flex; justify-content:space-between; margin-bottom:6px; font-size:13px;">
+                    <span style="color:#6b7280;">Bank:</span>
+                    <strong style="color:#1f2937;">BCA</strong>
+                </div>
+                <div style="display:flex; justify-content:space-between; margin-bottom:6px; font-size:13px;">
+                    <span style="color:#6b7280;">No. Rekening:</span>
+                    <strong class="copyable" data-copy="8280424243" style="color:#667eea; cursor:pointer;">
+                        8280424243 <small style="font-size:10px; opacity:0.8;">📋 Salin</small>
+                    </strong>
+                </div>
+                <div style="display:flex; justify-content:space-between; margin-bottom:6px; font-size:13px;">
+                    <span style="color:#6b7280;">Atas Nama:</span>
+                    <strong style="color:#1f2937;">Eka Mayang Sari Harahap</strong>
+                </div>
+                <div style="display:flex; justify-content:space-between; border-top:1px dashed #e5e7eb; padding-top:8px; margin-top:8px; font-size:14px;">
+                    <span style="color:#6b7280; font-weight:600;">Total Transfer:</span>
+                    <strong style="color:#ef4444; font-weight:800;">Rp 49.000</strong>
+                </div>
             </div>
+
+            <!-- WhatsApp Confirmation -->
+            <a href="${waUrl}" target="_blank" class="btn btn-primary btn-block btn-glow" style="margin-bottom:16px; text-decoration:none;">
+                💬 Konfirmasi via WhatsApp
+            </a>
+            
+            <div style="margin:20px 0; display:flex; align-items:center; justify-content:center; gap:10px;">
+                <span style="flex:1; height:1px; background:#e5e7eb;"></span>
+                <span style="font-size:11px; color:#9ca3af; text-transform:uppercase; font-weight:600; letter-spacing:0.5px;">Atau Upload Bukti Langsung</span>
+                <span style="flex:1; height:1px; background:#e5e7eb;"></span>
+            </div>
+
+            <!-- Uploader Drag & Drop Area -->
+            <div class="proof-upload-container" id="proofUploadArea">
+                <span class="proof-upload-icon">📤</span>
+                <span class="proof-upload-text">Klik atau seret bukti transfer di sini</span>
+                <span class="proof-upload-subtext">JPG, PNG, WebP (Maks 5MB)</span>
+                <input type="file" id="proofFileInput" accept="image/jpeg,image/png,image/webp" style="display:none;">
+            </div>
+
+            <!-- Preview & Progress Area (hidden initially) -->
+            <div id="uploadPreviewArea" style="display:none; margin-top:16px; text-align:left;">
+                <div class="proof-preview-container">
+                    <img id="proofPreviewImg" class="proof-preview-img" src="" alt="Bukti Transfer">
+                    <span id="proofFileName" style="font-size:12px; color:#4b5563; word-break:break-all; font-weight:600; display:block; text-align:center;"></span>
+                </div>
+                <div class="upload-progress-bar-wrap">
+                    <div id="uploadProgressBar" class="upload-progress-bar"></div>
+                </div>
+                <span id="uploadStatusText" style="font-size:12px; color:#4b5563; margin-top:4px; display:block; text-align:center;"></span>
+            </div>
+
+            <!-- Go Back Link -->
+            <button id="btnBackToForm" style="background:none; border:none; color:#9ca3af; font-size:13px; text-decoration:underline; cursor:pointer; margin-top:24px; font-weight:500;">
+                ← Kembali ke Form Pemesanan
+            </button>
         </div>
     `;
 
-  // Restore form after 8 seconds
-  setTimeout(() => {
+  // Attach Events to Newly Rendered Elements
+  const uploader = formCard.querySelector('#proofUploadArea');
+  const fileInput = formCard.querySelector('#proofFileInput');
+  const previewArea = formCard.querySelector('#uploadPreviewArea');
+  const previewImg = formCard.querySelector('#proofPreviewImg');
+  const fileNameSpan = formCard.querySelector('#proofFileName');
+  const progressBar = formCard.querySelector('#uploadProgressBar');
+  const statusText = formCard.querySelector('#uploadStatusText');
+  const btnBack = formCard.querySelector('#btnBackToForm');
+
+  // Back button event
+  btnBack.addEventListener('click', function() {
     formCard.innerHTML = originalContent;
-    initOrderForm(); // Re-attach event listener
-    initCopyToClipboard(); // Re-attach copy listener
-  }, 8000);
+    initOrderForm();
+    initCopyToClipboard();
+  });
+
+  // Click area triggers file input
+  uploader.addEventListener('click', () => fileInput.click());
+
+  // Drag over effects
+  uploader.addEventListener('dragover', (e) => {
+    e.preventDefault();
+    uploader.classList.add('dragover');
+  });
+
+  uploader.addEventListener('dragleave', () => {
+    uploader.classList.remove('dragover');
+  });
+
+  uploader.addEventListener('drop', (e) => {
+    e.preventDefault();
+    uploader.classList.remove('dragover');
+    if (e.dataTransfer.files.length) {
+      handleFileUpload(e.dataTransfer.files[0]);
+    }
+  });
+
+  fileInput.addEventListener('change', () => {
+    if (fileInput.files.length) {
+      handleFileUpload(fileInput.files[0]);
+    }
+  });
+
+  function handleFileUpload(file) {
+    // Client side checks
+    if (file.size > 5 * 1024 * 1024) {
+      showToast('Ukuran file maksimal 5MB.', true);
+      return;
+    }
+    const allowedTypes = ['image/jpeg', 'image/png', 'image/webp'];
+    if (!allowedTypes.includes(file.type)) {
+      showToast('Format file tidak didukung. Gunakan JPG, PNG, atau WebP.', true);
+      return;
+    }
+
+    // Display Preview
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      previewImg.src = e.target.result;
+      previewArea.style.display = 'block';
+    };
+    reader.readAsDataURL(file);
+    fileNameSpan.textContent = file.name;
+
+    // Start upload
+    uploader.style.display = 'none'; // hide uploader drop area
+    
+    const formData = new FormData();
+    formData.append('proof', file);
+    formData.append('order_id', orderId);
+
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', 'api/payment_proof.php', true);
+
+    xhr.upload.addEventListener('progress', function(e) {
+      if (e.lengthComputable) {
+        const percent = Math.round((e.loaded / e.total) * 100);
+        progressBar.style.width = percent + '%';
+        statusText.textContent = `Mengunggah: ${percent}%`;
+      }
+    });
+
+    xhr.onload = function() {
+      if (xhr.status === 200) {
+        try {
+          const res = JSON.parse(xhr.responseText);
+          if (res.success) {
+            statusText.innerHTML = `
+              <div style="color:#065f46; background:#f0fdf4; border:1px solid #bbf7d0; padding:12px; border-radius:8px; font-weight:600; text-align:center; margin-top:8px; font-size:13px; line-height:1.5;">
+                 ✅ Bukti transfer berhasil diunggah! E-book dikirim maksimal 2 jam setelah verifikasi.
+              </div>
+            `;
+            showToast('Bukti transfer berhasil diunggah!', false);
+          } else {
+            statusText.innerHTML = `<span style="color:#dc2626; font-size:12px; display:block; text-align:center; margin-top:8px;">❌ ${res.message || 'Gagal mengunggah bukti'}</span>`;
+            uploader.style.display = 'block';
+          }
+        } catch(e) {
+          statusText.innerHTML = '<span style="color:#dc2626; font-size:12px; display:block; text-align:center; margin-top:8px;">❌ Gagal memproses respon server.</span>';
+          uploader.style.display = 'block';
+        }
+      } else {
+        statusText.innerHTML = '<span style="color:#dc2626; font-size:12px; display:block; text-align:center; margin-top:8px;">❌ Gagal menghubungi server.</span>';
+        uploader.style.display = 'block';
+      }
+    };
+
+    xhr.onerror = function() {
+      statusText.innerHTML = '<span style="color:#dc2626; font-size:12px; display:block; text-align:center; margin-top:8px;">❌ Koneksi terputus.</span>';
+      uploader.style.display = 'block';
+    };
+
+    xhr.send(formData);
+  }
 }
 
 /**
@@ -509,4 +672,71 @@ function initStickyCta() {
       bar.classList.remove('visible');
     }
   }));
+}
+
+/**
+ * Initialize Top Promo Bar
+ */
+function initPromoBar() {
+  const promoBar = document.getElementById('topPromoBar');
+  const closeBtn = document.getElementById('topPromoClose');
+  if (!promoBar) return;
+
+  // Check if promo was closed previously
+  const isClosed = localStorage.getItem('m2b_promo_closed') === 'true';
+  if (isClosed) {
+    promoBar.style.display = 'none';
+    document.body.classList.remove('has-promo-bar');
+  } else {
+    document.body.classList.add('has-promo-bar');
+  }
+
+  if (closeBtn) {
+    closeBtn.addEventListener('click', function () {
+      promoBar.style.transform = 'translateY(-100%)';
+      setTimeout(() => {
+        promoBar.style.display = 'none';
+        document.body.classList.remove('has-promo-bar');
+      }, 300);
+      localStorage.setItem('m2b_promo_closed', 'true');
+    });
+  }
+}
+
+/**
+ * Initialize Countdown Timer (Dynamic Daily Deal ending at midnight)
+ */
+function initCountdownTimer() {
+  const hEl = document.getElementById('cdH');
+  const mEl = document.getElementById('cdM');
+  const sEl = document.getElementById('cdS');
+  
+  if (!hEl || !mEl || !sEl) return;
+
+  function updateTimer() {
+    const now = new Date();
+    
+    // Set target to midnight (23:59:59) of today
+    const target = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59, 999);
+    
+    let diff = target.getTime() - now.getTime();
+    
+    // If somehow past midnight, set to next day's midnight
+    if (diff <= 0) {
+      target.setDate(target.getDate() + 1);
+      diff = target.getTime() - now.getTime();
+    }
+    
+    const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+    const minutes = Math.floor((diff / (1000 * 60)) % 60);
+    const seconds = Math.floor((diff / 1000) % 60);
+    
+    hEl.textContent = String(hours).padStart(2, '0');
+    mEl.textContent = String(minutes).padStart(2, '0');
+    sEl.textContent = String(seconds).padStart(2, '0');
+  }
+
+  // Run immediately and then every second
+  updateTimer();
+  setInterval(updateTimer, 1000);
 }

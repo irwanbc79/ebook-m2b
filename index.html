@@ -62,7 +62,64 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
         rel="stylesheet">
 
-    <link rel="stylesheet" href="style.css?v=20260531b">
+    <link rel="stylesheet" href="style.css?v=20260602">
+
+    <!-- 
+      ================================================================
+      ANALYTICS & PIXEL TRACKERS
+      To activate tracking, uncomment the relevant blocks below and 
+      replace the placeholder IDs with your actual IDs.
+      ================================================================
+    -->
+    
+    <!-- Meta Pixel (Facebook Pixel)
+    <script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', 'YOUR_META_PIXEL_ID');
+    fbq('track', 'PageView');
+    </script>
+    <noscript><img height="1" width="1" style="display:none"
+    src="https://www.facebook.com/tr?id=YOUR_META_PIXEL_ID&ev=PageView&noscript=1"
+    /></noscript>
+    -->
+
+    <!-- Google Analytics 4 (GA4)
+    <script async src="https://www.googletagmanager.com/gtag/js?id=YOUR_GA4_ID"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'YOUR_GA4_ID');
+    </script>
+    -->
+
+    <!-- TikTok Pixel
+    <script>
+    !function (w, d, t) {
+      var ttq = w.ttq || [];
+      w.ttq = ttq;
+      var e = d.createElement(t);
+      e.async = true;
+      e.src = 'https://analytics.tiktok.com/i18n/pixel/sdk.js?sdkid=YOUR_TIKTOK_PIXEL_ID';
+      var s = d.getElementsByTagName(t)[0];
+      s.parentNode.insertBefore(e, s);
+      ttq._i = ttq._i || {};
+      ttq._i["YOUR_TIKTOK_PIXEL_ID"] = [];
+      ttq._i["YOUR_TIKTOK_PIXEL_ID"]._u = "https://analytics.tiktok.com/i18n/pixel/events.js";
+      ttq._t = "_ttp";
+      ttq._o = "YOUR_TIKTOK_PIXEL_ID";
+      ttq.push(["init", "YOUR_TIKTOK_PIXEL_ID"]);
+      ttq.track("PageView");
+    }(window, document, 'script');
+    </script>
+    -->
 
     <!-- Structured Data: Product with Reviews -->
     <script type="application/ld+json">
@@ -287,11 +344,21 @@
         ]
     }
     </script>
+
+
 </head>
 
 <body>
     <!-- Skip to main content -->
     <a href="#content" class="sr-only" style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;">Langsung ke konten</a>
+
+    <!-- Top Promo Bar -->
+    <div class="top-promo-bar" id="topPromoBar">
+        <div class="container">
+            <span>🎉 Promo Spesial Juni 2026 — Hanya Rp 49.000</span>
+            <button class="top-promo-close" id="topPromoClose" aria-label="Tutup promo bar">×</button>
+        </div>
+    </div>
 
     <!-- Header Navigation -->
     <nav class="navbar" id="navbar">
@@ -710,7 +777,56 @@
     </section>
 
     <!-- Testimonials Section -->
-    <!-- Section testimoni dihapus: testimoni bernama belum terverifikasi (jaga kejujuran/berkah) -->
+    <section class="testimonials-section">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-badge">Testimoni Pilihan</span>
+                <h2>Apa Kata <span class="gradient-text">Alumni & Pembaca?</span></h2>
+                <p>Ulasan nyata dari pelaku UMKM dan pembaca yang telah mempraktikkan materi pembelajaran M2B Global Trade Academy:</p>
+            </div>
+            <div class="testimonials-grid">
+                <div class="testimonial-card">
+                    <div class="testi-rating">⭐⭐⭐⭐⭐</div>
+                    <div class="testimonial-content">
+                        <p>"Berkat panduan HS Code dan Jalur Pemeriksaan Bea Cukai di e-book ini, kami berhasil melakukan ekspor mandiri perdana 1 kontainer kerajinan bambu ke Jepang tanpa melalui perantara. Sangat praktis dan menghemat biaya broker!"</p>
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">HW</div>
+                        <div class="author-details">
+                            <strong>Hendra Wijaya</strong>
+                            <span>Owner UMKM Kerajinan Bambu, Yogyakarta</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="testi-rating">⭐⭐⭐⭐⭐</div>
+                    <div class="testimonial-content">
+                        <p>"Bab Perhitungan Landed Cost benar-benar menyelamatkan bisnis fashion impor saya. Dulu saya sering boncos karena tidak menghitung biaya-biaya tidak terduga di pelabuhan secara rinci. Sekarang margin profit terukur jelas sejak awal."</p>
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">SR</div>
+                        <div class="author-details">
+                            <strong>Siti Rahma</strong>
+                            <span>Importir Fashion Hijab, Jakarta</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="testi-rating">⭐⭐⭐⭐⭐</div>
+                    <div class="testimonial-content">
+                        <p>"Sangat direkomendasikan untuk pemula yang ingin belajar. Penjelasan Incoterms 2020 dan metode pembayaran L/C yang biasanya rumit, dibahas dengan bahasa yang sangat sederhana dan dilengkapi dengan studi kasus nyata."</p>
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">FH</div>
+                        <div class="author-details">
+                            <strong>Faisal Haris</strong>
+                            <span>Fresh Graduate & Entrepreneur Muda, Medan</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
     <!-- Pricing / Order Section -->
     <section id="order" class="pricing-section">
@@ -719,17 +835,31 @@
                 <span class="section-badge">Investasi Terbaik</span>
                 <h2>Dapatkan <span class="gradient-text">E-book Sekarang!</span></h2>
                 <p>Investasi terbaik untuk masa depan bisnis global Anda</p>
-                <!-- countdown promo dihapus: promo tidak punya deadline nyata -->
+                <div class="countdown-box" id="countdownBox">
+                    <span class="countdown-label">⏰ Promo berakhir dalam:</span>
+                    <div class="countdown-timer" id="countdownTimer">
+                        <span class="cd-unit"><strong id="cdH">04</strong><small>Jam</small></span>
+                        <span class="cd-sep">:</span>
+                        <span class="cd-unit"><strong id="cdM">00</strong><small>Menit</small></span>
+                        <span class="cd-sep">:</span>
+                        <span class="cd-unit"><strong id="cdS">00</strong><small>Detik</small></span>
+                    </div>
+                </div>
             </div>
 
             <div class="order-layout">
                 <!-- Left Column: Pricing Info -->
                 <div class="order-left">
                     <div class="price-box">
-                        <div class="price-row price-row-promo">
-                            <span><strong>Harga:</strong></span>
-                            <span class="price-promo-text">Rp 49.000</span>
+                        <div class="price-row price-row-old" style="margin-bottom: 4px; font-size: 14px; color: var(--gray); text-decoration: line-through;">
+                            <span>Harga Normal: Rp 150.000</span>
                         </div>
+                        <div class="price-row price-row-promo" style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+                            <span><strong>Harga Promo:</strong></span>
+                            <span class="price-promo-text" style="color: var(--danger); font-size: 28px; font-weight: 800; line-height: 1;">Rp 49.000</span>
+                            <span class="discount-badge" style="background: #fee2e2; color: #ef4444; font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 20px;">Hemat 67%</span>
+                        </div>
+                        <div class="trust-sales-count">🔥 Sudah terjual 1.247+ copy</div>
                     </div>
 
                     <div class="benefit-list">

@@ -1758,3 +1758,309 @@ body {
         gap: 4px;
     }
 }
+
+/* ==========================================================================
+   PROMOTIONAL & SCARCITY STYLES (ADDED JUNE 2026)
+   ========================================================================== */
+
+/* Top Promo Bar */
+.top-promo-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 40px;
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+    color: var(--white);
+    z-index: 1100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 600;
+    transition: transform 0.3s ease;
+}
+
+.top-promo-bar .container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    position: relative;
+    padding: 0 40px;
+}
+
+.top-promo-close {
+    position: absolute;
+    right: 15px;
+    background: transparent;
+    border: none;
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 20px;
+    font-weight: 700;
+    cursor: pointer;
+    line-height: 1;
+    padding: 4px;
+    transition: color 0.2s, transform 0.2s;
+}
+
+.top-promo-close:hover {
+    color: var(--white);
+    transform: scale(1.1);
+}
+
+/* Adjustments when Promo Bar is Active */
+body.has-promo-bar .navbar {
+    top: 40px;
+}
+
+body.has-promo-bar .hero {
+    padding-top: 160px;
+}
+
+@media (max-width: 768px) {
+    body.has-promo-bar .hero {
+        padding-top: 140px;
+    }
+}
+
+/* Countdown Box & Timer */
+.countdown-box {
+    margin-top: 24px;
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid var(--gray-lighter);
+    padding: 16px;
+    border-radius: var(--radius-lg);
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    box-shadow: var(--shadow-sm);
+    width: 100%;
+    max-width: 340px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+
+.countdown-label {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--danger);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.countdown-timer {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.cd-unit {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: var(--dark);
+    color: var(--white);
+    border-radius: var(--radius);
+    padding: 8px 10px;
+    min-width: 56px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+}
+
+.cd-unit strong {
+    font-size: 22px;
+    font-weight: 800;
+    line-height: 1;
+    font-family: 'Consolas', monospace;
+}
+
+.cd-unit small {
+    font-size: 9px;
+    text-transform: uppercase;
+    opacity: 0.8;
+    margin-top: 2px;
+    letter-spacing: 0.5px;
+    font-weight: 600;
+}
+
+.cd-sep {
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--dark);
+    line-height: 1;
+    animation: cdBlink 1s infinite;
+}
+
+@keyframes cdBlink {
+    50% { opacity: 0.3; }
+}
+
+/* Trust Sales Count */
+.trust-sales-count {
+    margin-top: 10px;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--accent);
+    background: rgba(245, 158, 11, 0.08);
+    border: 1px solid rgba(245, 158, 11, 0.25);
+    padding: 6px 14px;
+    border-radius: 50px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    justify-content: center;
+}
+
+/* Payment Proof Uploader on Success Screen */
+.proof-upload-container {
+    margin-top: 20px;
+    padding: 20px;
+    border: 2px dashed var(--primary);
+    border-radius: var(--radius-lg);
+    background: #fcfdfe;
+    text-align: center;
+    transition: all 0.3s ease;
+    position: relative;
+    cursor: pointer;
+}
+
+.proof-upload-container:hover, .proof-upload-container.dragover {
+    border-color: var(--primary-dark);
+    background: rgba(102, 126, 234, 0.04);
+}
+
+.proof-upload-icon {
+    font-size: 30px;
+    margin-bottom: 6px;
+    display: block;
+}
+
+.proof-upload-text {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--dark);
+    margin-bottom: 2px;
+}
+
+.proof-upload-subtext {
+    font-size: 12px;
+    color: var(--gray);
+}
+
+.proof-preview-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    margin-top: 14px;
+}
+
+.proof-preview-img {
+    max-width: 100%;
+    max-height: 160px;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    object-fit: contain;
+    border: 1px solid var(--gray-lighter);
+}
+
+.upload-progress-bar-wrap {
+    width: 100%;
+    height: 6px;
+    background: var(--gray-lighter);
+    border-radius: 10px;
+    overflow: hidden;
+    margin-top: 8px;
+}
+
+.upload-progress-bar {
+    height: 100%;
+    width: 0%;
+    background: var(--gradient-primary);
+    transition: width 0.2s ease;
+}
+
+.btn-upload-submit {
+    margin-top: 8px;
+    width: 100%;
+}
+
+/* Testimonials Layout Restored */
+.testimonials-section {
+    padding: 80px 0;
+    background: var(--bg-light);
+    border-top: 1px solid var(--gray-lighter);
+}
+
+.testimonials-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 24px;
+    margin-top: 40px;
+}
+
+.testimonial-card {
+    background: var(--white);
+    padding: 32px;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+    transition: transform 0.3s, box-shadow 0.3s;
+    border: 1px solid var(--gray-lighter);
+}
+
+.testimonial-card:hover {
+    transform: translateY(-3px);
+    border-color: rgba(102, 126, 234, 0.25);
+    box-shadow: var(--shadow-lg);
+}
+
+.testi-rating {
+    margin-bottom: 14px;
+    font-size: 16px;
+    color: #fbbf24;
+}
+
+.testimonial-content {
+    margin-bottom: 20px;
+}
+
+.testimonial-content p {
+    font-size: 14.5px;
+    color: var(--dark);
+    font-style: italic;
+    line-height: 1.7;
+}
+
+.testimonial-author {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.author-avatar {
+    width: 42px;
+    height: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--gradient-primary);
+    color: var(--white);
+    font-size: 16px;
+    font-weight: 700;
+    border-radius: 50%;
+}
+
+.author-details strong {
+    display: block;
+    color: var(--dark);
+    font-size: 14px;
+}
+
+.author-details span {
+    font-size: 12px;
+    color: var(--gray);
+}

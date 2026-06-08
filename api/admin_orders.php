@@ -71,6 +71,68 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         exit;
     }
 
+    // Action-based endpoints
+    $action = $_GET['action'] ?? '';
+
+    if ($action === 'stats') {
+        // Daily stats
+        $dailyStmt = $pdo->query("
+            SELECT 
+                DATE(created_at) as date,
+                COUNT(*) as total,
+                SUM(CASE WHEN payment_status = 'verified' THEN 1 ELSE 0 END) as paid,
+                SUM(CASE WHEN payment_status = 'verified' THEN 1 ELSE 0 END) * " . EBOOK_PRICE . " as revenue
+            FROM orders
+            WHERE created_at >= DATE_SUB(CURDATE(), INTERVAL 30 DAY)
+            GROUP BY DATE(created_at)
+            ORDER BY date DESC
+        ");
+        $daily = $dailyStmt->fetchAll();
+
+        // Weekly stats
+        $weeklyStmt = $pdo->query("
+            SELECT 
+                YEARWEEK(created_at, 1) as week,
+                COUNT(*) as total,
+                SUM(CASE WHEN payment_status = 'verified' THEN 1 ELSE 0 END) as paid,
+                SUM(CASE WHEN payment_status = 'verified' THEN 1 ELSE 0 END) * " . EBOOK_PRICE . " as revenue
+            FROM orders
+            WHERE created_at >= DATE_SUB(CURDATE(), INTERVAL 12 WEEK)
+            GROUP BY YEARWEEK(created_at, 1)
+            ORDER BY week DESC
+        ");
+        $weekly = $weeklyStmt->fetchAll();
+
+        // Monthly stats
+        $monthlyStmt = $pdo->query("
+            SELECT 
+                DATE_FORMAT(created_at, '%Y-%m') as month,
+                COUNT(*) as total,
+                SUM(CASE WHEN payment_status = 'verified' THEN 1 ELSE 0 END) as paid,
+                SUM(CASE WHEN payment_status = 'verified' THEN 1 ELSE 0 END) * " . EBOOK_PRICE . " as revenue
+            FROM orders
+            WHERE created_at >= DATE_SUB(CURDATE(), INTERVAL 12 MONTH)
+            GROUP BY DATE_FORMAT(created_at, '%Y-%m')
+            ORDER BY month DESC
+        ");
+        $monthly = $monthlyStmt->fetchAll();
+
+        echo json_encode([
+            'success' => true,
+            'daily' => $daily,
+            'weekly' => $weekly,
+            'monthly' => $monthly
+        ]);
+        exit;
+    }
+
+    if ($action === 'recent') {
+        $stmt = $pdo->query("SELECT * FROM orders ORDER BY created_at DESC LIMIT 5");
+        $orders = $stmt->fetchAll();
+        echo json_encode(['success' => true, 'orders' => $orders]);
+        exit;
+    }
+
     // Build query with filters
     $where = [];
     $params = [];
@@ -86,29 +148,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         $params = array_merge($params, [$search, $search, $search, $search, $search]);
     }
 
-    $sql = "SELECT * FROM orders";
+    $baseSql = "SELECT * FROM orders";
     if (!empty($where)) {
-        $sql .= " WHERE " . implode(" AND ", $where);
+        $baseSql .= " WHERE " . implode(" AND ", $where);
     }
-    $sql .= " ORDER BY created_at DESC";
+
+    // Get total count (without ORDER BY / LIMIT for accuracy)
+    $countSql = str_replace("SELECT *", "SELECT COUNT(*) as total", $baseSql);
+    $countStmt = $pdo->prepare($countSql);
+    $countStmt->execute($params);
+    $total = intval($countStmt->fetch()['total'] ?? 0);
 
     // Pagination
     $page = max(1, intval($_GET['page'] ?? 1));
     $perPage = max(1, min(100, intval($_GET['per_page'] ?? 20)));
     $offset = ($page - 1) * $perPage;
 
-    // Get total count
-    $countSql = str_replace("SELECT *", "SELECT COUNT(*) as total", $sql);
-    $countStmt = $pdo->prepare($countSql);
-    $countStmt->execute($params);
-    $total = $countStmt->fetch()['total'];
-
     // Get paginated results
-    $sql .= " LIMIT ? OFFSET ?";
+    $sql = $baseSql . " ORDER BY created_at DESC LIMIT ? OFFSET ?";
     $stmt = $pdo->prepare($sql);
-    $params[] = $perPage;
-    $params[] = $offset;
-    $stmt->execute($params);
+    $execParams = array_merge($params, [$perPage, $offset]);
+    $stmt->execute($execParams);
     $orders = $stmt->fetchAll();
 
     // Get stats
@@ -130,7 +190,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         'pagination' => [
             'page' => $page,
             'per_page' => $perPage,
-            'total' => intval($total),
+            'total' => $total,
             'total_pages' => ceil($total / $perPage)
         ]
     ]);

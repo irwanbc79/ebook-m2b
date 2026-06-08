@@ -17,7 +17,24 @@
  */
 
 header('Content-Type: application/json');
-header('Access-Control-Allow-Origin: https://ebook.m2b.co.id');
+
+// Dynamic CORS with whitelist
+$allowedOrigins = [
+    'https://ebook.m2b.co.id',
+    'https://m2b.co.id',
+    'http://localhost',
+    'http://127.0.0.1',
+];
+$origin = $_SERVER['HTTP_ORIGIN'] ?? '';
+if ($origin && in_array($origin, $allowedOrigins, true)) {
+    header('Access-Control-Allow-Origin: ' . $origin);
+    header('Vary: Origin');
+} elseif ($origin && preg_match('/^https:\/\/.*\.m2b\.co\.id$/', $origin)) {
+    header('Access-Control-Allow-Origin: ' . $origin);
+    header('Vary: Origin');
+} else {
+    header('Access-Control-Allow-Origin: https://ebook.m2b.co.id');
+}
 header('Access-Control-Allow-Methods: POST, OPTIONS');
 header('Access-Control-Allow-Headers: Content-Type');
 
@@ -28,6 +45,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 }
 
 require_once '../config.php';
+
+// Better logging helper
+function logOrder($message) {
+    $logDir = __DIR__ . '/../temp';
+    if (!is_dir($logDir)) {
+        @mkdir($logDir, 0755, true);
+    }
+    $logFile = $logDir . '/orders.log';
+    $line = '[' . date('Y-m-d H:i:s') . '] ' . $message . PHP_EOL;
+    @file_put_contents($logFile, $line, FILE_APPEND | LOCK_EX);
+}
 
 // Simple rate limiting (max 5 orders per IP per hour)
 $rateLimitFile = __DIR__ . '/../temp/rate_' . md5($_SERVER['REMOTE_ADDR']) . '.json';
@@ -102,17 +130,33 @@ $createTable = "CREATE TABLE IF NOT EXISTS orders (
 try {
     $pdo->exec($createTable);
     
-    // Add missing columns if table was created before schema update
+    // Get existing columns to avoid syntax errors on older MySQL versions
+    $existingColumns = [];
+    try {
+        $columnsStmt = $pdo->query("DESCRIBE orders");
+        while ($col = $columnsStmt->fetch(PDO::FETCH_ASSOC)) {
+            $existingColumns[] = strtolower($col['Field']);
+        }
+    } catch (PDOException $e) {
+        error_log('Describe table error: ' . $e->getMessage());
+    }
+
+    // Add missing columns safely
     $alterQueries = [
-        "ALTER TABLE orders ADD COLUMN IF NOT EXISTS email_sent TINYINT(1) DEFAULT 0",
-        "ALTER TABLE orders ADD COLUMN IF NOT EXISTS watermark_status ENUM('pending','completed','failed') DEFAULT 'pending'",
-        "ALTER TABLE orders ADD COLUMN IF NOT EXISTS ebook_lang VARCHAR(5) DEFAULT 'id'",
-        "ALTER TABLE orders ADD COLUMN IF NOT EXISTS ebook_url TEXT",
-        "ALTER TABLE orders ADD COLUMN IF NOT EXISTS notes TEXT",
-        "ALTER TABLE orders ADD COLUMN IF NOT EXISTS verified_at TIMESTAMP NULL"
+        'email_sent' => "ALTER TABLE orders ADD COLUMN email_sent TINYINT(1) DEFAULT 0",
+        'watermark_status' => "ALTER TABLE orders ADD COLUMN watermark_status ENUM('pending','completed','failed') DEFAULT 'pending'",
+        'ebook_lang' => "ALTER TABLE orders ADD COLUMN ebook_lang VARCHAR(5) DEFAULT 'id'",
+        'ebook_url' => "ALTER TABLE orders ADD COLUMN ebook_url TEXT",
+        'notes' => "ALTER TABLE orders ADD COLUMN notes TEXT",
+        'verified_at' => "ALTER TABLE orders ADD COLUMN verified_at TIMESTAMP NULL",
+        'payment_proof' => "ALTER TABLE orders ADD COLUMN payment_proof VARCHAR(255) DEFAULT NULL"
     ];
-    foreach ($alterQueries as $q) {
-        try { $pdo->exec($q); } catch (PDOException $ignore) {}
+    foreach ($alterQueries as $colName => $q) {
+        if (!in_array(strtolower($colName), $existingColumns, true)) {
+            try { 
+                $pdo->exec($q); 
+            } catch (PDOException $ignore) {}
+        }
     }
 } catch (PDOException $e) {
     error_log('Table creation error: ' . $e->getMessage());
@@ -213,8 +257,41 @@ try {
     // Generate WhatsApp URL
     $whatsappUrl = generateWhatsAppURL($orderData);
     
+    // Google Sheets webhook integration (optional)
+    if (defined('GOOGLE_SHEETS_WEBHOOK_URL') && GOOGLE_SHEETS_WEBHOOK_URL) {
+        try {
+            $webhookPayload = json_encode([
+                'order_id' => $orderId,
+                'buyer_name' => $orderData['buyer_name'],
+                'buyer_email' => $orderData['buyer_email'],
+                'buyer_whatsapp' => $orderData['buyer_whatsapp'],
+                'buyer_city' => $orderData['buyer_city'],
+                'buyer_purpose' => $orderData['buyer_purpose'],
+                'ebook_lang' => $orderData['ebook_lang'],
+                'created_at' => date('Y-m-d H:i:s')
+            ]);
+            $webhookOptions = [
+                'http' => [
+                    'method' => 'POST',
+                    'header' => "Content-Type: application/json\r\nAccept: application/json\r\n",
+                    'content' => $webhookPayload,
+                    'timeout' => 5
+                ]
+            ];
+            $webhookContext = stream_context_create($webhookOptions);
+            @file_get_contents(GOOGLE_SHEETS_WEBHOOK_URL, false, $webhookContext);
+            logOrder("Webhook sent for order {$orderId}");
+        } catch (Exception $e) {
+            logOrder("Webhook failed for order {$orderId}: " . $e->getMessage());
+        }
+    } else {
+        logOrder("Webhook skipped for order {$orderId}: GOOGLE_SHEETS_WEBHOOK_URL not configured");
+    }
+    
     // Log successful order
-    error_log("New order created: {$orderId} - {$orderData['buyer_name']} ({$orderData['buyer_email']})");
+    logOrder("New order created: {$orderId} - {$orderData['buyer_name']} ({$orderData['buyer_email']})");
+    
+    $adminPanelUrl = defined('ADMIN_PANEL_URL') ? ADMIN_PANEL_URL : 'https://ebook.m2b.co.id/admin.html';
     
     // Return success response
     echo json_encode([
@@ -223,6 +300,7 @@ try {
         'order_id' => $orderId,
         'email_sent' => $emailSent,
         'whatsapp_url' => $whatsappUrl,
+        'admin_notify_url' => $adminPanelUrl . '?highlight=' . urlencode($orderId),
         'data' => [
             'name' => $orderData['buyer_name'],
             'email' => $orderData['buyer_email'],

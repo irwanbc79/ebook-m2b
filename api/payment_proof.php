@@ -21,7 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 
 require_once '../config.php';
 
-// ── Auth (skip for GET with valid token param) ──
+// ── Auth (skip for GET with valid token param or POST with valid pending order) ──
 $headers = getallheaders();
 $apiKey = '';
 if (isset($headers['Authorization'])) {
@@ -37,7 +37,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && empty($apiKey) && !empty($_GET['toke
     $apiKey = $_GET['token'];
 }
 
-if (empty($apiKey) || $apiKey !== API_SECRET_KEY) {
+$isPublicUpload = false;
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['order_id'])) {
+    try {
+        $checkPdo = new PDO(
+            'mysql:host=' . DB_HOST . ';dbname=' . DB_NAME . ';charset=utf8mb4',
+            DB_USER, DB_PASS,
+            [
+                PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+                PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+                PDO::ATTR_EMULATE_PREPARES => false
+            ]
+        );
+        $checkStmt = $checkPdo->prepare("SELECT payment_status FROM orders WHERE order_id = ?");
+        $checkStmt->execute([$_POST['order_id']]);
+        $checkRow = $checkStmt->fetch();
+        if ($checkRow && $checkRow['payment_status'] === 'pending') {
+            $isPublicUpload = true;
+        }
+    } catch (PDOException $e) {
+        // Fallback to auth check
+    }
+}
+
+if (!$isPublicUpload && (empty($apiKey) || $apiKey !== API_SECRET_KEY)) {
     http_response_code(401);
     header('Content-Type: application/json');
     echo json_encode(['success' => false, 'message' => 'Unauthorized']);
