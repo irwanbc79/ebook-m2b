@@ -1194,7 +1194,7 @@ body {
 .footer {
     background: var(--dark);
     color: var(--white);
-    padding: 60px 0 30px;
+    padding: 60px 0 100px;
 }
 
 .footer-content {
