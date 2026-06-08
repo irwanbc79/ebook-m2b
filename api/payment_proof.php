@@ -60,7 +60,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['order_id'])) {
     }
 }
 
-if (!$isPublicUpload && (empty($apiKey) || $apiKey !== API_SECRET_KEY)) {
+$isAuthorized = false;
+if (!empty($apiKey)) {
+    if ($apiKey === API_SECRET_KEY) {
+        $isAuthorized = true;
+    } else {
+        $parts = explode('|', $apiKey, 2);
+        if (count($parts) === 2) {
+            $tokenHash = $parts[0];
+            $expiry = (int)$parts[1];
+            if (time() <= $expiry) {
+                $expectedHash = hash_hmac('sha256', API_SECRET_KEY . '|' . $expiry, API_SECRET_KEY);
+                if (hash_equals($expectedHash, $tokenHash)) {
+                    $isAuthorized = true;
+                }
+            }
+        }
+    }
+}
+
+if (!$isPublicUpload && !$isAuthorized) {
     http_response_code(401);
     header('Content-Type: application/json');
     echo json_encode(['success' => false, 'message' => 'Unauthorized']);
