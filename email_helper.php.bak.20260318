@@ -21,8 +21,6 @@ class EmailHelper {
      * Send order confirmation email (after form submission)
      */
     public function sendOrderConfirmation($orderData) {
-        // Notif internal staff M2B
-        $this->sendEmail('mora.multiberkah@gmail.com', '[NEW ORDER] ' . $orderData['order_id'] . ' - ' . $orderData['buyer_name'], $this->getOrderConfirmationHTML($orderData));
         $to = $orderData['buyer_email'];
         $subject = "Konfirmasi Pesanan E-book - Order ID: {$orderData['order_id']}";
         $message = $this->getOrderConfirmationHTML($orderData);
