@@ -55,14 +55,14 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-    <!-- Preload critical assets -->
-    <link rel="preload" as="image" href="img/infographic-navigasi-strategis.png" type="image/png">
+    <!-- Preload critical assets (hero cover = LCP element) -->
+    <link rel="preload" as="image" href="img/ebook-cover.webp" type="image/webp">
 
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
         rel="stylesheet">
 
-    <link rel="stylesheet" href="style.css?v=20260608">
+    <link rel="stylesheet" href="style.css?v=20260707">
 
     <!-- 
       ================================================================
@@ -140,6 +140,32 @@
             "name": "M2B - Logistic | Solution | Partner",
             "url": "https://m2b.co.id"
         },
+        "aggregateRating": {
+            "@type": "AggregateRating",
+            "ratingValue": "5.0",
+            "bestRating": "5",
+            "reviewCount": "3"
+        },
+        "review": [
+            {
+                "@type": "Review",
+                "reviewRating": {"@type": "Rating", "ratingValue": "5", "bestRating": "5"},
+                "author": {"@type": "Person", "name": "Hendra Wijaya"},
+                "reviewBody": "Berkat panduan HS Code dan Jalur Pemeriksaan Bea Cukai di e-book ini, kami berhasil melakukan ekspor mandiri perdana 1 kontainer kerajinan bambu ke Jepang tanpa melalui perantara."
+            },
+            {
+                "@type": "Review",
+                "reviewRating": {"@type": "Rating", "ratingValue": "5", "bestRating": "5"},
+                "author": {"@type": "Person", "name": "Siti Rahma"},
+                "reviewBody": "Bab Perhitungan Landed Cost benar-benar menyelamatkan bisnis fashion impor saya. Sekarang margin profit terukur jelas sejak awal."
+            },
+            {
+                "@type": "Review",
+                "reviewRating": {"@type": "Rating", "ratingValue": "5", "bestRating": "5"},
+                "author": {"@type": "Person", "name": "Faisal Haris"},
+                "reviewBody": "Sangat direkomendasikan untuk pemula. Penjelasan Incoterms 2020 dan metode pembayaran L/C yang biasanya rumit dibahas dengan bahasa yang sangat sederhana."
+            }
+        ],
         "additionalProperty": [
             {"@type": "PropertyValue", "name": "Format", "value": "PDF"},
             {"@type": "PropertyValue", "name": "Bahasa", "value": "Bahasa Indonesia & English"},
@@ -355,7 +381,7 @@
     <!-- Top Promo Bar -->
     <div class="top-promo-bar" id="topPromoBar">
         <div class="container">
-            <span>🎉 Promo Spesial Juni 2026 — Hanya Rp 49.000</span>
+            <span>🎉 Promo Spesial — Diskon 67%, Hanya Rp 49.000</span>
             <button class="top-promo-close" id="topPromoClose" aria-label="Tutup promo bar">×</button>
         </div>
     </div>
@@ -371,6 +397,7 @@
             <div class="nav-links">
                 <a href="#content">Isi E-book</a>
                 <a href="#author">Penulis</a>
+                <a href="toolkit.html">🧰 Toolkit Gratis</a>
                 <a href="#order" class="btn btn-nav">🛒 Pesan Sekarang</a>
             </div>
             <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle menu">
@@ -415,8 +442,11 @@
             </div>
             <div class="hero-image">
                 <div class="book-mockup">
-                    <img src="img/ebook-cover.png" width="1000" height="1500"
-                        alt="Sampul E-book Panduan Lengkap Ekspor Impor Indonesia 2026 oleh M2B" loading="eager" fetchpriority="high">
+                    <picture>
+                        <source srcset="img/ebook-cover.webp" type="image/webp">
+                        <img src="img/ebook-cover.png" width="1000" height="1500"
+                            alt="Sampul E-book Panduan Lengkap Ekspor Impor Indonesia 2026 oleh M2B" loading="eager" fetchpriority="high">
+                    </picture>
                     <div class="book-badge">
                         <span class="price-new">Rp 49.000</span>
                     </div>
@@ -483,9 +513,12 @@
                     global.</p>
             </div>
             <div class="infographic-wrapper infographic-no-bg">
-                <img src="img/infographic-navigasi-strategis.png"
-                    alt="Infografis Navigasi Strategis Ekspor-Impor Indonesia 2026 — Peta jalan dari fondasi regulasi, HS Code, dokumen inti, manajemen jalur bea cukai, optimasi FTA, hingga sustainability"
-                    class="infographic-img" loading="lazy">
+                <picture>
+                    <source srcset="img/infographic-navigasi-strategis.webp" type="image/webp">
+                    <img src="img/infographic-navigasi-strategis.png"
+                        alt="Infografis Navigasi Strategis Ekspor-Impor Indonesia 2026 — Peta jalan dari fondasi regulasi, HS Code, dokumen inti, manajemen jalur bea cukai, optimasi FTA, hingga sustainability"
+                        class="infographic-img" loading="lazy">
+                </picture>
                 <div class="infographic-caption">
                     <p>📌 Infografis ini merangkum <strong>alur strategis</strong> yang akan Anda pelajari di dalam
                         e-book</p>
@@ -1084,6 +1117,7 @@
                 <div class="footer-links">
                     <h4>Layanan M2B</h4>
                     <ul>
+                        <li><a href="toolkit.html">🧰 Toolkit Ekspor-Impor Gratis</a></li>
                         <li><a href="https://m2b.co.id" target="_blank" rel="noopener noreferrer">Jasa Forwarder</a></li>
                         <li><a href="https://m2b.co.id" target="_blank" rel="noopener noreferrer">Konsultasi Ekspor</a></li>
                         <li><a href="https://m2b.co.id" target="_blank" rel="noopener noreferrer">Training In-House</a></li>
@@ -1119,7 +1153,7 @@
         </div>
     </div>
 
-    <script src="script.js?v=20260608"></script>
+    <script src="script.js?v=20260707"></script>
 </body>
 
 </html>

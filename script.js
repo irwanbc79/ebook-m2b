@@ -378,6 +378,7 @@ function initOrderForm() {
       phone: whatsapp,
       city: city,
       purpose: purpose,
+      ebookLang: ebookLang,
       amount: CONFIG.ebookPrice,
       status: "pending",
       createdAt: new Date().toISOString(),
@@ -443,8 +444,10 @@ function showOrderSuccess(orderId, waUrl) {
 
   const originalContent = formCard.innerHTML;
 
-  // Escape orderId to prevent XSS
-  const safeOrderId = orderId.replace(/[<>"'&]/g, c => ({ '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;', '&': '&amp;' }[c]));
+  // Escape orderId & waUrl to prevent XSS
+  const escapeHtml = (s) => String(s).replace(/[<>"'&]/g, c => ({ '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;', '&': '&amp;' }[c]));
+  const safeOrderId = escapeHtml(orderId);
+  const safeWaUrl = /^https:\/\/(wa\.me|api\.whatsapp\.com)\//.test(waUrl) ? escapeHtml(waUrl) : `https://wa.me/${CONFIG.whatsappNumber}`;
 
   formCard.innerHTML = `
         <div class="checkout-success-container" style="text-align:center; padding:32px 24px;">
@@ -476,7 +479,7 @@ function showOrderSuccess(orderId, waUrl) {
             </div>
 
             <!-- WhatsApp Confirmation -->
-            <a href="${waUrl}" target="_blank" class="btn btn-primary btn-block btn-glow" style="margin-bottom:16px; text-decoration:none;">
+            <a href="${safeWaUrl}" target="_blank" rel="noopener" class="btn btn-primary btn-block btn-glow" style="margin-bottom:16px; text-decoration:none;">
                 💬 Konfirmasi via WhatsApp
             </a>
             

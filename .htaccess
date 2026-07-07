@@ -40,10 +40,26 @@ RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
     Require all denied
 </Files>
 
-# Block access to log files and backups
-<FilesMatch "\.(log|sql|bak|backup|env|ini)$">
+# Block access to log files and backups (any filename containing .bak / .backup, dated or not)
+<FilesMatch "\.(log|sql|env|ini)$|\.(bak|backup)">
     Require all denied
 </FilesMatch>
+
+# Block ebook source & dev/utility scripts
+<Files "out_ebook.html">
+    Require all denied
+</Files>
+
+<Files "insert_morabangun_articles.php">
+    Require all denied
+</Files>
+
+<Files "check_posts.php">
+    Require all denied
+</Files>
+
+# Block local backup directory
+RewriteRule ^backups(/.*)?$ - [F,L]
 
 # Block access to hidden files (like .git)
 <FilesMatch "^\.">
@@ -104,7 +120,7 @@ RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
     Header set Referrer-Policy "strict-origin-when-cross-origin"
     Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains" env=HTTPS
     Header set Permissions-Policy "camera=(), microphone=(), geolocation=()"
-    Header set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://unpkg.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self'; frame-ancestors 'self'"
+    Header set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net https://unpkg.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self'; frame-ancestors 'self'"
 </IfModule>
 
 # Custom error pages (optional)
@@ -117,7 +133,7 @@ RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
         Header set Cache-Control "no-cache, no-store, must-revalidate"
         Header set Pragma "no-cache"
         Header set Expires "0"
-        Header set X-Content-Version "v2.1-20260531"
+        Header set X-Content-Version "v2.2-20260707"
     </FilesMatch>
 </IfModule>
 

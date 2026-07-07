@@ -93,10 +93,7 @@
     <link rel="icon" type="image/x-icon" href="https://m2b.co.id/favicon.ico" />
 
     <!-- Alpine.js -->
-    <script
-      src="https://unpkg.com/alpinejs@3.14.3/dist/cdn.min.js"
-      defer
-    ></script>
+    <script src="js/alpine.min.js" defer></script>
 
     <style>
       :root {
@@ -877,8 +874,8 @@
     <div class="layout">
       <!-- ═══ SIDEBAR ═══ -->
       <nav class="sidebar">
-        <a href="https://ebook.m2b.co.id/out_ebook.html" class="back-link">
-          ← <span x-text="lang === 'id' ? 'Kembali ke E-book' : 'Back to E-book'"></span>
+        <a href="https://ebook.m2b.co.id/" class="back-link">
+          ← <span x-text="lang === 'id' ? 'Kembali ke Halaman E-book' : 'Back to E-book Page'"></span>
         </a>
 
         <div class="brand-title">🧰 Toolkit</div>
@@ -1340,9 +1337,11 @@
           get totalLandedCost() { return this.nilaiImpor + this.ppnIDR + this.pphIDR + (this.calc.local || 0); },
 
           formatIDR(val) {
+            if (val === undefined || val === null || isNaN(val)) return 'Rp 0';
             return 'Rp ' + Math.round(val).toLocaleString('id-ID');
           },
           formatUSD(val) {
+            if (val === undefined || val === null || isNaN(val)) return '$ 0.00';
             return '$ ' + val.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
           },
 
@@ -1371,9 +1370,19 @@
           loadChecklist() {
             const saved = localStorage.getItem('m2b_toolkit_checks');
             if (saved) {
-              try { this.checks = JSON.parse(saved); } catch(e) {}
+              try {
+                const parsed = JSON.parse(saved);
+                if (parsed && typeof parsed === 'object' && !Array.isArray(parsed)) {
+                  this.checks = parsed;
+                }
+              } catch(e) {
+                console.error('Failed to parse checklist:', e);
+              }
             }
             // Ensure all items have a key
+            if (!this.checks || typeof this.checks !== 'object' || Array.isArray(this.checks)) {
+              this.checks = {};
+            }
             this.allChecklistItems.forEach(item => {
               if (this.checks[item.key] === undefined) this.checks[item.key] = false;
             });
@@ -1486,10 +1495,10 @@
             if (!this.glossarySearch) return this.glossaryItems;
             const q = this.glossarySearch.toLowerCase();
             return this.glossaryItems.filter(g =>
-              g.term.toLowerCase().includes(q) ||
+              (g.term && g.term.toLowerCase().includes(q)) ||
               (g.abbr && g.abbr.toLowerCase().includes(q)) ||
-              g.def.toLowerCase().includes(q) ||
-              g.defEn.toLowerCase().includes(q)
+              (g.def && g.def.toLowerCase().includes(q)) ||
+              (g.defEn && g.defEn.toLowerCase().includes(q))
             );
           },
 
