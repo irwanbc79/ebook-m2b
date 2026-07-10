@@ -61,6 +61,9 @@ RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 # Block local backup directory
 RewriteRule ^backups(/.*)?$ - [F,L]
 
+# Block ebook print-master source
+RewriteRule ^print(/.*)?$ - [F,L]
+
 # Block access to hidden files (like .git)
 <FilesMatch "^\.">
     Require all denied
@@ -133,7 +136,7 @@ RewriteRule ^backups(/.*)?$ - [F,L]
         Header set Cache-Control "no-cache, no-store, must-revalidate"
         Header set Pragma "no-cache"
         Header set Expires "0"
-        Header set X-Content-Version "v2.2-20260707"
+        Header set X-Content-Version "v2.3-20260711"
     </FilesMatch>
 </IfModule>
 

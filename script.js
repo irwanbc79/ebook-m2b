@@ -1,12 +1,12 @@
 /**
  * M2B E-book Landing Page - JavaScript v2.1
  * Updated: May 2026 - Refactored & Optimized
- * WhatsApp: +62 822 6184 6811
+ * WhatsApp: +62 812 6302 7818
  */
 
 // Configuration
 const CONFIG = {
-  whatsappNumber: "6282261846811",
+  whatsappNumber: "6281263027818",
   ebookPrice: 49000,
   bankName: "BCA",
   bankAccount: "8280424243",

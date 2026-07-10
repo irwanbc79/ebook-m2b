@@ -70,7 +70,7 @@ class EmailHelper {
         $bankName = defined('BANK_NAME') ? BANK_NAME : 'BCA';
         $bankAccount = defined('BANK_ACCOUNT') ? BANK_ACCOUNT : '8280424243';
         $bankHolder = defined('BANK_HOLDER') ? BANK_HOLDER : 'Eka Mayang Sari Harahap';
-        $adminWa = defined('ADMIN_WHATSAPP') ? ADMIN_WHATSAPP : '6282261846811';
+        $adminWa = defined('ADMIN_WHATSAPP') ? ADMIN_WHATSAPP : '6281263027818';
         
         $priceFormatted = 'Rp ' . number_format($price, 0, ',', '.');
         
@@ -142,7 +142,7 @@ class EmailHelper {
             <h3 style="color:#333;">📝 Langkah Selanjutnya:</h3>
             <ol style="padding-left:20px;color:#555;">
                 <li style="margin:8px 0;">Transfer sejumlah <strong>{$priceFormatted}</strong> ke rekening di atas</li>
-                <li style="margin:8px 0;">Setelah transfer, kirim bukti pembayaran via WhatsApp ke <strong>+62 822-6184-6811</strong></li>
+                <li style="margin:8px 0;">Setelah transfer, kirim bukti pembayaran via WhatsApp ke <strong>+62 812-6302-7818</strong></li>
                 <li style="margin:8px 0;">Sertakan <strong>Order ID: {$safeOrderId}</strong> dalam pesan WhatsApp</li>
                 <li style="margin:8px 0;">Tim kami akan verifikasi pembayaran (maks. 2 jam)</li>
                 <li style="margin:8px 0;">E-book akan dikirim ke email ini setelah pembayaran terverifikasi</li>
@@ -164,7 +164,7 @@ class EmailHelper {
         <!-- Footer -->
         <div style="text-align:center;padding:24px;color:#666;font-size:13px;">
             <p style="margin:4px 0;"><strong>M2B Global Trade Academy</strong></p>
-            <p style="margin:4px 0;">📧 ebook@m2b.co.id | 📱 +62 822-6184-6811</p>
+            <p style="margin:4px 0;">📧 ebook@m2b.co.id | 📱 +62 812-6302-7818</p>
             <p style="margin:4px 0;">🌐 <a href="https://m2b.co.id" style="color:#667eea;">m2b.co.id</a> | 💬 <a href="https://t.me/+vLwFWh-xg54wMzNl" style="color:#667eea;">Telegram</a></p>
             <p style="margin-top:16px;color:#999;">© 2026 M2B. Hak Cipta Dilindungi.</p>
         </div>
@@ -294,7 +294,7 @@ HTML;
             <h3 style="color:#333;">💬 Butuh Bantuan?</h3>
             <p style="color:#555;">Jika Anda memiliki pertanyaan atau membutuhkan konsultasi lebih lanjut:</p>
             <ul style="padding-left:20px;color:#555;">
-                <li style="margin:4px 0;">📱 WhatsApp: <strong>+62 822-6184-6811</strong></li>
+                <li style="margin:4px 0;">📱 WhatsApp: <strong>+62 812-6302-7818</strong></li>
                 <li style="margin:4px 0;">📧 Email: <strong>ebook@m2b.co.id</strong></li>
                 <li style="margin:4px 0;">💬 Telegram: <a href="{$telegramGroup}" style="color:#667eea;">Join Group</a></li>
             </ul>
@@ -309,7 +309,7 @@ HTML;
         <!-- Footer -->
         <div style="text-align:center;padding:24px;color:#666;font-size:13px;">
             <p style="margin:4px 0;"><strong>M2B Global Trade Academy</strong></p>
-            <p style="margin:4px 0;">📧 ebook@m2b.co.id | 📱 +62 822-6184-6811</p>
+            <p style="margin:4px 0;">📧 ebook@m2b.co.id | 📱 +62 812-6302-7818</p>
             <p style="margin:4px 0;">🌐 <a href="https://m2b.co.id" style="color:#667eea;">m2b.co.id</a></p>
             <p style="margin-top:16px;color:#999;">© 2026 M2B. Hak Cipta Dilindungi.</p>
         </div>
@@ -326,7 +326,7 @@ HTML;
      * Payment Rejection Email Template
      */
     private function getPaymentRejectionHTML($data) {
-        $adminWa = defined('ADMIN_WHATSAPP') ? ADMIN_WHATSAPP : '6282261846811';
+        $adminWa = defined('ADMIN_WHATSAPP') ? ADMIN_WHATSAPP : '6281263027818';
         $price = defined('EBOOK_PRICE') ? EBOOK_PRICE : 49000;
         $priceFormatted = 'Rp ' . number_format($price, 0, ',', '.');
         $bankName = defined('BANK_NAME') ? BANK_NAME : 'BCA';
@@ -399,7 +399,7 @@ HTML;
         <!-- Footer -->
         <div style="text-align:center;padding:24px;color:#666;font-size:13px;">
             <p style="margin:4px 0;"><strong>M2B Global Trade Academy</strong></p>
-            <p style="margin:4px 0;">📧 ebook@m2b.co.id | 📱 +62 822-6184-6811</p>
+            <p style="margin:4px 0;">📧 ebook@m2b.co.id | 📱 +62 812-6302-7818</p>
             <p style="margin:4px 0;">🌐 <a href="https://m2b.co.id" style="color:#667eea;">m2b.co.id</a></p>
             <p style="margin-top:16px;color:#999;">© 2026 M2B. Hak Cipta Dilindungi.</p>
         </div>
@@ -415,7 +415,7 @@ HTML;
      * Payment Reminder Email Template
      */
     private function getPaymentReminderHTML($data) {
-        $adminWa = defined('ADMIN_WHATSAPP') ? ADMIN_WHATSAPP : '6282261846811';
+        $adminWa = defined('ADMIN_WHATSAPP') ? ADMIN_WHATSAPP : '6281263027818';
         $price = defined('EBOOK_PRICE') ? EBOOK_PRICE : 49000;
         $priceFormatted = 'Rp ' . number_format($price, 0, ',', '.');
         $bankName = defined('BANK_NAME') ? BANK_NAME : 'BCA';
@@ -503,7 +503,7 @@ HTML;
         <!-- Footer -->
         <div style="text-align:center;padding:24px;color:#666;font-size:13px;">
             <p style="margin:4px 0;"><strong>M2B Global Trade Academy</strong></p>
-            <p style="margin:4px 0;">📧 ebook@m2b.co.id | 📱 +62 822-6184-6811</p>
+            <p style="margin:4px 0;">📧 ebook@m2b.co.id | 📱 +62 812-6302-7818</p>
             <p style="margin:4px 0;">🌐 <a href="https://m2b.co.id" style="color:#667eea;">m2b.co.id</a></p>
             <p style="margin-top:16px;color:#999;">© 2026 M2B. Hak Cipta Dilindungi.</p>
         </div>
