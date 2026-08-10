@@ -21,6 +21,15 @@ RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
     Require all denied
 </FilesMatch>
 
+# admin/dashboard.php — form login admin lama yang tidak dipakai lagi
+# (yang aktif: admin.html + api/admin_login.php). Berbeda dengan endpoint
+# aktif, file ini TIDAK punya rate-limit sehingga password bisa ditebak
+# tanpa batas. Diblokir 2026-08-10.
+# Untuk mengaktifkan kembali: hapus blok <Files "dashboard.php"> ini.
+<Files "dashboard.php">
+    Require all denied
+</Files>
+
 <Files "config.php">
     Require all denied
 </Files>
