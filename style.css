@@ -2064,3 +2064,24 @@ body.has-promo-bar .hero {
     font-size: 12px;
     color: var(--gray);
 }
+/* ═══ Comic strip pembuka tiap Bagian (v2.1) ═══ */
+.part-comic {
+    margin: 0 0 1.75rem;
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(11, 29, 64, .18);
+    line-height: 0;
+}
+
+.part-comic img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+@media (max-width: 640px) {
+    .part-comic {
+        border-radius: 10px;
+        margin-bottom: 1.25rem;
+    }
+}
