@@ -19,6 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 }
 
 require_once '../config.php';
+require_once '../admin_auth_store.php';
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     http_response_code(405);
@@ -52,16 +53,9 @@ if (empty($username) || empty($password)) {
     exit;
 }
 
-// Validate credentials.
-// Utamakan ADMIN_PASSWORD_HASH (bcrypt) bila ada — supaya password tidak
-// tersimpan dalam bentuk terbaca di config.php. Jatuh kembali ke perbandingan
-// timing-safe terhadap ADMIN_PASSWORD agar login lama tetap jalan sebelum
-// hash dipasang.
-$passwordOk = (defined('ADMIN_PASSWORD_HASH') && ADMIN_PASSWORD_HASH !== '')
-    ? password_verify($password, ADMIN_PASSWORD_HASH)
-    : hash_equals(ADMIN_PASSWORD, $password);
-
-if (hash_equals('admin', $username) && $passwordOk) {
+// Validasi kredensial. Sumber kebenaran password ada di admin_auth_store.php:
+// admin_auth.php (dari UI Profil Admin) → ADMIN_PASSWORD_HASH → ADMIN_PASSWORD.
+if (hash_equals('admin', $username) && m2b_admin_verify($password)) {
     // Reset rate limit on success
     @unlink($loginRateFile);
 

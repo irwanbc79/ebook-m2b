@@ -34,6 +34,11 @@ RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
     Require all denied
 </Files>
 
+# Penyimpanan & helper password admin — tidak boleh dibaca dari web
+<FilesMatch "^admin_auth(_store)?\.php$">
+    Require all denied
+</FilesMatch>
+
 <Files "email_helper.php">
     Require all denied
 </Files>

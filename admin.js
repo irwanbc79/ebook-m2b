@@ -10,6 +10,7 @@ const API = {
   orders: "api/admin_orders.php",
   verify: "api/verify_payment.php",
   proof: "api/payment_proof.php",
+  profile: "api/admin_change_password.php",
 };
 
 // ==================== STATE ====================
@@ -798,5 +799,116 @@ function closeImagePreview() {
     modal.style.display = "none";
     const img = document.getElementById("previewImage");
     if (img) img.src = "";
+  }
+}
+
+
+// ==================== PROFIL ADMIN / GANTI PASSWORD ====================
+async function openProfileModal() {
+  const modal = document.getElementById("profileModal");
+  if (!modal) return;
+  document.getElementById("changePasswordForm").reset();
+  document.getElementById("pwShow").checked = false;
+  toggleProfilePasswords(false);
+  hidePwError();
+  document.getElementById("pwUpdatedAt").textContent = "memuat…";
+  modal.style.display = "flex";
+  document.getElementById("pwCurrent").focus();
+
+  try {
+    const res = await fetch(API.profile, {
+      headers: { Authorization: `Bearer ${apiKey}` },
+    });
+    const data = await res.json();
+    const el = document.getElementById("pwUpdatedAt");
+    if (data.success && data.updated_at) {
+      el.textContent = new Date(data.updated_at).toLocaleString("id-ID", {
+        day: "2-digit", month: "short", year: "numeric",
+        hour: "2-digit", minute: "2-digit",
+      });
+    } else {
+      el.textContent = "belum pernah";
+    }
+    if (data.min_length) {
+      document.getElementById("pwHint").textContent =
+        `Minimal ${data.min_length} karakter, memuat huruf dan angka. ` +
+        `Hindari kata "m2b", "admin", "ebook".`;
+    }
+  } catch (e) {
+    document.getElementById("pwUpdatedAt").textContent = "—";
+  }
+}
+
+function closeProfileModal() {
+  const modal = document.getElementById("profileModal");
+  if (modal) modal.style.display = "none";
+}
+
+function toggleProfilePasswords(show) {
+  ["pwCurrent", "pwNew", "pwConfirm"].forEach((id) => {
+    const el = document.getElementById(id);
+    if (el) el.type = show ? "text" : "password";
+  });
+}
+
+function showPwError(msg) {
+  const el = document.getElementById("pwError");
+  el.textContent = msg;
+  el.style.display = "block";
+}
+
+function hidePwError() {
+  const el = document.getElementById("pwError");
+  if (el) el.style.display = "none";
+}
+
+async function submitChangePassword() {
+  hidePwError();
+  const current = document.getElementById("pwCurrent").value;
+  const next = document.getElementById("pwNew").value;
+  const confirm = document.getElementById("pwConfirm").value;
+
+  if (!current || !next || !confirm) {
+    showPwError("Semua kolom wajib diisi.");
+    return;
+  }
+  if (next !== confirm) {
+    showPwError("Konfirmasi password baru tidak cocok.");
+    return;
+  }
+  if (next === current) {
+    showPwError("Password baru harus berbeda dari yang lama.");
+    return;
+  }
+
+  const btn = document.getElementById("pwSubmitBtn");
+  const label = btn.textContent;
+  btn.disabled = true;
+  btn.textContent = "Menyimpan…";
+
+  try {
+    const res = await fetch(API.profile, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${apiKey}`,
+      },
+      body: JSON.stringify({ current_password: current, new_password: next }),
+    });
+    const data = await res.json();
+
+    if (data.success) {
+      closeProfileModal();
+      showToast("✅ Password berhasil diubah. Silakan login ulang.", "success");
+      // Password berubah — paksa login ulang supaya sesi lama tidak dipakai lagi.
+      setTimeout(() => handleLogout(), 1800);
+    } else {
+      showPwError(data.message || "Gagal mengubah password.");
+    }
+  } catch (e) {
+    showPwError("Gagal terhubung ke server.");
+  } finally {
+    btn.disabled = false;
+    btn.textContent = label;
   }
 }

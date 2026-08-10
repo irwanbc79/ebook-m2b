@@ -22,3 +22,6 @@ Thumbs.db
 
 # Local backups (never deploy)
 backups/
+
+# Password admin (ditulis dari UI Profil Admin, khusus per-server)
+admin_auth.php

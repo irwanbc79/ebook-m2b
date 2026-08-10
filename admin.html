@@ -64,6 +64,9 @@
         </div>
         <div class="admin-nav-actions">
           <span class="admin-user" id="adminUserDisplay">👤 Admin</span>
+          <button class="btn btn-sm btn-outline" onclick="openProfileModal()">
+            🔐 Profil Admin
+          </button>
           <button class="btn btn-sm btn-outline" onclick="handleLogout()">
             Logout
           </button>
@@ -190,6 +193,50 @@
         </div>
         <div class="modal-footer" id="modalFooter">
           <!-- Action buttons populated by JS -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Profil Admin / Ganti Password Modal -->
+    <div class="modal-overlay" id="profileModal" style="display: none">
+      <div class="modal-card profile-card">
+        <div class="modal-header">
+          <h3>🔐 Profil Admin</h3>
+          <button class="modal-close" onclick="closeProfileModal()">&times;</button>
+        </div>
+        <div class="modal-body">
+          <div class="profile-meta">
+            <div><span>Username</span><strong>admin</strong></div>
+            <div><span>Password terakhir diubah</span><strong id="pwUpdatedAt">—</strong></div>
+          </div>
+
+          <form id="changePasswordForm" autocomplete="off">
+            <div class="pw-field">
+              <label for="pwCurrent">Password lama</label>
+              <input type="password" id="pwCurrent" autocomplete="current-password" required />
+            </div>
+            <div class="pw-field">
+              <label for="pwNew">Password baru</label>
+              <input type="password" id="pwNew" autocomplete="new-password" required />
+              <small id="pwHint">Minimal 10 karakter, memuat huruf dan angka. Hindari kata
+                "m2b", "admin", "ebook".</small>
+            </div>
+            <div class="pw-field">
+              <label for="pwConfirm">Ulangi password baru</label>
+              <input type="password" id="pwConfirm" autocomplete="new-password" required />
+            </div>
+            <label class="pw-show">
+              <input type="checkbox" id="pwShow" onchange="toggleProfilePasswords(this.checked)" />
+              Tampilkan password
+            </label>
+            <div class="pw-error" id="pwError" style="display: none"></div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-outline" onclick="closeProfileModal()">Batal</button>
+          <button class="btn btn-primary" id="pwSubmitBtn" onclick="submitChangePassword()">
+            Simpan Password
+          </button>
         </div>
       </div>
     </div>
