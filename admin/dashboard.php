@@ -25,7 +25,11 @@ if (!isset($_SESSION['admin_logged_in'])) {
         // Verify CSRF token
         if (!isset($_POST['csrf_token']) || !isset($_SESSION['csrf_token']) || !hash_equals($_SESSION['csrf_token'], $_POST['csrf_token'])) {
             $login_error = 'Sesi tidak valid, silakan coba lagi.';
-        } elseif (hash_equals($admin_password, $_POST['password'])) {
+        } elseif (
+            (defined('ADMIN_PASSWORD_HASH') && ADMIN_PASSWORD_HASH !== '')
+                ? password_verify($_POST['password'], ADMIN_PASSWORD_HASH)
+                : hash_equals($admin_password, $_POST['password'])
+        ) {
             session_regenerate_id(true);
             $_SESSION['admin_logged_in'] = true;
             $_SESSION['login_time'] = time();

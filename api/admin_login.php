@@ -52,8 +52,16 @@ if (empty($username) || empty($password)) {
     exit;
 }
 
-// Validate credentials with timing-safe comparison
-if (hash_equals('admin', $username) && hash_equals(ADMIN_PASSWORD, $password)) {
+// Validate credentials.
+// Utamakan ADMIN_PASSWORD_HASH (bcrypt) bila ada — supaya password tidak
+// tersimpan dalam bentuk terbaca di config.php. Jatuh kembali ke perbandingan
+// timing-safe terhadap ADMIN_PASSWORD agar login lama tetap jalan sebelum
+// hash dipasang.
+$passwordOk = (defined('ADMIN_PASSWORD_HASH') && ADMIN_PASSWORD_HASH !== '')
+    ? password_verify($password, ADMIN_PASSWORD_HASH)
+    : hash_equals(ADMIN_PASSWORD, $password);
+
+if (hash_equals('admin', $username) && $passwordOk) {
     // Reset rate limit on success
     @unlink($loginRateFile);
 
