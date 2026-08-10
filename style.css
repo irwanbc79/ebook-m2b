@@ -640,6 +640,8 @@ body {
 
 .infographic-img {
     width: 100%;
+    max-width: 980px;
+    height: auto;
     display: block;
     margin: 0 auto;
 }
