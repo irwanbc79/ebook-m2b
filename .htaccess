@@ -12,6 +12,15 @@ RewriteCond %{HTTPS} off
 RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 
 # Block access to sensitive files
+
+# Master PDF tanpa watermark — TIDAK BOLEH diakses langsung dari web.
+# Pembeli menerimanya lewat api/download_ebook.php, yang membaca dari disk
+# dengan readfile() setelah verifikasi token HMAC lalu membubuhkan watermark.
+# Memblokir di sini tidak memutus alur pembeli.
+<FilesMatch "^ebook-master-.*\.pdf$">
+    Require all denied
+</FilesMatch>
+
 <Files "config.php">
     Require all denied
 </Files>
