@@ -251,6 +251,27 @@
     .footer a:hover { color: #fff; text-decoration: underline; }
     .copyright { border-top: 1px solid rgba(255,255,255,.12); margin-top: 32px; padding-top: 22px; font-size: 11px; color: #8796b0; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 10px; }
 
+    
+    .hero-comic--overview {
+      width: 100%;
+      margin: 0;
+    }
+    .hero-comic--overview img {
+      display: block;
+      width: 100%;
+      height: auto;
+      border: 2px solid #0b1d40;
+      border-radius: 18px;
+      background: #fff;
+      box-shadow: 18px 18px 0 #d4a017;
+    }
+    @media (max-width: 720px) {
+      .hero-comic--overview img {
+        border-radius: 12px;
+        box-shadow: 8px 8px 0 #d4a017;
+      }
+    }
+
     /* Responsive Rules */
     @media (max-width: 990px) {
       .nav-links { display: none; }
@@ -341,12 +362,12 @@
     <section class="hero">
       <div class="hero-grid shell">
         <div class="hero-copy">
-          <span class="eyebrow">Cerita Pilihan Minggu Ini</span>
-          <h1>Dokumen kecil.<br><span>Risiko besar.</span></h1>
-          <p>Yusuf merasa invoice dan packing list-nya sudah benar. Nadila menemukan perbedaan berat kotor 150 kg yang bisa memicu Jalur Merah Bea Cukai. Ikuti cara tim M2B menyelesaikannya sebelum kapal tiba.</p>
+          <span class="eyebrow">M2B Logistics Stories</span>
+          <h1>Satu shipment.<br><span>Banyak titik risiko.</span></h1>
+          <p>Ikuti bagaimana tim M2B mengoordinasikan dokumen, kepatuhan, vendor, biaya, hingga barang diterima—melalui cerita visual yang ringkas dan mudah dipahami.</p>
           <div class="hero-actions">
-            <a class="button" href="episode-01.html">Baca Episode 01</a>
-            <a class="button secondary" href="#cerita">Lihat 30 Episode</a>
+            <a class="button" href="#cerita">Jelajahi 30 Episode</a>
+            <a class="button secondary" href="episode-01.html">Mulai dari Episode 01</a>
             <a class="button secondary" href="index.html#order" style="border-color:var(--gold); color:var(--navy);">Order E-book Rp 49rb</a>
           </div>
           <div class="trust">
@@ -355,14 +376,19 @@
             <span>Diperiksa praktisi</span>
           </div>
         </div>
-        <a href="episode-01.html" class="comic-card" aria-label="Preview komik episode pertama" style="display:block;">
-          <img src="assets/comic-episode-01.png" alt="Ilustrasi proses kerja PPJK M2B dalam penanganan dokumen Bea Cukai">
-          <div class="comic-label">
-            <span>Waktu baca: 6 menit</span>
-            <span>Dokumen &amp; customs</span>
-          </div>
-        </a>
+        <figure class="hero-comic hero-comic--overview">
+          <img
+            src="assets/stories-v2/m2b-homepage-general-8-tiles.png"
+            alt="Delapan tahapan koordinasi M2B dari kebutuhan pengiriman, pemeriksaan dokumen, kepabeanan, operasional lapangan, hingga POD"
+            width="1672"
+            height="941"
+            loading="eager"
+            fetchpriority="high"
+            decoding="async"
+          >
+        </figure>
       </div>
+
     </section>
 
     <!-- Route / Shipment Workflow -->
