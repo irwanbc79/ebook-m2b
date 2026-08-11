@@ -159,10 +159,15 @@
     
     /* 30 Episode Catalog Table / Grid */
     .episodes-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 24px; margin-top: 32px; }
-    .ep-card { border: 1px solid var(--line); border-radius: var(--radius); background: #fff; padding: 22px; display: flex; flex-direction: column; justify-content: space-between; transition: transform .2s, box-shadow .2s; }
+    .ep-card { border: 1px solid var(--line); border-radius: var(--radius); background: #fff; padding: 0; overflow: hidden; display: flex; flex-direction: column; justify-content: space-between; transition: transform .2s, box-shadow .2s; }
     .ep-card:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
-    .ep-card.published { border-left: 6px solid var(--green); }
-    .ep-card.upcoming { border-left: 6px solid var(--gold); }
+    .ep-card.published { border-top: 5px solid var(--green); }
+    .ep-card.upcoming { border-top: 5px solid var(--gold); }
+    
+    .ep-cover { position: relative; aspect-ratio: 16/10; overflow: hidden; background: #f1f5f9; border-bottom: 2px solid var(--navy); }
+    .ep-cover img { width: 100%; height: 100%; object-fit: cover; object-position: top; transition: transform .3s ease; }
+    .ep-card:hover .ep-cover img { transform: scale(1.05); }
+    .ep-card-body { padding: 22px; display: flex; flex-direction: column; justify-content: space-between; flex: 1; }
     
     .ep-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
     .ep-num { font-weight: 1000; font-size: 13px; color: var(--red); letter-spacing: .08em; text-transform: uppercase; }
@@ -359,256 +364,574 @@
       </div>
 
       <div class="episodes-grid">
+
         <!-- Episode 01 -->
         <article class="ep-card published">
-          <div>
+          <div class="ep-cover">
+            <img src="assets/panel-1.png" alt="Adegan 1: Invoice, Packing List, dan B/L Tidak Sama" width="400" height="250" loading="lazy">
+          </div>
+          <div class="ep-card-body">
             <div class="ep-header">
               <span class="ep-num">Hari 01 · Dokumen</span>
               <span class="ep-badge published">Terbit ✓</span>
             </div>
-            <h3>Satu Angka Berbeda, Satu Kontainer Bisa Tertahan</h3>
-            <p>Nadila menemukan perbedaan berat kotor pada Invoice &amp; Packing List milik Yusuf. Keputusan Bu Mayang menyelamatkan shipment dari Jalur Merah.</p>
-          </div>
-          <div class="ep-meta">
-            <span>Lead: <strong>Nadila &amp; Yusuf</strong></span>
-            <a href="episode-01.html" class="ep-link">Baca Episode →</a>
+            <h3>Invoice, Packing List, dan B/L Tidak Sama</h3>
+            <p>Yusuf panik karena berat barang berbeda pada tiga dokumen.</p>
+            <div class="ep-meta">
+              <span>Lead: <strong>Nadila</strong></span>
+              <a href="episode-01.html" class="ep-link">Baca &amp; Lihat Komik →</a>
+            </div>
           </div>
         </article>
 
         <!-- Episode 02 -->
-        <article class="ep-card upcoming">
-          <div>
+        <article class="ep-card published">
+          <div class="ep-cover">
+            <img src="assets/ep2-panel-1.png" alt="Adegan 1: Salah HS Code, Biaya Impor Membengkak" width="400" height="250" loading="lazy">
+          </div>
+          <div class="ep-card-body">
             <div class="ep-header">
               <span class="ep-num">Hari 02 · Dokumen</span>
-              <span class="ep-badge upcoming">Segera Terbit</span>
+              <span class="ep-badge published">Terbit ✓</span>
             </div>
             <h3>Salah HS Code, Biaya Impor Membengkak</h3>
-            <p>Yusuf memakai kode dari supplier tanpa verifikasi BTKI. Nadila memeriksa spesifikasi barang untuk mengoreksi tarif sebelum bayar pajak.</p>
-          </div>
-          <div class="ep-meta">
-            <span>Lead: <strong>Nadila</strong></span>
-            <span class="ep-link" style="color:var(--muted);">Konsultasi HS Code</span>
+            <p>Yusuf memakai kode dari supplier tanpa verifikasi.</p>
+            <div class="ep-meta">
+              <span>Lead: <strong>Nadila</strong></span>
+              <a href="episode-02.html" class="ep-link">Baca &amp; Lihat Komik →</a>
+            </div>
           </div>
         </article>
 
         <!-- Episode 03 -->
-        <article class="ep-card upcoming">
-          <div>
+        <article class="ep-card published">
+          <div class="ep-cover">
+            <img src="assets/ep3-panel-1.png" alt="Adegan 1: Budi Menghadapi Pemeriksaan Jalur Merah" width="400" height="250" loading="lazy">
+          </div>
+          <div class="ep-card-body">
             <div class="ep-header">
               <span class="ep-num">Hari 03 · Customs</span>
-              <span class="ep-badge upcoming">Segera Terbit</span>
+              <span class="ep-badge published">Terbit ✓</span>
             </div>
             <h3>Budi Menghadapi Pemeriksaan Jalur Merah</h3>
-            <p>Kontainer Yusuf terkena pemeriksaan fisik 100%. Budi melakukan pendampingan langsung di pelabuhan agar pencocokan dokumen berjalan lancar.</p>
-          </div>
-          <div class="ep-meta">
-            <span>Lead: <strong>Budi</strong></span>
-            <span class="ep-link" style="color:var(--muted);">Customs Clearance</span>
+            <p>Container Yusuf terkena pemeriksaan fisik oleh Pejabat Bea Cukai.</p>
+            <div class="ep-meta">
+              <span>Lead: <strong>Budi</strong></span>
+              <a href="episode-03.html" class="ep-link">Baca &amp; Lihat Komik →</a>
+            </div>
           </div>
         </article>
 
         <!-- Episode 04 -->
-        <article class="ep-card upcoming">
-          <div>
+        <article class="ep-card published">
+          <div class="ep-cover">
+            <img src="assets/ep4-panel-1.png" alt="Adegan 1: Tasya Menyelamatkan Jadwal Gate-Out" width="400" height="250" loading="lazy">
+          </div>
+          <div class="ep-card-body">
             <div class="ep-header">
               <span class="ep-num">Hari 04 · Operasional</span>
-              <span class="ep-badge upcoming">Segera Terbit</span>
+              <span class="ep-badge published">Terbit ✓</span>
             </div>
             <h3>Tasya Menyelamatkan Jadwal Gate-Out</h3>
-            <p>Truk sudah siap di gate, tetapi dokumen release belum lengkap. Tasya berpacu dengan waktu berkoordinasi dengan terminal pelabuhan.</p>
-          </div>
-          <div class="ep-meta">
-            <span>Lead: <strong>Tasya</strong></span>
-            <span class="ep-link" style="color:var(--muted);">Gate-Out Release</span>
+            <p>Truck sudah siap, tetapi dokumen release belum lengkap.</p>
+            <div class="ep-meta">
+              <span>Lead: <strong>Tasya</strong></span>
+              <a href="episode-04.html" class="ep-link">Baca &amp; Lihat Komik →</a>
+            </div>
           </div>
         </article>
 
         <!-- Episode 05 -->
-        <article class="ep-card upcoming">
-          <div>
+        <article class="ep-card published">
+          <div class="ep-cover">
+            <img src="assets/ep5-panel-1.png" alt="Adegan 1: Nurul Menghitung Landed Cost yang Sebenarnya" width="400" height="250" loading="lazy">
+          </div>
+          <div class="ep-card-body">
             <div class="ep-header">
               <span class="ep-num">Hari 05 · Finance</span>
-              <span class="ep-badge upcoming">Segera Terbit</span>
+              <span class="ep-badge published">Terbit ✓</span>
             </div>
             <h3>Nurul Menghitung Landed Cost yang Sebenarnya</h3>
-            <p>Harga barang di supplier terlihat murah, tetapi biaya tujuan belum dihitung. Nurul membedah simulasi total landed cost hingga margin bersih.</p>
-          </div>
-          <div class="ep-meta">
-            <span>Lead: <strong>Nurul</strong></span>
-            <span class="ep-link" style="color:var(--muted);">Simulasi Cost</span>
+            <p>Harga barang murah, tetapi biaya tujuan tidak dihitung.</p>
+            <div class="ep-meta">
+              <span>Lead: <strong>Nurul</strong></span>
+              <a href="episode-05.html" class="ep-link">Baca &amp; Lihat Komik →</a>
+            </div>
           </div>
         </article>
 
         <!-- Episode 06 -->
-        <article class="ep-card upcoming">
-          <div>
+        <article class="ep-card published">
+          <div class="ep-cover">
+            <img src="assets/ep6-panel-1.png" alt="Adegan 1: Lartas Diperiksa Setelah PO—Sudah Terlambat?" width="400" height="250" loading="lazy">
+          </div>
+          <div class="ep-card-body">
             <div class="ep-header">
               <span class="ep-num">Hari 06 · Dokumen</span>
-              <span class="ep-badge upcoming">Segera Terbit</span>
+              <span class="ep-badge published">Terbit ✓</span>
             </div>
             <h3>Lartas Diperiksa Setelah PO—Sudah Terlambat?</h3>
-            <p>Yusuf telanjur mentransfer DP barang yang membutuhkan izin teknis Karantina/BPOM. Nadila menyusun rencana mitigasi sebelum barang dikirim.</p>
-          </div>
-          <div class="ep-meta">
-            <span>Lead: <strong>Nadila</strong></span>
-            <span class="ep-link" style="color:var(--muted);">Cek Lartas INSW</span>
+            <p>Yusuf telanjur membayar barang yang membutuhkan izin teknis.</p>
+            <div class="ep-meta">
+              <span>Lead: <strong>Nadila</strong></span>
+              <a href="episode-06.html" class="ep-link">Baca &amp; Lihat Komik →</a>
+            </div>
           </div>
         </article>
 
         <!-- Episode 07 -->
-        <article class="ep-card upcoming">
-          <div>
+        <article class="ep-card published">
+          <div class="ep-cover">
+            <img src="assets/ep7-panel-1.png" alt="Adegan 1: Bu Mayang Menolak Jalan Pintas Undervalue" width="400" height="250" loading="lazy">
+          </div>
+          <div class="ep-card-body">
             <div class="ep-header">
               <span class="ep-num">Hari 07 · Customs</span>
-              <span class="ep-badge upcoming">Segera Terbit</span>
+              <span class="ep-badge published">Terbit ✓</span>
             </div>
             <h3>Bu Mayang Menolak Jalan Pintas Undervalue</h3>
-            <p>Supplier menawarkan pemalsuan invoice lebih rendah agar pajak murah. Bu Mayang menjelaskan risiko hukum penetapan nilai pabean oleh Bea Cukai.</p>
-          </div>
-          <div class="ep-meta">
-            <span>Lead: <strong>Bu Mayang</strong></span>
-            <span class="ep-link" style="color:var(--muted);">Impor Patuh</span>
+            <p>Supplier menawarkan invoice lebih rendah agar pajak terlihat murah.</p>
+            <div class="ep-meta">
+              <span>Lead: <strong>Bu Mayang</strong></span>
+              <a href="episode-07.html" class="ep-link">Baca &amp; Lihat Komik →</a>
+            </div>
           </div>
         </article>
 
         <!-- Episode 08 -->
         <article class="ep-card upcoming">
-          <div>
+          <div class="ep-cover">
+            <img src="assets/ep1-panel-1.png" alt="Adegan 1: Mengapa Barang Yusuf Masuk Jalur Merah?" width="400" height="250" loading="lazy">
+          </div>
+          <div class="ep-card-body">
             <div class="ep-header">
               <span class="ep-num">Hari 08 · Customs</span>
               <span class="ep-badge upcoming">Segera Terbit</span>
             </div>
             <h3>Mengapa Barang Yusuf Masuk Jalur Merah?</h3>
-            <p>Yusuf mengira jalur pemeriksaan dipilih acak. Nadila mengurai faktor profil risiko importir pada sistem CEISA serta cara audit kesiapannya.</p>
-          </div>
-          <div class="ep-meta">
-            <span>Lead: <strong>Nadila</strong></span>
-            <span class="ep-link" style="color:var(--muted);">Audit Profil</span>
+            <p>Yusuf mengira jalur pemeriksaan ditentukan secara acak.</p>
+            <div class="ep-meta">
+              <span>Lead: <strong>Nadila</strong></span>
+              <span class="ep-link" style="color:var(--muted);">Segera Terbit</span>
+            </div>
           </div>
         </article>
 
         <!-- Episode 09 -->
         <article class="ep-card upcoming">
-          <div>
+          <div class="ep-cover">
+            <img src="assets/ep2-panel-1.png" alt="Adegan 1: Container Sudah Tiba, Original B/L Belum Siap" width="400" height="250" loading="lazy">
+          </div>
+          <div class="ep-card-body">
             <div class="ep-header">
               <span class="ep-num">Hari 09 · Dokumen</span>
               <span class="ep-badge upcoming">Segera Terbit</span>
             </div>
-            <h3>Container Tiba, Original B/L Belum Siap</h3>
-            <p>Kapal sudah bersandar di Jakarta tetapi dokumen B/L fisik terlambat. Tasya mengoordinasikan prosedur Telex Release untuk menekan demurrage.</p>
-          </div>
-          <div class="ep-meta">
-            <span>Lead: <strong>Tasya</strong></span>
-            <span class="ep-link" style="color:var(--muted);">Telex Release</span>
+            <h3>Container Sudah Tiba, Original B/L Belum Siap</h3>
+            <p>Dokumen pengangkutan terlambat sementara biaya pelabuhan berjalan.</p>
+            <div class="ep-meta">
+              <span>Lead: <strong>Tasya</strong></span>
+              <span class="ep-link" style="color:var(--muted);">Segera Terbit</span>
+            </div>
           </div>
         </article>
 
         <!-- Episode 10 -->
         <article class="ep-card upcoming">
-          <div>
+          <div class="ep-cover">
+            <img src="assets/ep3-panel-1.png" alt="Adegan 1: COO Ada, Mengapa Tarif FTA Tidak Diterima?" width="400" height="250" loading="lazy">
+          </div>
+          <div class="ep-card-body">
             <div class="ep-header">
               <span class="ep-num">Hari 10 · Dokumen</span>
               <span class="ep-badge upcoming">Segera Terbit</span>
             </div>
             <h3>COO Ada, Mengapa Tarif FTA Tidak Diterima?</h3>
-            <p>Yusuf mengklaim fasilitas bea masuk 0%, namun COO ditolak karena kriteria Rules of Origin tak terpenuhi. Nadila membedah ketentuannya.</p>
-          </div>
-          <div class="ep-meta">
-            <span>Lead: <strong>Nadila</strong></span>
-            <span class="ep-link" style="color:var(--muted);">Dokumen FTA</span>
+            <p>COO Yusuf tidak memenuhi ketentuan dokumen atau origin criteria.</p>
+            <div class="ep-meta">
+              <span>Lead: <strong>Nadila</strong></span>
+              <span class="ep-link" style="color:var(--muted);">Segera Terbit</span>
+            </div>
           </div>
         </article>
 
         <!-- Episode 11 -->
         <article class="ep-card upcoming">
-          <div>
+          <div class="ep-cover">
+            <img src="assets/ep4-panel-1.png" alt="Adegan 1: Budi Menemukan Kemasan Kayu Tanpa ISPM 15" width="400" height="250" loading="lazy">
+          </div>
+          <div class="ep-card-body">
             <div class="ep-header">
               <span class="ep-num">Hari 11 · Customs</span>
               <span class="ep-badge upcoming">Segera Terbit</span>
             </div>
-            <h3>Budi Menemukan Pallet Kayu Tanpa ISPM 15</h3>
-            <p>Pemeriksaan kemasan kayu ekspor impor. Budi menemukan pallet tanpa logo ISPM 15 dan bertindak sebelum terjadi penolakan oleh Karantina.</p>
-          </div>
-          <div class="ep-meta">
-            <span>Lead: <strong>Budi</strong></span>
-            <span class="ep-link" style="color:var(--muted);">Packaging ISPM15</span>
+            <h3>Budi Menemukan Kemasan Kayu Tanpa ISPM 15</h3>
+            <p>Pallet kayu tidak memiliki marking ISPM 15 yang sesuai.</p>
+            <div class="ep-meta">
+              <span>Lead: <strong>Budi</strong></span>
+              <span class="ep-link" style="color:var(--muted);">Segera Terbit</span>
+            </div>
           </div>
         </article>
 
         <!-- Episode 12 -->
         <article class="ep-card upcoming">
-          <div>
+          <div class="ep-cover">
+            <img src="assets/ep5-panel-1.png" alt="Adegan 1: Tasya Mengendalikan Vendor Trucking Terlambat" width="400" height="250" loading="lazy">
+          </div>
+          <div class="ep-card-body">
             <div class="ep-header">
               <span class="ep-num">Hari 12 · Operasional</span>
               <span class="ep-badge upcoming">Segera Terbit</span>
             </div>
             <h3>Tasya Mengendalikan Vendor Trucking Terlambat</h3>
-            <p>Truk langganan terlambat saat cut-off closing pelabuhan makin dekat. Tasya mengaktifkan armada cadangan M2B agar kontainer tidak tertinggal kapal.</p>
-          </div>
-          <div class="ep-meta">
-            <span>Lead: <strong>Tasya</strong></span>
-            <span class="ep-link" style="color:var(--muted);">Armada Trucking</span>
+            <p>Truk belum tiba ketika jadwal cut-off terminal semakin sempit.</p>
+            <div class="ep-meta">
+              <span>Lead: <strong>Tasya</strong></span>
+              <span class="ep-link" style="color:var(--muted);">Segera Terbit</span>
+            </div>
           </div>
         </article>
 
-        <!-- Episode 13 - 30 (Compact Catalog Highlights) -->
+        <!-- Episode 13 -->
         <article class="ep-card upcoming">
-          <div>
+          <div class="ep-cover">
+            <img src="assets/ep6-panel-1.png" alt="Adegan 1: Cargo Rusak: Foto Sederhana Menyelamatkan Klaim" width="400" height="250" loading="lazy">
+          </div>
+          <div class="ep-card-body">
             <div class="ep-header">
               <span class="ep-num">Hari 13 · Operasional</span>
               <span class="ep-badge upcoming">Segera Terbit</span>
             </div>
             <h3>Cargo Rusak: Foto Sederhana Menyelamatkan Klaim</h3>
-            <p>Kemasan kontainer penyok saat tiba. Budi menghentikan pembongkaran untuk pembuatan Berita Acara survey foto sebelum klaim asuransi diajukan.</p>
-          </div>
-          <div class="ep-meta">
-            <span>Lead: <strong>Budi</strong></span>
-            <span class="ep-link" style="color:var(--muted);">Cargo Claim</span>
+            <p>Kemasan rusak saat diterima, tetapi Yusuf hampir membongkar tanpa dokumentasi.</p>
+            <div class="ep-meta">
+              <span>Lead: <strong>Budi</strong></span>
+              <span class="ep-link" style="color:var(--muted);">Segera Terbit</span>
+            </div>
           </div>
         </article>
 
+        <!-- Episode 14 -->
         <article class="ep-card upcoming">
-          <div>
+          <div class="ep-cover">
+            <img src="assets/ep7-panel-1.png" alt="Adegan 1: Nurul Menjelaskan Mengapa Quotation Bisa Berubah" width="400" height="250" loading="lazy">
+          </div>
+          <div class="ep-card-body">
             <div class="ep-header">
               <span class="ep-num">Hari 14 · Finance</span>
               <span class="ep-badge upcoming">Segera Terbit</span>
             </div>
-            <h3>Mengapa Quotation Freight Bisa Berubah?</h3>
-            <p>Nurul menjelaskan perbedaan klausal inclusions dan exclusions pada penawaran harga pengiriman agar importir tidak kaget biaya lokal.</p>
-          </div>
-          <div class="ep-meta">
-            <span>Lead: <strong>Nurul</strong></span>
-            <span class="ep-link" style="color:var(--muted);">Transparency</span>
+            <h3>Nurul Menjelaskan Mengapa Quotation Bisa Berubah</h3>
+            <p>Yusuf membandingkan quotation tanpa memeriksa inclusions dan exclusions.</p>
+            <div class="ep-meta">
+              <span>Lead: <strong>Nurul</strong></span>
+              <span class="ep-link" style="color:var(--muted);">Segera Terbit</span>
+            </div>
           </div>
         </article>
 
+        <!-- Episode 15 -->
         <article class="ep-card upcoming">
-          <div>
+          <div class="ep-cover">
+            <img src="assets/ep1-panel-1.png" alt="Adegan 1: FOB Bukan Berarti Semua Biaya Ditanggung Supplier" width="400" height="250" loading="lazy">
+          </div>
+          <div class="ep-card-body">
             <div class="ep-header">
               <span class="ep-num">Hari 15 · Finance</span>
               <span class="ep-badge upcoming">Segera Terbit</span>
             </div>
             <h3>FOB Bukan Berarti Semua Biaya Ditanggung Supplier</h3>
-            <p>Membeli barang dengan syarat FOB? Nurul memetakan batas peralihan biaya &amp; risiko dari pabrik origin hingga kapal berangkat.</p>
-          </div>
-          <div class="ep-meta">
-            <span>Lead: <strong>Nurul</strong></span>
-            <span class="ep-link" style="color:var(--muted);">Incoterms 2020</span>
+            <p>Yusuf salah memahami pembagian biaya Incoterms.</p>
+            <div class="ep-meta">
+              <span>Lead: <strong>Nurul</strong></span>
+              <span class="ep-link" style="color:var(--muted);">Segera Terbit</span>
+            </div>
           </div>
         </article>
 
+        <!-- Episode 16 -->
         <article class="ep-card upcoming">
-          <div>
-            <div class="ep-header">
-              <span class="ep-num">Hari 16 – 30 · Program Lengkap</span>
-              <span class="ep-badge upcoming">Jadwal Rilis</span>
-            </div>
-            <h3>Episode 16 hingga 30: Scale, Compliance &amp; Pillar</h3>
-            <p>Mencakup Air vs Sea Freight, Manifest Amendment, Supplier Copy-Paste Audit, hingga Pillar Page <strong>"From Documents to Delivery"</strong>.</p>
+          <div class="ep-cover">
+            <img src="assets/ep2-panel-1.png" alt="Adegan 1: Nadila Menemukan Deskripsi “Spare Parts” Terlalu Umum" width="400" height="250" loading="lazy">
           </div>
-          <div class="ep-meta">
-            <span>Lead: <strong>Tim M2B</strong></span>
-            <span class="ep-link" style="color:var(--gold-hover);">30 Hari Full</span>
+          <div class="ep-card-body">
+            <div class="ep-header">
+              <span class="ep-num">Hari 16 · Dokumen</span>
+              <span class="ep-badge upcoming">Segera Terbit</span>
+            </div>
+            <h3>Nadila Menemukan Deskripsi “Spare Parts” Terlalu Umum</h3>
+            <p>Invoice hanya menyebut “spare parts” tanpa fungsi dan material detail.</p>
+            <div class="ep-meta">
+              <span>Lead: <strong>Nadila</strong></span>
+              <span class="ep-link" style="color:var(--muted);">Segera Terbit</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- Episode 17 -->
+        <article class="ep-card upcoming">
+          <div class="ep-cover">
+            <img src="assets/ep3-panel-1.png" alt="Adegan 1: Yusuf Memilih Air Freight atau Sea Freight?" width="400" height="250" loading="lazy">
+          </div>
+          <div class="ep-card-body">
+            <div class="ep-header">
+              <span class="ep-num">Hari 17 · Operasional</span>
+              <span class="ep-badge upcoming">Segera Terbit</span>
+            </div>
+            <h3>Yusuf Memilih Air Freight atau Sea Freight?</h3>
+            <p>Barang dibutuhkan cepat, tetapi biaya udara menggerus margin.</p>
+            <div class="ep-meta">
+              <span>Lead: <strong>Tasya</strong></span>
+              <span class="ep-link" style="color:var(--muted);">Segera Terbit</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- Episode 18 -->
+        <article class="ep-card upcoming">
+          <div class="ep-cover">
+            <img src="assets/ep4-panel-1.png" alt="Adegan 1: Manifest Salah Saat Kapal Hampir Tiba" width="400" height="250" loading="lazy">
+          </div>
+          <div class="ep-card-body">
+            <div class="ep-header">
+              <span class="ep-num">Hari 18 · Customs</span>
+              <span class="ep-badge upcoming">Segera Terbit</span>
+            </div>
+            <h3>Manifest Salah Saat Kapal Hampir Tiba</h3>
+            <p>Data consignee pada manifest berbeda dengan dokumen pabean.</p>
+            <div class="ep-meta">
+              <span>Lead: <strong>Tasya</strong></span>
+              <span class="ep-link" style="color:var(--muted);">Segera Terbit</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- Episode 19 -->
+        <article class="ep-card upcoming">
+          <div class="ep-cover">
+            <img src="assets/ep5-panel-1.png" alt="Adegan 1: Bu Mayang Menghentikan Shipment Berisiko Tinggi" width="400" height="250" loading="lazy">
+          </div>
+          <div class="ep-card-body">
+            <div class="ep-header">
+              <span class="ep-num">Hari 19 · Customs</span>
+              <span class="ep-badge upcoming">Segera Terbit</span>
+            </div>
+            <h3>Bu Mayang Menghentikan Shipment Berisiko Tinggi</h3>
+            <p>Dokumen supplier tidak jelas dan izin lartas belum tersedia.</p>
+            <div class="ep-meta">
+              <span>Lead: <strong>Bu Mayang</strong></span>
+              <span class="ep-link" style="color:var(--muted);">Segera Terbit</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- Episode 20 -->
+        <article class="ep-card upcoming">
+          <div class="ep-cover">
+            <img src="assets/ep6-panel-1.png" alt="Adegan 1: Nurul Membaca Biaya yang Tidak Tertulis Besar" width="400" height="250" loading="lazy">
+          </div>
+          <div class="ep-card-body">
+            <div class="ep-header">
+              <span class="ep-num">Hari 20 · Finance</span>
+              <span class="ep-badge upcoming">Segera Terbit</span>
+            </div>
+            <h3>Nurul Membaca Biaya yang Tidak Tertulis Besar</h3>
+            <p>Freight murah memiliki destination charges sangat tinggi.</p>
+            <div class="ep-meta">
+              <span>Lead: <strong>Nurul</strong></span>
+              <span class="ep-link" style="color:var(--muted);">Segera Terbit</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- Episode 21 -->
+        <article class="ep-card upcoming">
+          <div class="ep-cover">
+            <img src="assets/ep7-panel-1.png" alt="Adegan 1: Budi: Container Tidak Boleh Keluar Sebelum SPPB" width="400" height="250" loading="lazy">
+          </div>
+          <div class="ep-card-body">
+            <div class="ep-header">
+              <span class="ep-num">Hari 21 · Customs</span>
+              <span class="ep-badge upcoming">Segera Terbit</span>
+            </div>
+            <h3>Budi: Container Tidak Boleh Keluar Sebelum SPPB</h3>
+            <p>Yusuf mengira pembayaran billing berarti barang langsung dapat keluar.</p>
+            <div class="ep-meta">
+              <span>Lead: <strong>Budi</strong></span>
+              <span class="ep-link" style="color:var(--muted);">Segera Terbit</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- Episode 22 -->
+        <article class="ep-card upcoming">
+          <div class="ep-cover">
+            <img src="assets/ep1-panel-1.png" alt="Adegan 1: Nadila Mengoreksi Jumlah Kemasan sebelum Submit PIB" width="400" height="250" loading="lazy">
+          </div>
+          <div class="ep-card-body">
+            <div class="ep-header">
+              <span class="ep-num">Hari 22 · Dokumen</span>
+              <span class="ep-badge upcoming">Segera Terbit</span>
+            </div>
+            <h3>Nadila Mengoreksi Jumlah Kemasan sebelum Submit PIB</h3>
+            <p>Packing list mencatat 100 cartons, sedangkan B/L mencatat 98.</p>
+            <div class="ep-meta">
+              <span>Lead: <strong>Nadila</strong></span>
+              <span class="ep-link" style="color:var(--muted);">Segera Terbit</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- Episode 23 -->
+        <article class="ep-card upcoming">
+          <div class="ep-cover">
+            <img src="assets/ep2-panel-1.png" alt="Adegan 1: Tasya Menangani Keterlambatan Kapal" width="400" height="250" loading="lazy">
+          </div>
+          <div class="ep-card-body">
+            <div class="ep-header">
+              <span class="ep-num">Hari 23 · Operasional</span>
+              <span class="ep-badge upcoming">Segera Terbit</span>
+            </div>
+            <h3>Tasya Menangani Keterlambatan Kapal</h3>
+            <p>Jadwal produksi Yusuf terganggu karena vessel delay.</p>
+            <div class="ep-meta">
+              <span>Lead: <strong>Tasya</strong></span>
+              <span class="ep-link" style="color:var(--muted);">Segera Terbit</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- Episode 24 -->
+        <article class="ep-card upcoming">
+          <div class="ep-cover">
+            <img src="assets/ep3-panel-1.png" alt="Adegan 1: Nurul Mengubah Pertanyaan Instagram Menjadi Shipment Nyata" width="400" height="250" loading="lazy">
+          </div>
+          <div class="ep-card-body">
+            <div class="ep-header">
+              <span class="ep-num">Hari 24 · Finance</span>
+              <span class="ep-badge upcoming">Segera Terbit</span>
+            </div>
+            <h3>Nurul Mengubah Pertanyaan Instagram Menjadi Shipment Nyata</h3>
+            <p>Calon pelanggan bertanya harga tanpa data cargo lengkap.</p>
+            <div class="ep-meta">
+              <span>Lead: <strong>Nurul</strong></span>
+              <span class="ep-link" style="color:var(--muted);">Segera Terbit</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- Episode 25 -->
+        <article class="ep-card upcoming">
+          <div class="ep-cover">
+            <img src="assets/ep4-panel-1.png" alt="Adegan 1: Yusuf Mengimpor Mesin Pertamanya" width="400" height="250" loading="lazy">
+          </div>
+          <div class="ep-card-body">
+            <div class="ep-header">
+              <span class="ep-num">Hari 25 · Operasional</span>
+              <span class="ep-badge upcoming">Segera Terbit</span>
+            </div>
+            <h3>Yusuf Mengimpor Mesin Pertamanya</h3>
+            <p>Importir baru belum memahami seluruh proses awal hingga akhir.</p>
+            <div class="ep-meta">
+              <span>Lead: <strong>Yusuf + Nadila</strong></span>
+              <span class="ep-link" style="color:var(--muted);">Segera Terbit</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- Episode 26 -->
+        <article class="ep-card upcoming">
+          <div class="ep-cover">
+            <img src="assets/ep5-panel-1.png" alt="Adegan 1: Yusuf Mengekspor Produk Lokal Pertamanya" width="400" height="250" loading="lazy">
+          </div>
+          <div class="ep-card-body">
+            <div class="ep-header">
+              <span class="ep-num">Hari 26 · Operasional</span>
+              <span class="ep-badge upcoming">Segera Terbit</span>
+            </div>
+            <h3>Yusuf Mengekspor Produk Lokal Pertamanya</h3>
+            <p>Produk siap dijual, tetapi shipment dan dokumen belum dirancang.</p>
+            <div class="ep-meta">
+              <span>Lead: <strong>Yusuf + Tasya</strong></span>
+              <span class="ep-link" style="color:var(--muted);">Segera Terbit</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- Episode 27 -->
+        <article class="ep-card upcoming">
+          <div class="ep-cover">
+            <img src="assets/ep6-panel-1.png" alt="Adegan 1: Nadila vs Dokumen Copy-Paste Supplier" width="400" height="250" loading="lazy">
+          </div>
+          <div class="ep-card-body">
+            <div class="ep-header">
+              <span class="ep-num">Hari 27 · Dokumen</span>
+              <span class="ep-badge upcoming">Segera Terbit</span>
+            </div>
+            <h3>Nadila vs Dokumen Copy-Paste Supplier</h3>
+            <p>Supplier menggunakan deskripsi lama untuk produk berbeda.</p>
+            <div class="ep-meta">
+              <span>Lead: <strong>Nadila</strong></span>
+              <span class="ep-link" style="color:var(--muted);">Segera Terbit</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- Episode 28 -->
+        <article class="ep-card upcoming">
+          <div class="ep-cover">
+            <img src="assets/ep7-panel-1.png" alt="Adegan 1: Budi dan Tasya: Dari SPPB sampai POD" width="400" height="250" loading="lazy">
+          </div>
+          <div class="ep-card-body">
+            <div class="ep-header">
+              <span class="ep-num">Hari 28 · Operasional</span>
+              <span class="ep-badge upcoming">Segera Terbit</span>
+            </div>
+            <h3>Budi dan Tasya: Dari SPPB sampai POD</h3>
+            <p>Barang sudah release tetapi pekerjaan belum selesai sampai diterima Yusuf.</p>
+            <div class="ep-meta">
+              <span>Lead: <strong>Budi + Tasya</strong></span>
+              <span class="ep-link" style="color:var(--muted);">Segera Terbit</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- Episode 29 -->
+        <article class="ep-card upcoming">
+          <div class="ep-cover">
+            <img src="assets/ep1-panel-1.png" alt="Adegan 1: Bu Mayang Mengevaluasi Shipment yang Terlambat" width="400" height="250" loading="lazy">
+          </div>
+          <div class="ep-card-body">
+            <div class="ep-header">
+              <span class="ep-num">Hari 29 · Finance</span>
+              <span class="ep-badge upcoming">Segera Terbit</span>
+            </div>
+            <h3>Bu Mayang Mengevaluasi Shipment yang Terlambat</h3>
+            <p>Shipment selesai, tetapi ada keterlambatan dan biaya tambahan.</p>
+            <div class="ep-meta">
+              <span>Lead: <strong>Bu Mayang</strong></span>
+              <span class="ep-link" style="color:var(--muted);">Segera Terbit</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- Episode 30 -->
+        <article class="ep-card upcoming">
+          <div class="ep-cover">
+            <img src="assets/ep2-panel-1.png" alt="Adegan 1: Satu Shipment, Satu Tim M2B" width="400" height="250" loading="lazy">
+          </div>
+          <div class="ep-card-body">
+            <div class="ep-header">
+              <span class="ep-num">Hari 30 · Pillar</span>
+              <span class="ep-badge upcoming">Segera Terbit</span>
+            </div>
+            <h3>Satu Shipment, Satu Tim M2B</h3>
+            <p>Yusuf menjalani perjalanan lengkap dari inquiry hingga POD bersama tim M2B.</p>
+            <div class="ep-meta">
+              <span>Lead: <strong>Semua Tim M2B</strong></span>
+              <span class="ep-link" style="color:var(--muted);">Segera Terbit</span>
+            </div>
           </div>
         </article>
       </div>
