@@ -3,8 +3,56 @@ import os
 
 base_dir = os.path.dirname(__file__)
 
-def get_template(title, ep_num, badge_text, lead_cast, subtitle, kw, panel1, panel2, panel3, panel4, body_html, checklist_items, faq_items):
-    return f"""<!doctype html>
+def get_template(title, ep_num, badge_text, lead_cast, subtitle, kw, sheet_img, sheet_alt, panel1, panel2, panel3, panel4, body_html, checklist_items, faq_items):
+    
+    if sheet_img:
+        comic_section_html = f'''
+    <section class="comic-sheet-section" aria-label="Komik Sheet Episode {ep_num:02d}">
+      <figure class="episode-comic-sheet">
+        <img
+          src="{sheet_img}"
+          alt="{sheet_alt}"
+          width="1672"
+          height="941"
+          loading="eager"
+          decoding="async"
+        >
+      </figure>
+    </section>'''
+    else:
+        comic_section_html = f'''
+    <section class="comic-grid-section" aria-label="Komik Strip 4 Panel Episode {ep_num:02d}">
+      <div class="comic-columns">
+        <article class="comic-col-card">
+          <div class="comic-col-header">{panel1['title']}</div>
+          <div class="comic-col-img">
+            <img src="{panel1['img']}" alt="{panel1['title']}" width="400" height="533">
+          </div>
+        </article>
+        <article class="comic-col-card">
+          <div class="comic-col-header">{panel2['title']}</div>
+          <div class="comic-col-img">
+            <img src="{panel2['img']}" alt="{panel2['title']}" width="400" height="533">
+          </div>
+        </article>
+        <article class="comic-col-card">
+          <div class="comic-col-header">{panel3['title']}</div>
+          <div class="comic-col-img">
+            <img src="{panel3['img']}" alt="{panel3['title']}" width="400" height="533">
+          </div>
+        </article>
+        <article class="comic-col-card">
+          <div class="comic-col-header">{panel4['title']}</div>
+          <div class="comic-col-img">
+            <img src="{panel4['img']}" alt="{panel4['title']}" width="400" height="533">
+          </div>
+        </article>
+      </div>
+    </section>'''
+
+    og_image = f"https://ebook.m2b.co.id/{sheet_img}" if sheet_img else f"https://ebook.m2b.co.id/{panel1['img']}"
+
+    return f'''<!doctype html>
 <html lang="id">
 <head>
   <meta charset="utf-8">
@@ -25,7 +73,7 @@ def get_template(title, ep_num, badge_text, lead_cast, subtitle, kw, panel1, pan
   <meta property="og:title" content="{title} | M2B">
   <meta property="og:description" content="{subtitle}">
   <meta property="og:url" content="https://ebook.m2b.co.id/episode-{ep_num:02d}.html">
-  <meta property="og:image" content="https://ebook.m2b.co.id/{panel1['img']}">
+  <meta property="og:image" content="{og_image}">
   <meta property="og:locale" content="id_ID">
   <meta property="og:site_name" content="M2B Logistics Stories">
   <meta property="article:published_time" content="2026-08-11T00:00:00+07:00">
@@ -34,7 +82,7 @@ def get_template(title, ep_num, badge_text, lead_cast, subtitle, kw, panel1, pan
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="{title}">
   <meta name="twitter:description" content="{subtitle}">
-  <meta name="twitter:image" content="https://ebook.m2b.co.id/{panel1['img']}">
+  <meta name="twitter:image" content="{og_image}">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -46,7 +94,7 @@ def get_template(title, ep_num, badge_text, lead_cast, subtitle, kw, panel1, pan
     "@type": "TechArticle",
     "headline": "{title}",
     "description": "{subtitle}",
-    "image": ["https://ebook.m2b.co.id/{panel1['img']}"],
+    "image": ["{og_image}"],
     "datePublished": "2026-08-11T00:00:00+07:00",
     "dateModified": "2026-08-11T00:00:00+07:00",
     "author": {{
@@ -119,6 +167,9 @@ def get_template(title, ep_num, badge_text, lead_cast, subtitle, kw, panel1, pan
     .article-title {{ font-family: Inter, ui-sans-serif, sans-serif; font-size: clamp(32px, 4vw, 50px); color: var(--navy); line-height: 1.1; margin: 0 0 18px; font-weight: 950; letter-spacing: -.03em; }}
     .article-lead {{ font-size: 18px; color: #334155; line-height: 1.65; max-width: 900px; margin: 0 0 20px; font-weight: 500; }}
     .meta-bar {{ font-size: 13px; color: var(--muted); display: flex; gap: 16px; flex-wrap: wrap; align-items: center; font-weight: 600; }}
+
+    .episode-comic-sheet {{ width: min(100%, 1100px); margin: 32px auto; }}
+    .episode-comic-sheet img {{ display: block; width: 100%; height: auto; border: 1px solid #d8dee9; border-radius: 12px; background: #fff; box-shadow: 0 18px 45px rgba(11,29,64,.12); }}
 
     .comic-grid-section {{ margin: 38px 0 45px; }}
     .comic-columns {{ display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; border: 2px solid var(--navy); border-radius: 16px; padding: 12px; background: #f1f5f9; box-shadow: 0 18px 45px rgba(11,29,64,.12); }}
@@ -240,34 +291,7 @@ def get_template(title, ep_num, badge_text, lead_cast, subtitle, kw, panel1, pan
       </div>
     </header>
 
-    <section class="comic-grid-section" aria-label="Komik Strip 4 Panel Episode {ep_num:02d}">
-      <div class="comic-columns">
-        <article class="comic-col-card">
-          <div class="comic-col-header">{panel1['title']}</div>
-          <div class="comic-col-img">
-            <img src="{panel1['img']}" alt="{panel1['title']}" width="400" height="533">
-          </div>
-        </article>
-        <article class="comic-col-card">
-          <div class="comic-col-header">{panel2['title']}</div>
-          <div class="comic-col-img">
-            <img src="{panel2['img']}" alt="{panel2['title']}" width="400" height="533">
-          </div>
-        </article>
-        <article class="comic-col-card">
-          <div class="comic-col-header">{panel3['title']}</div>
-          <div class="comic-col-img">
-            <img src="{panel3['img']}" alt="{panel3['title']}" width="400" height="533">
-          </div>
-        </article>
-        <article class="comic-col-card">
-          <div class="comic-col-header">{panel4['title']}</div>
-          <div class="comic-col-img">
-            <img src="{panel4['img']}" alt="{panel4['title']}" width="400" height="533">
-          </div>
-        </article>
-      </div>
-    </section>
+    {comic_section_html}
 
     <aside class="ad-slot" aria-label="Area Iklan Responsive">
       <div><b>Advertisement Slot #1 (Display Ad)</b></div>
@@ -381,21 +405,20 @@ def get_template(title, ep_num, badge_text, lead_cast, subtitle, kw, panel1, pan
   </script>
 </body>
 </html>
-"""
+'''
 
 episodes_data = [
     {
         "ep_num": 2,
-        "title": "Truk Sudah Tiba, tapi Dokumen Belum Siap",
+        "title": "Truk Sudah Tiba, Dokumen Belum Siap",
         "badge_text": "Field Operations",
         "lead_cast": "Budi & Tasya",
         "subtitle": "Waktu tunggu truk di depo (waiting time) mulai berjalan sementara dokumen release kepabeanan belum siap. Budi dan Tasya mengatur ulang urutan muat agar tidak memicu denda berlebih.",
         "kw": "trucking document readiness indonesia",
-        "panel1": {"title": "1. TRUK TIBA DI DEPO", "img": "assets/ep2-panel-1.png"},
-        "panel2": {"title": "2. VERIFIKASI STASIUN TASYA", "img": "assets/ep2-panel-2.png"},
-        "panel3": {"title": "3. KOORDINASI VENDOR TRUK", "img": "assets/ep2-panel-3.png"},
-        "panel4": {"title": "4. SHIPMENT DISPATCH", "img": "assets/ep2-panel-4.png"},
-        "body": """
+        "sheet_img": "assets/stories-v2/m2b-story-episode-02.png",
+        "sheet_alt": "M2B Logistics Stories Episode 02 — Truk sudah tiba tetapi dokumen release belum siap",
+        "panel1": None, "panel2": None, "panel3": None, "panel4": None,
+        "body": '''
         <h2>Bab 1: Konflik Lapangan — Armada Truk Menunggu Dokumen</h2>
         <p>Di gerbang depo pelabuhan Tanjung Priok, suara mesin truk trailer 40ft meraung pelan. Budi, petugas operasional lapangan M2B, memeriksa lembar jalan pengemudi truk. Di saat bersamaan, sistem pemantauan pengeluaran barang menunjukkan bahwa dokumen rilis pabean (SPPB) belum secara otomatis tersinkronisasi ke sistem gate terminal.</p>
         <p><em>"Pak Budi, armada truk container 40ft sudah sampai depo, tapi dokumen pengeluaran belum rilis di gate terminal!"</em> lapor Budi via walkie-talkie ke stasiun koordinasi operasional.</p>
@@ -415,7 +438,7 @@ episodes_data = [
           <li><strong>Manual Sync Request ke Gate Controller:</strong> Budi mendatangi ruang kontrol gate terminal dengan membawa salinan cetak SPPB resmi untuk dipadankan secara manual oleh petugas gate pelabuhan.</li>
         </ol>
         <p>Dalam kurun waktu kurang dari 20 menit, sinkronisasi data berhasil diselesaikan. Kontainer dinaikkan ke atas trailer dan armada berangkat menuju gudang tujuan tanpa terkena denda sepeser pun.</p>
-        """,
+        ''',
         "checklist": [
           "Konfirmasi rilis status SPPB pada sistem CEISA sebelum memesan armada truk.",
           "Verifikasi nomor kontainer dan nomor segel (seal number) sesuai dokumen pengeluaran.",
@@ -429,16 +452,15 @@ episodes_data = [
     },
     {
         "ep_num": 3,
-        "title": "Dari Mana Asalnya Biaya Demurrage Ini?",
+        "title": "Dari Mana Biaya Demurrage Ini?",
         "badge_text": "Logistics Cost",
         "lead_cast": "Nurul & Yusuf",
         "subtitle": "Yusuf terkejut melihat adanya tagihan tambahan penyimpanan kontainer pada invoice pengiriman. Nurul membedah timeline free time, biaya demurrage, detention, dan penanganan gudang secara transparan.",
         "kw": "perbedaan demurrage detention storage",
-        "panel1": {"title": "1. INVOICE MENGEJUTKAN", "img": "assets/ep3-panel-1.png"},
-        "panel2": {"title": "2. BEDAH TIMELINE NURUL", "img": "assets/ep3-panel-2.png"},
-        "panel3": {"title": "3. KLAIM FREE TIME", "img": "assets/ep3-panel-3.png"},
-        "panel4": {"title": "4. INVOICE TRANSPARAN", "img": "assets/ep3-panel-4.png"},
-        "body": """
+        "sheet_img": "assets/stories-v2/m2b-story-episode-03.png",
+        "sheet_alt": "M2B Logistics Stories Episode 03 — Membedah biaya demurrage, detention, dan penumpukan",
+        "panel1": None, "panel2": None, "panel3": None, "panel4": None,
+        "body": '''
         <h2>Bab 1: Kebingungan Tagihan Tambahan</h2>
         <p>Yusuf memegang lembaran tagihan akhir pengiriman dengan wajah mengernyit. <em>"Bu Nurul, dari mana asal biaya demurrage dan penyimpanan kontainer sebesar Rp 4.500.000 ini? Bukankah kesepakatan awal kita memakai tarif all-in?"</em></p>
         <p>Nurul, pakar keuangan dan komunikasi biaya di M2B, menyambut pertanyaan Yusuf dengan tenang. Ia mengambil berkas rekam jejak kapal (vessel movement record) dan dokumen penumpukan depo untuk membedah linimasa pengiriman secara mendalam.</p>
@@ -453,7 +475,7 @@ episodes_data = [
 
         <h2>Bab 3: Solusi Rekonstruksi Biaya & Pencegahan M2B</h2>
         <p>Nurul membuktikan bahwa dari total denda tersebut, 2 hari keterlambatan terjadi akibat penundaan perizinan supplier sebelum barang dikirim. M2B berhasil mengklaim kompensasi free time tambahan dari pelayaran sehingga tagihan dipotong hingga 60%.</p>
-        """,
+        ''',
         "checklist": [
           "Cek jumlah hari free time demurrage & detention pada perjanjian pengapalan (b/l & quotation).",
           "Pantau tanggal sandar kapal (ETA) dan hitung tanggal jatuh tempo free time (last free day).",
@@ -467,16 +489,15 @@ episodes_data = [
     },
     {
         "ep_num": 4,
-        "title": "Jalur Hijau Bukan Berarti Bebas Tanpa Syarat",
+        "title": "Jalur Hijau Bukan Berarti Langsung Keluar",
         "badge_text": "Customs Process",
         "lead_cast": "Nadila & Yusuf",
         "subtitle": "Yusuf mengira respon Jalur Hijau menandakan kontainer bisa langsung diangkut keluar tanpa prosedur pendukung. Nadila menjelaskan verifikasi kelengkapan dokumen pabean wajib sebelum rilis fisik.",
         "kw": "jalur hijau bea cukai pengeluaran barang",
-        "panel1": {"title": "1. RESPON JALUR HIJAU", "img": "assets/ep4-panel-1.png"},
-        "panel2": {"title": "2. SYARAT KEPABEANAN", "img": "assets/ep4-panel-2.png"},
-        "panel3": {"title": "3. CEK DOKUMEN AKHIR", "img": "assets/ep4-panel-3.png"},
-        "panel4": {"title": "4. SPPB RESMI RILIS", "img": "assets/ep4-panel-4.png"},
-        "body": """
+        "sheet_img": "assets/stories-v2/m2b-story-episode-04.png",
+        "sheet_alt": "M2B Logistics Stories Episode 04 — Prosedur kepabeanan dan rilis barang jalur hijau",
+        "panel1": None, "panel2": None, "panel3": None, "panel4": None,
+        "body": '''
         <h2>Bab 1: Kegembiraan yang Terlalu Dini</h2>
         <p>Ketika layar monitor CEISA menampilkan status respon <strong>SPPB Jalur Hijau</strong>, Yusuf melompat kegirangan. <em>"Nadila, PIB kita dapat Jalur Hijau! Berarti truk bisa langsung masuk dan kontainer kita bawa pulang detik ini juga kan?"</em></p>
         <p>Nadila tersenyum sambil memegang dokumen pabean resmi. <em>"Jalur Hijau adalah berita bagus Pak Yusuf, tetapi pengeluaran fisik barang tetap membutuhkan verifikasi pelunasan kewajiban pabean dan clearance administratif dari pengelola terminal."</em></p>
@@ -491,7 +512,7 @@ episodes_data = [
 
         <h2>Bab 3: Eksekusi Rilis Lancar Tanpa Kendala</h2>
         <p>Dengan bimbingan Nadila dan tim penanganan M2B, seluruh pembayaran billing dan verifikasi dokumen diselesaikan dalam waktu kurang dari 45 menit. Kontainer Yusuf keluar pelabuhan dengan aman dan legal.</p>
-        """,
+        ''',
         "checklist": [
           "Pastikan bukti bayar NTPN billing pabean terverifikasi di sistem DJBC.",
           "Periksa apakah produk memerlukan dokumen karantina atau izin teknis tambahan.",
@@ -505,16 +526,15 @@ episodes_data = [
     },
     {
         "ep_num": 5,
-        "title": "Deskripsi Produk Terlalu Umum: Risikonya?",
+        "title": "Deskripsi Produk Terlalu Umum",
         "badge_text": "Document Readiness",
         "lead_cast": "Nadila & Yusuf",
         "subtitle": "Commercial invoice hanya mencantumkan uraian kata 'Spare Parts'. Nadila menjelaskan rumus deskripsi produk 5 elemen agar tidak memicu Notul dan klasifikasi ulang HS Code.",
         "kw": "deskripsi barang commercial invoice impor",
-        "panel1": {"title": "1. URAIAN BARANG UMUM", "img": "assets/ep5-panel-1.png"},
-        "panel2": {"title": "2. FORMULA DESKRIPSI", "img": "assets/ep5-panel-2.png"},
-        "panel3": {"title": "3. REVISI INVOICE", "img": "assets/ep5-panel-3.png"},
-        "panel4": {"title": "4. DEKLARASI PRESISI", "img": "assets/ep5-panel-4.png"},
-        "body": """
+        "sheet_img": "assets/stories-v2/m2b-story-episode-05.png",
+        "sheet_alt": "M2B Logistics Stories Episode 05 — Rumus 5 elemen deskripsi barang commercial invoice",
+        "panel1": None, "panel2": None, "panel3": None, "panel4": None,
+        "body": '''
         <h2>Bab 1: Bahaya Kata 'Spare Parts' pada Invoice</h2>
         <p>Mata Nadila tertuju pada uraian barang di Commercial Invoice barang impor Yusuf yang hanya tertulis samar: <strong>"SPARE PARTS - 5 BOXES"</strong>.</p>
         <p><em>"Pak Yusuf, uraian 'Spare Parts' ini terlalu umum di mata Pejabat Bea Cukai,"</em> tegur Nadila. <em>"Setiap barang impor wajib dideklarasikan secara spesifik agar kode tarif HS Code dan pembebanan bea masuknya tepat."</em></p>
@@ -526,12 +546,12 @@ episodes_data = [
           <li><strong>Bahan / Material Utama:</strong> Contoh: Stainless Steel 316 / Karet Sintetis.</li>
           <li><strong>Fungsi Utama & Penggunaan:</strong> Contoh: Komponen Mesin Cetak Plastik Industri.</li>
           <li><strong>Tipe / Spesifikasi Teknis / Tipe Model:</strong> Contoh: Model X-200, Diameter 50mm.</li>
-          <li><strong>Kondisi Barang:</strong> Barus / Bekas (wajib izin Lartas jika bekas).</li>
+          <li><strong>Kondisi Barang:</strong> Baru / Bekas (wajib izin Lartas jika bekas).</li>
         </ol>
 
         <h2>Bab 3: Hasil Pengoreksian Dokumen</h2>
         <p>Yusuf meminta supplier memperbarui Commercial Invoice sesuai rumus M2B. Deklarasi PIB disetujui tanpa kendala Klasifikasi Tarif BTKI.</p>
-        """,
+        ''',
         "checklist": [
           "Hindari kata umum seperti: Accessories, Spare Parts, Tools, General Goods.",
           "Cantumkan spesifikasi teknis dan material bahan pembentuk barang.",
@@ -545,16 +565,15 @@ episodes_data = [
     },
     {
         "ep_num": 6,
-        "title": "Jadwal Kapal Berubah Mendadak dalam Semalam",
+        "title": "Jadwal Kapal Berubah Mendadak",
         "badge_text": "Operational Coordination",
         "lead_cast": "Tasya, Budi & Yusuf",
         "subtitle": "Keterlambatan kapal (vessel delay & ETA rollover) mengubah seluruh rencana penjemputan truk dan jadwal gudang. Tasya mengoordinasikan pembaruan status satu pintu untuk Yusuf.",
         "kw": "perubahan jadwal kapal impor eta rollover",
-        "panel1": {"title": "1. JADWAL KAPAL BERUBAH", "img": "assets/ep6-panel-1.png"},
-        "panel2": {"title": "2. PEMETAAN DAMPAK", "img": "assets/ep6-panel-2.png"},
-        "panel3": {"title": "3. ADJUSTMENT LAPANGAN", "img": "assets/ep6-panel-3.png"},
-        "panel4": {"title": "4. UPDATE CONSOLIDATED", "img": "assets/ep6-panel-4.png"},
-        "body": """
+        "sheet_img": "assets/stories-v2/m2b-story-episode-06.png",
+        "sheet_alt": "M2B Logistics Stories Episode 06 — Penanganan krisis keterlambatan kapal dan reschedule truk",
+        "panel1": None, "panel2": None, "panel3": None, "panel4": None,
+        "body": '''
         <h2>Bab 1: Kejutan Delay Kapal di Pagi Hari</h2>
         <p>Pukul 07.00 WIB, Tasya menerima notifikasi pembaruan manifes dari pelayaran internasional. Kapal kontainer yang membawa kargo milik Yusuf mengalami keterlambatan cuaca (vessel rollover) dan jadwal sandar bergeser mundur 2 hari.</p>
         <p><em>"Pemberitahuan darurat! Kapal pengangkut mengalami delay 2 hari dan jadwal sandar berubah!"</em> ujar Tasya menginformasikan ke Budi dan Yusuf.</p>
@@ -569,7 +588,7 @@ episodes_data = [
 
         <h2>Bab 3: Komunikasi Control-Tower Satu Pintu M2B</h2>
         <p>Tasya langsung melakukan rescheduling jadwal angkutan tanpa dikenakan denda cancellation fee, sementara Budi menyesuaikan tim lapangan. Yusuf menerima laporan terkonsolidasi yang jelas tanpa kebingungan.</p>
-        """,
+        ''',
         "checklist": [
           "Pantau pembaruan posisi vessel (vessel tracking) secara berkala menjelang ETA.",
           "Pastikan kontrak armada angkutan memiliki klausul fleksibilitas jadwal delay kapal.",
@@ -583,16 +602,15 @@ episodes_data = [
     },
     {
         "ep_num": 7,
-        "title": "5 Tanda Bahaya Sebelum Kontainer Anda Bergerak",
+        "title": "5 Tanda Bahaya Sebelum Shipment Bergerak",
         "badge_text": "Weekly Recap",
         "lead_cast": "Tim M2B (Semua Karakter)",
         "subtitle": "Rangkuman mingguan 5 titik kritis operasional impor dari Hari 1 hingga Hari 6. Matriks kesiapan shipment dan panduan keputusan Go/No-Go sebelum barang diberangkatkan.",
         "kw": "kesiapan shipment ekspor impor indonesia",
-        "panel1": {"title": "1. EVALUASI KESIAPAN", "img": "assets/ep7-panel-1.png"},
-        "panel2": {"title": "2. DOKUMEN & OPERASIONAL", "img": "assets/ep7-panel-2.png"},
-        "panel3": {"title": "3. COST & COMPLIANCE", "img": "assets/ep7-panel-3.png"},
-        "panel4": {"title": "4. GO / NO-GO DECISION", "img": "assets/ep7-panel-4.png"},
-        "body": """
+        "sheet_img": "assets/stories-v2/m2b-story-episode-07.png",
+        "sheet_alt": "M2B Logistics Stories Episode 07 — Matriks kesiapan shipment dan evaluasi go/no-go",
+        "panel1": None, "panel2": None, "panel3": None, "panel4": None,
+        "body": '''
         <h2>Bab 1: Rangkuman Pembelajaran Mingguan Tim M2B</h2>
         <p>Sepanjang 6 hari pertama, kita melihat bagaimana masalah-masalah kecil seperti selisih angka dokumen, salah HS Code, keterlambatan truk, hingga delay kapal dapat menimbulkan kerugian finansial yang signifikan jika tidak ditangani dengan teliti.</p>
         <p>Bu Mayang dan seluruh tim M2B merangkum <strong>5 Tanda Bahaya (Red Flags)</strong> yang wajib diperiksa sebelum menyetujui pengiriman barang:</p>
@@ -607,8 +625,8 @@ episodes_data = [
         </ol>
 
         <h2>Bab 3: Keputusan Strategis Go / No-Go</h2>
-        <p>Dengan menerapkan matriks kesiapan M2B, setiap risiko pengiriman dapat dimitigasi lebih awal sebelum barang meninggalkan pelabuhan asal.</p>
-        """,
+        <p>Dengan menerapkan matriks kesiapan M2B, every risk of shipment can be mitigated earlier before cargo leaves port of origin.</p>
+        ''',
         "checklist": [
           "Jalankan audit dokumen 3-stage sebelum pengajuan PIB.",
           "Verifikasi kepatuhan regulasi pabean dan tarif HS Code BTKI.",
@@ -630,6 +648,8 @@ for ep in episodes_data:
         lead_cast=ep["lead_cast"],
         subtitle=ep["subtitle"],
         kw=ep["kw"],
+        sheet_img=ep.get("sheet_img"),
+        sheet_alt=ep.get("sheet_alt"),
         panel1=ep["panel1"],
         panel2=ep["panel2"],
         panel3=ep["panel3"],
@@ -641,6 +661,6 @@ for ep in episodes_data:
     file_path = os.path.join(base_dir, f"episode-{ep['ep_num']:02d}.html")
     with open(file_path, "w", encoding="utf-8") as f:
         f.write(html_content)
-    print(f"Rebuilt: episode-{ep['ep_num']:02d}.html")
+    print(f"Rebuilt: episode-{ep['ep_num']:02d}.html with v2 composite sheet")
 
-print("All Episode HTML files rebuilt with 100% UNIQUE 4-PANEL IMAGES!")
+print("All Episode HTML files rebuilt successfully!")

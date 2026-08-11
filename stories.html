@@ -184,6 +184,14 @@
     .upcoming-inner b { display: block; font-size: 14px; color: #ffffff; font-weight: 800; }
     .upcoming-inner span { display: block; font-size: 12px; color: #94a3b8; margin-top: 4px; }
 
+    
+    .story-cover img {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      object-fit: cover;
+      object-position: center;
+    }
+
     /* 30 Episode Catalog Table / Grid */
     .episodes-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 24px; margin-top: 32px; }
     .ep-card { border: 1px solid var(--line); border-radius: var(--radius); background: #fff; padding: 0; overflow: hidden; display: flex; flex-direction: column; justify-content: space-between; transition: transform .2s, box-shadow .2s; }
@@ -395,7 +403,7 @@
         <!-- Episode 01 -->
         <article class="ep-card published">
           
-          <div class="ep-cover">
+          <div class="ep-cover story-cover">
             <img src="assets/panel-1.png" alt="Adegan 1: Invoice, Packing List, dan B/L Tidak Sama" width="400" height="250" loading="lazy">
           </div>
           <div class="ep-card-body">
@@ -415,15 +423,15 @@
         <!-- Episode 02 -->
         <article class="ep-card published">
           
-          <div class="ep-cover">
-            <img src="assets/ep2-panel-1.png" alt="Adegan 1: Salah HS Code, Biaya Impor Membengkak" width="400" height="250" loading="lazy">
+          <div class="ep-cover story-cover">
+            <img src="assets/stories-v2/m2b-story-episode-02.png" alt="M2B Episode 02: Truk Sudah Tiba, Dokumen Belum Siap" width="400" height="225" loading="lazy">
           </div>
           <div class="ep-card-body">
             <div class="ep-header">
               <span class="ep-num">Hari 02 · Dokumen</span>
               <span class="ep-badge published">Terbit ✓</span>
             </div>
-            <h3>Salah HS Code, Biaya Impor Membengkak</h3>
+            <h3>Truk Sudah Tiba, Dokumen Belum Siap</h3>
             <p>Yusuf memakai kode dari supplier tanpa verifikasi.</p>
             <div class="ep-meta">
               <span>Lead: <strong>Nadila</strong></span>
@@ -435,15 +443,15 @@
         <!-- Episode 03 -->
         <article class="ep-card published">
           
-          <div class="ep-cover">
-            <img src="assets/ep3-panel-1.png" alt="Adegan 1: Budi Menghadapi Pemeriksaan Jalur Merah" width="400" height="250" loading="lazy">
+          <div class="ep-cover story-cover">
+            <img src="assets/stories-v2/m2b-story-episode-03.png" alt="M2B Episode 03: Dari Mana Biaya Demurrage Ini?" width="400" height="225" loading="lazy">
           </div>
           <div class="ep-card-body">
             <div class="ep-header">
               <span class="ep-num">Hari 03 · Customs</span>
               <span class="ep-badge published">Terbit ✓</span>
             </div>
-            <h3>Budi Menghadapi Pemeriksaan Jalur Merah</h3>
+            <h3>Dari Mana Biaya Demurrage Ini?</h3>
             <p>Container Yusuf terkena pemeriksaan fisik oleh Pejabat Bea Cukai.</p>
             <div class="ep-meta">
               <span>Lead: <strong>Budi</strong></span>
@@ -455,15 +463,15 @@
         <!-- Episode 04 -->
         <article class="ep-card published">
           
-          <div class="ep-cover">
-            <img src="assets/ep4-panel-1.png" alt="Adegan 1: Tasya Menyelamatkan Jadwal Gate-Out" width="400" height="250" loading="lazy">
+          <div class="ep-cover story-cover">
+            <img src="assets/stories-v2/m2b-story-episode-04.png" alt="M2B Episode 04: Jalur Hijau Bukan Berarti Langsung Keluar" width="400" height="225" loading="lazy">
           </div>
           <div class="ep-card-body">
             <div class="ep-header">
               <span class="ep-num">Hari 04 · Operasional</span>
               <span class="ep-badge published">Terbit ✓</span>
             </div>
-            <h3>Tasya Menyelamatkan Jadwal Gate-Out</h3>
+            <h3>Jalur Hijau Bukan Berarti Langsung Keluar</h3>
             <p>Truck sudah siap, tetapi dokumen release belum lengkap.</p>
             <div class="ep-meta">
               <span>Lead: <strong>Tasya</strong></span>
@@ -475,15 +483,15 @@
         <!-- Episode 05 -->
         <article class="ep-card published">
           
-          <div class="ep-cover">
-            <img src="assets/ep5-panel-1.png" alt="Adegan 1: Nurul Menghitung Landed Cost yang Sebenarnya" width="400" height="250" loading="lazy">
+          <div class="ep-cover story-cover">
+            <img src="assets/stories-v2/m2b-story-episode-05.png" alt="M2B Episode 05: Deskripsi Produk Terlalu Umum" width="400" height="225" loading="lazy">
           </div>
           <div class="ep-card-body">
             <div class="ep-header">
               <span class="ep-num">Hari 05 · Finance</span>
               <span class="ep-badge published">Terbit ✓</span>
             </div>
-            <h3>Nurul Menghitung Landed Cost yang Sebenarnya</h3>
+            <h3>Deskripsi Produk Terlalu Umum</h3>
             <p>Harga barang murah, tetapi biaya tujuan tidak dihitung.</p>
             <div class="ep-meta">
               <span>Lead: <strong>Nurul</strong></span>
@@ -495,15 +503,15 @@
         <!-- Episode 06 -->
         <article class="ep-card published">
           
-          <div class="ep-cover">
-            <img src="assets/ep6-panel-1.png" alt="Adegan 1: Lartas Diperiksa Setelah PO—Sudah Terlambat?" width="400" height="250" loading="lazy">
+          <div class="ep-cover story-cover">
+            <img src="assets/stories-v2/m2b-story-episode-06.png" alt="M2B Episode 06: Jadwal Kapal Berubah Mendadak" width="400" height="225" loading="lazy">
           </div>
           <div class="ep-card-body">
             <div class="ep-header">
               <span class="ep-num">Hari 06 · Dokumen</span>
               <span class="ep-badge published">Terbit ✓</span>
             </div>
-            <h3>Lartas Diperiksa Setelah PO—Sudah Terlambat?</h3>
+            <h3>Jadwal Kapal Berubah Mendadak</h3>
             <p>Yusuf telanjur membayar barang yang membutuhkan izin teknis.</p>
             <div class="ep-meta">
               <span>Lead: <strong>Nadila</strong></span>
@@ -515,15 +523,15 @@
         <!-- Episode 07 -->
         <article class="ep-card published">
           
-          <div class="ep-cover">
-            <img src="assets/ep7-panel-1.png" alt="Adegan 1: Bu Mayang Menolak Jalan Pintas Undervalue" width="400" height="250" loading="lazy">
+          <div class="ep-cover story-cover">
+            <img src="assets/stories-v2/m2b-story-episode-07.png" alt="M2B Episode 07: 5 Tanda Bahaya Sebelum Shipment Bergerak" width="400" height="225" loading="lazy">
           </div>
           <div class="ep-card-body">
             <div class="ep-header">
               <span class="ep-num">Hari 07 · Customs</span>
               <span class="ep-badge published">Terbit ✓</span>
             </div>
-            <h3>Bu Mayang Menolak Jalan Pintas Undervalue</h3>
+            <h3>5 Tanda Bahaya Sebelum Shipment Bergerak</h3>
             <p>Supplier menawarkan invoice lebih rendah agar pajak terlihat murah.</p>
             <div class="ep-meta">
               <span>Lead: <strong>Bu Mayang</strong></span>
