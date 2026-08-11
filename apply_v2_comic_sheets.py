@@ -5,8 +5,13 @@ import re
 
 base_dir = os.path.dirname(__file__)
 
-# Mapping of v2 composite comic sheets
+# Mapping of v2 composite comic sheets for Episodes 01-07
 sheets_map = {
+    1: {
+        "file": "assets/stories-v2/m2b-story-episode-01.png",
+        "title": "Invoice, Packing List, dan B/L Tidak Sama",
+        "alt": "M2B Logistics Stories Episode 01 — Invoice, Packing List, dan B/L Tidak Sama"
+    },
     2: {
         "file": "assets/stories-v2/m2b-story-episode-02.png",
         "title": "Truk Sudah Tiba, Dokumen Belum Siap",
@@ -39,7 +44,6 @@ sheets_map = {
     }
 }
 
-# Update stories.html to use 16:9 ratio and v2 composite sheets for published episodes 02-07
 stories_path = os.path.join(base_dir, 'stories.html')
 json_path = os.path.join(base_dir, 'content_plan_30_hari.json')
 
@@ -51,21 +55,7 @@ grid_cards_html = []
 for ep in plan_data:
     day = ep["day"]
     
-    if day == 1:
-        slug = "episode-01.html"
-        cover_img = "assets/panel-1.png"
-        title = "Invoice, Packing List, dan B/L Tidak Sama"
-        lead = ep["lead_character"]
-        category = ep["category"]
-        case_desc = ep["case"]
-        status_class = "published"
-        badge_html = '<span class="ep-badge published">Terbit ✓</span>'
-        cover_html = f'''
-          <div class="ep-cover story-cover">
-            <img src="{cover_img}" alt="Adegan 1: {title}" width="400" height="250" loading="lazy">
-          </div>'''
-        link_html = f'<a href="{slug}" class="ep-link">Baca &amp; Lihat Komik →</a>'
-    elif day in sheets_map:
+    if day in sheets_map:
         slug = f"episode-{day:02d}.html"
         cover_img = sheets_map[day]["file"]
         title = sheets_map[day]["title"]
@@ -120,19 +110,6 @@ new_grid_content = "\n".join(grid_cards_html)
 with open(stories_path, 'r', encoding='utf-8') as f:
     stories_html = f.read()
 
-# CSS update for .story-cover img
-story_cover_css = """
-    .story-cover img {
-      width: 100%;
-      aspect-ratio: 16 / 9;
-      object-fit: cover;
-      object-position: center;
-    }
-"""
-
-if ".story-cover img" not in stories_html:
-    stories_html = stories_html.replace("/* 30 Episode Catalog Table / Grid */", story_cover_css + "\n    /* 30 Episode Catalog Table / Grid */")
-
 pattern = r'(<div class="episodes-grid">)(.*?)(</div>\s*</section>)'
 replacement = r'\1\n' + new_grid_content + r'\n      \3'
 
@@ -141,4 +118,4 @@ updated_html = re.sub(pattern, replacement, stories_html, flags=re.DOTALL)
 with open(stories_path, 'w', encoding='utf-8') as f:
     f.write(updated_html)
 
-print("Updated stories.html with 16:9 ratio composite sheet covers for episodes 02-07!")
+print("Updated stories.html: Episodes 01-07 now use composite 4-panel sheet covers!")

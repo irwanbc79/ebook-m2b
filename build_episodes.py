@@ -409,6 +409,50 @@ def get_template(title, ep_num, badge_text, lead_cast, subtitle, kw, sheet_img, 
 
 episodes_data = [
     {
+        "ep_num": 1,
+        "title": "Invoice, Packing List, dan B/L Tidak Sama",
+        "badge_text": "Document Discrepancy",
+        "lead_cast": "Nadila & Yusuf",
+        "subtitle": "Yusuf mendapati selisih berat kotor barang antara Invoice (1.200 kg) dan Packing List (1.260 kg). Nadila membimbing proses verifikasi data sebelum dokumen disubmit ke sistem pabean CEISA.",
+        "kw": "dokumen impor tidak sama invoice packing list bl",
+        "sheet_img": "assets/stories-v2/m2b-story-episode-01.png",
+        "sheet_alt": "M2B Logistics Stories Episode 01 — Invoice, Packing List, dan B/L Tidak Sama",
+        "panel1": None, "panel2": None, "panel3": None, "panel4": None,
+        "body": '''
+        <h2>Bab 1: Penemuan Selisih Angka Dokumen</h2>
+        <p>Yusuf menyodorkan dua lembar dokumen impor di atas meja kerja Nadila. <em>"Nadila, dokumen impor mesin kami dari supplier sudah lengkap. Tolong langsung submit PIB hari ini ya agar barang cepat keluar dari pelabuhan."</em></p>
+        <p>Nadila menyambut berkas tersebut dengan teliti. Sebagai spesialis kepatuhan pabean di M2B, Nadila selalu menyandingkan tiga dokumen utama: Commercial Invoice, Packing List, dan Bill of Lading (B/L). Hanya dalam hitungan menit, mata Nadila tertuju pada angka berat kotor (gross weight).</p>
+        <p><em>"Tunggu dulu Pak Yusuf,"</em> panggil Nadila menahan pengajuan. <em>"Di Commercial Invoice tertulis berat kotor 1.200 kg, tetapi di Packing List tercantum 1.260 kg. Ada selisih berat sebesar 60 kg di antara kedua dokumen ini!"</em></p>
+
+        <h2>Bab 2: Risiko Hukum &amp; Operasional di Bea Cukai</h2>
+        <p>Banyak importir menganggap selisih angka kecil sebagai hal sepele. Namun dalam regulasi pabean Indonesia (PMK 190/PMK.04/2022), ketidakcocokan data dokumen (discrepancy) memicu risiko besar:</p>
+        <ul>
+          <li><strong>Penetapan Jalur Merah:</strong> Sistem komputer pelayanan CEISA Bea Cukai mendeteksi ketidaksesuaian manifes dan dokumen pabean, yang otomatis mengalihkan status ke pemeriksaan fisik penuh di pelabuhan.</li>
+          <li><strong>Sanksi Notul (Nota Pembetulan):</strong> Jika Pejabat Bea Cukai menemukan perbedaan jumlah atau berat kargo saat pemeriksaan fisik, importir dapat dikenakan denda administrasi hingga penetapan ulang bea masuk.</li>
+          <li><strong>Penundaan Rilis &amp; Pembengkakan Biaya:</strong> Kontainer tertahan di penumpukan dermaga melampaui batas <em>free time</em>, yang memicu denda penumpukan depo (storage) dan sewa kontainer (demurrage).</li>
+        </ul>
+
+        <h2>Bab 3: Solusi Verifikasi &amp; Koreksi M2B</h2>
+        <p>Nadila tidak langsung menolak dokumen Yusuf. Ia menjalankan prosedur verifikasi 3 langkah M2B:</p>
+        <ol>
+          <li><strong>Verifikasi Sumber Data (Data Cross-Check):</strong> Nadila meminta Yusuf menghubungi pihak shipper/supplier di negara asal untuk memeriksa timbangan fisik asli di gudang pemuatan (loading warehouse).</li>
+          <li><strong>Temuan Data Asli:</strong> Supplier mengonfirmasi bahwa berat kotor yang benar adalah 1.260 kg (karena ada tambahan kemasan peti kayu 60 kg) dan terdapat kesalahan ketik (typo) pada Commercial Invoice.</li>
+          <li><strong>Penerbitan Dokumen Revisi (Revised Invoice):</strong> Supplier segera menerbitkan Commercial Invoice revisi yang presisi mencantumkan 1.260 kg sebelum data disubmit ke CEISA.</li>
+        </ol>
+        <p>Dengan koreksi awal ini, pengajuan PIB berjalan mulus tanpa kendala Notul maupun penahanan barang di pelabuhan Tanjung Priok.</p>
+        ''',
+        "checklist": [
+          "Sandingkan angka Gross Weight dan Net Weight pada Invoice, Packing List, dan B/L.",
+          "Pastikan deskripsi nama barang dan HS Code 8-digit konsisten di seluruh dokumen.",
+          "Periksa nomor kontainer dan nomor segel (seal number) sesuai B/L resmi.",
+          "Lakukan audit dokumen sebelum submit pemberitahuan impor barang (PIB)."
+        ],
+        "faq": [
+          {"q": "Apakah selisih berat kotor kecil (misal 5 kg) masih ditoleransi Bea Cukai?", "a": "Secara prinsip pabean, seluruh data dokumen wajib presisi. Untuk komoditas curah terdapat batas toleransi teknis tertentu, namun untuk barang manufaktur/mesin data dokumen harus selaras 100%."},
+          {"q": "Apa yang harus dilakukan jika B/L asli sudah terbit dengan data yang salah?", "a": "Importir dapat mengajukan permohonan koreksi manifes (redress manifest BC 1.1) atau pengoreksian dokumen pabean kepada pihak pelayaran sebelum pendaftaran PIB."}
+        ]
+    },
+    {
         "ep_num": 2,
         "title": "Truk Sudah Tiba, Dokumen Belum Siap",
         "badge_text": "Field Operations",
@@ -621,11 +665,11 @@ episodes_data = [
           <li><strong>Deskripsi Barang Terlalu Umum:</strong> Menggunakan istilah 'spare parts' tanpa spesifikasi teknis dan material.</li>
           <li><strong>Izin Lartas Belum Terverifikasi:</strong> Barang sudah dikirim padahal perizinan teknis (BPOM/SNI/Karantina) belum rilis.</li>
           <li><strong>Batas Free Time Demurrage Sempit:</strong> Tidak menghitung potensi antrean pelabuhan dan pemeriksaan pabean.</li>
-          <li><strong>Jadwal Truk Tidak Fleksibel:</strong> Vendor angkutan tidak siap mengantisipasi perubahan ETA kapal.</li>
+          <li><strong>Jadwal Truk Tidak Fleksibel:</strong> Vendor angkutan tidak siap menganticipasi perubahan ETA kapal.</li>
         </ol>
 
         <h2>Bab 3: Keputusan Strategis Go / No-Go</h2>
-        <p>Dengan menerapkan matriks kesiapan M2B, every risk of shipment can be mitigated earlier before cargo leaves port of origin.</p>
+        <p>Dengan menerapkan matriks kesiapan M2B, setiap risiko pengiriman dapat dimitigasi lebih awal sebelum barang meninggalkan pelabuhan asal.</p>
         ''',
         "checklist": [
           "Jalankan audit dokumen 3-stage sebelum pengajuan PIB.",
@@ -663,4 +707,4 @@ for ep in episodes_data:
         f.write(html_content)
     print(f"Rebuilt: episode-{ep['ep_num']:02d}.html with v2 composite sheet")
 
-print("All Episode HTML files rebuilt successfully!")
+print("All Episode HTML files (01-07) rebuilt successfully!")
