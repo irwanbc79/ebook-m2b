@@ -11,6 +11,8 @@ vendor/
 
 # Config with credentials
 config.php
+.env
+openai_key.txt
 
 # OS files
 .DS_Store
