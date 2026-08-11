@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 import os
-import re
 
 base_dir = os.path.dirname(__file__)
 
@@ -395,12 +394,12 @@ episodes_data = [
         "panel1": {"title": "1. TRUK TIBA DI DEPO", "img": "assets/ep2-panel-1.png"},
         "panel2": {"title": "2. VERIFIKASI STASIUN TASYA", "img": "assets/ep2-panel-2.png"},
         "panel3": {"title": "3. KOORDINASI VENDOR TRUK", "img": "assets/ep2-panel-3.png"},
-        "panel4": {"title": "4. DISPATCH ARMED", "img": "assets/ep2-panel-4.png"},
+        "panel4": {"title": "4. SHIPMENT DISPATCH", "img": "assets/ep2-panel-4.png"},
         "body": """
         <h2>Bab 1: Konflik Lapangan — Armada Truk Menunggu Dokumen</h2>
-        <p>Di gerbang depo depo pelabuhan Tanjung Priok, suara mesin truk trailer 40ft meraung pelan. Budi, petugas operasional lapangan M2B, memeriksa lembar jalan pengemudi truk. Di saat bersamaan, sistem pemantauan pengeluaran barang menunjukkan bahwa dokumen rilis pabean (SPPB) belum secara otomatis tersinkronisasi ke sistem gate terminal.</p>
+        <p>Di gerbang depo pelabuhan Tanjung Priok, suara mesin truk trailer 40ft meraung pelan. Budi, petugas operasional lapangan M2B, memeriksa lembar jalan pengemudi truk. Di saat bersamaan, sistem pemantauan pengeluaran barang menunjukkan bahwa dokumen rilis pabean (SPPB) belum secara otomatis tersinkronisasi ke sistem gate terminal.</p>
         <p><em>"Pak Budi, armada truk container 40ft sudah sampai depo, tapi dokumen pengeluaran belum rilis di gate terminal!"</em> lapor Budi via walkie-talkie ke stasiun koordinasi operasional.</p>
-        <p>Tasya, koordinator operasional M2B di kantor, langsung membuka dasbor pemantauan CEISA dan sistem gate pelabuhan. Ia melihat adanya antrean sinkronisasi data EDI (Electronic Data Interchange) yang tertahan beberapa menit.</p>
+        <p>Tasya, koordinator operasional M2B di kantor, langsung membuka dasbor pemantauan CEISA dan sistem gate pelabuhan. Ia melihat adanya antrean sinkronisasi data EDI yang tertahan beberapa menit.</p>
 
         <h2>Bab 2: Risiko Denda Demurrage & Waiting Time</h2>
         <p>Jika armada truk dibiarkan mengetam di gerbang depo tanpa kepastian dokumen rilis, dua kerugian finansial langsung mengintai importir:</p>
@@ -436,9 +435,9 @@ episodes_data = [
         "subtitle": "Yusuf terkejut melihat adanya tagihan tambahan penyimpanan kontainer pada invoice pengiriman. Nurul membedah timeline free time, biaya demurrage, detention, dan penanganan gudang secara transparan.",
         "kw": "perbedaan demurrage detention storage",
         "panel1": {"title": "1. INVOICE MENGEJUTKAN", "img": "assets/ep3-panel-1.png"},
-        "panel2": {"title": "2. BEDAH TIMELINE NURUL", "img": "assets/ep3-panel-1.png"},
-        "panel3": {"title": "3. KLAIM FREE TIME", "img": "assets/ep3-panel-1.png"},
-        "panel4": {"title": "4. INVOICE TRANSPARAN", "img": "assets/ep3-panel-1.png"},
+        "panel2": {"title": "2. BEDAH TIMELINE NURUL", "img": "assets/ep3-panel-2.png"},
+        "panel3": {"title": "3. KLAIM FREE TIME", "img": "assets/ep3-panel-3.png"},
+        "panel4": {"title": "4. INVOICE TRANSPARAN", "img": "assets/ep3-panel-4.png"},
         "body": """
         <h2>Bab 1: Kebingungan Tagihan Tambahan</h2>
         <p>Yusuf memegang lembaran tagihan akhir pengiriman dengan wajah mengernyit. <em>"Bu Nurul, dari mana asal biaya demurrage dan penyimpanan kontainer sebesar Rp 4.500.000 ini? Bukankah kesepakatan awal kita memakai tarif all-in?"</em></p>
@@ -474,9 +473,9 @@ episodes_data = [
         "subtitle": "Yusuf mengira respon Jalur Hijau menandakan kontainer bisa langsung diangkut keluar tanpa prosedur pendukung. Nadila menjelaskan verifikasi kelengkapan dokumen pabean wajib sebelum rilis fisik.",
         "kw": "jalur hijau bea cukai pengeluaran barang",
         "panel1": {"title": "1. RESPON JALUR HIJAU", "img": "assets/ep4-panel-1.png"},
-        "panel2": {"title": "2. SYARAT KEPABEANAN", "img": "assets/ep4-panel-1.png"},
-        "panel3": {"title": "3. CEK DOKUMEN AKHIR", "img": "assets/ep4-panel-1.png"},
-        "panel4": {"title": "4. SPPB RESMI RILIS", "img": "assets/ep4-panel-1.png"},
+        "panel2": {"title": "2. SYARAT KEPABEANAN", "img": "assets/ep4-panel-2.png"},
+        "panel3": {"title": "3. CEK DOKUMEN AKHIR", "img": "assets/ep4-panel-3.png"},
+        "panel4": {"title": "4. SPPB RESMI RILIS", "img": "assets/ep4-panel-4.png"},
         "body": """
         <h2>Bab 1: Kegembiraan yang Terlalu Dini</h2>
         <p>Ketika layar monitor CEISA menampilkan status respon <strong>SPPB Jalur Hijau</strong>, Yusuf melompat kegirangan. <em>"Nadila, PIB kita dapat Jalur Hijau! Berarti truk bisa langsung masuk dan kontainer kita bawa pulang detik ini juga kan?"</em></p>
@@ -512,9 +511,9 @@ episodes_data = [
         "subtitle": "Commercial invoice hanya mencantumkan uraian kata 'Spare Parts'. Nadila menjelaskan rumus deskripsi produk 5 elemen agar tidak memicu Notul dan klasifikasi ulang HS Code.",
         "kw": "deskripsi barang commercial invoice impor",
         "panel1": {"title": "1. URAIAN BARANG UMUM", "img": "assets/ep5-panel-1.png"},
-        "panel2": {"title": "2. FORMULA DESKRIPSI", "img": "assets/ep5-panel-1.png"},
-        "panel3": {"title": "3. REVISI INVOICE", "img": "assets/ep5-panel-1.png"},
-        "panel4": {"title": "4. DEKLARASI PRESISI", "img": "assets/ep5-panel-1.png"},
+        "panel2": {"title": "2. FORMULA DESKRIPSI", "img": "assets/ep5-panel-2.png"},
+        "panel3": {"title": "3. REVISI INVOICE", "img": "assets/ep5-panel-3.png"},
+        "panel4": {"title": "4. DEKLARASI PRESISI", "img": "assets/ep5-panel-4.png"},
         "body": """
         <h2>Bab 1: Bahaya Kata 'Spare Parts' pada Invoice</h2>
         <p>Mata Nadila tertuju pada uraian barang di Commercial Invoice barang impor Yusuf yang hanya tertulis samar: <strong>"SPARE PARTS - 5 BOXES"</strong>.</p>
@@ -552,9 +551,9 @@ episodes_data = [
         "subtitle": "Keterlambatan kapal (vessel delay & ETA rollover) mengubah seluruh rencana penjemputan truk dan jadwal gudang. Tasya mengoordinasikan pembaruan status satu pintu untuk Yusuf.",
         "kw": "perubahan jadwal kapal impor eta rollover",
         "panel1": {"title": "1. JADWAL KAPAL BERUBAH", "img": "assets/ep6-panel-1.png"},
-        "panel2": {"title": "2. PEMETAAN DAMPAK", "img": "assets/ep6-panel-1.png"},
-        "panel3": {"title": "3. ADJUSTMENT LAPANGAN", "img": "assets/ep6-panel-1.png"},
-        "panel4": {"title": "4. UPDATE CONSOLIDATED", "img": "assets/ep6-panel-1.png"},
+        "panel2": {"title": "2. PEMETAAN DAMPAK", "img": "assets/ep6-panel-2.png"},
+        "panel3": {"title": "3. ADJUSTMENT LAPANGAN", "img": "assets/ep6-panel-3.png"},
+        "panel4": {"title": "4. UPDATE CONSOLIDATED", "img": "assets/ep6-panel-4.png"},
         "body": """
         <h2>Bab 1: Kejutan Delay Kapal di Pagi Hari</h2>
         <p>Pukul 07.00 WIB, Tasya menerima notifikasi pembaruan manifes dari pelayaran internasional. Kapal kontainer yang membawa kargo milik Yusuf mengalami keterlambatan cuaca (vessel rollover) dan jadwal sandar bergeser mundur 2 hari.</p>
@@ -590,9 +589,9 @@ episodes_data = [
         "subtitle": "Rangkuman mingguan 5 titik kritis operasional impor dari Hari 1 hingga Hari 6. Matriks kesiapan shipment dan panduan keputusan Go/No-Go sebelum barang diberangkatkan.",
         "kw": "kesiapan shipment ekspor impor indonesia",
         "panel1": {"title": "1. EVALUASI KESIAPAN", "img": "assets/ep7-panel-1.png"},
-        "panel2": {"title": "2. DOKUMEN & OPERASIONAL", "img": "assets/ep7-panel-1.png"},
-        "panel3": {"title": "3. COST & COMPLIANCE", "img": "assets/ep7-panel-1.png"},
-        "panel4": {"title": "4. GO / NO-GO DECISION", "img": "assets/ep7-panel-1.png"},
+        "panel2": {"title": "2. DOKUMEN & OPERASIONAL", "img": "assets/ep7-panel-2.png"},
+        "panel3": {"title": "3. COST & COMPLIANCE", "img": "assets/ep7-panel-3.png"},
+        "panel4": {"title": "4. GO / NO-GO DECISION", "img": "assets/ep7-panel-4.png"},
         "body": """
         <h2>Bab 1: Rangkuman Pembelajaran Mingguan Tim M2B</h2>
         <p>Sepanjang 6 hari pertama, kita melihat bagaimana masalah-masalah kecil seperti selisih angka dokumen, salah HS Code, keterlambatan truk, hingga delay kapal dapat menimbulkan kerugian finansial yang signifikan jika tidak ditangani dengan teliti.</p>
@@ -642,6 +641,6 @@ for ep in episodes_data:
     file_path = os.path.join(base_dir, f"episode-{ep['ep_num']:02d}.html")
     with open(file_path, "w", encoding="utf-8") as f:
         f.write(html_content)
-    print(f"Generated: episode-{ep['ep_num']:02d}.html")
+    print(f"Rebuilt: episode-{ep['ep_num']:02d}.html")
 
-print("All Episode HTML files created successfully!")
+print("All Episode HTML files rebuilt with 100% UNIQUE 4-PANEL IMAGES!")
